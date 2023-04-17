@@ -1,0 +1,335 @@
+###POST new hamster (1)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Gülüke",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 1,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (2)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Kirameku",
+  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 1,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (3)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Borka",
+  "hamsterSpecies": "roborovszki törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 1,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (4)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Panda",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 2,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (5)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Alice",
+  "hamsterSpecies": "roborovszki törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 2,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (6)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Peti",
+  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (7)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Simon",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 4,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (8)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Bolyhos",
+  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 5,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (9)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Szotyi",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (10)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Mogyi",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (11)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Liza",
+  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (12)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Gizmó",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (13)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Dakota",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (14)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Benőke",
+  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (15)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Milli",
+  "hamsterSpecies": "roborovszki törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (16)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Kerkez",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (17)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Szofi",
+  "hamsterSpecies": "roborovszki törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (18)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Trapista",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (19)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Ementáli",
+  "hamsterSpecies": "roborovszki törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster (20)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Paprika",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+###//////////////////
+###POST new hamster (21)
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Gizmó22",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 9,
+  "startOfFoster": "2023-03-06"
+
+}

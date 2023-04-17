@@ -1,0 +1,54 @@
+### POST a new adoptive (1)
+POST http://localhost:8080/api/adoptives
+Content-Type: application/json
+
+{
+  "name" : "Égető Napsugár",
+  "address" : "4400 Nyíregyháza, Keleti park 32."
+}
+
+### POST a new adoptive (2)
+POST http://localhost:8080/api/adoptives
+Content-Type: application/json
+
+{
+  "name" : "Megyek Elemér",
+  "address" : "1012 Budapest, Fő utca 14."
+}
+
+### POST a new adoptive (3)
+POST http://localhost:8080/api/adoptives
+Content-Type: application/json
+
+{
+  "name" : "Zsíros B. Ödön",
+  "address" : "1115 Budapest, Bikás park 32."
+}
+
+### POST a new adoptive (4)
+POST http://localhost:8080/api/adoptives
+Content-Type: application/json
+
+{
+  "name" : "Akcíós Áron",
+  "address" : "1187 Budapest, Havanna utca 1."
+}
+
+### POST a new adoptive (5)
+POST http://localhost:8080/api/adoptives
+Content-Type: application/json
+
+{
+  "name" : "Aloe Vera",
+  "address" : "6000 Kecskemét, Főtér 2."
+}
+
+### POST a new adoptive (6)
+POST http://localhost:8080/api/adoptives
+Content-Type: application/json
+
+{
+  "name" : "Cserepes Virág",
+  "address" : "2400 Tatabánya, Andrássy út 6."
+}
+

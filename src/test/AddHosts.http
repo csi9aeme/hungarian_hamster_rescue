@@ -1,0 +1,62 @@
+### POST a new host (1)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name" : "Elektrom Ágnes",
+  "address" : "7030 Paks, Fő utca 27.",
+  "capacity" : 1
+}
+
+### POST a new host (2)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name" : "Csin CSilla",
+  "address" : "1190 Budapest, Petőfi utca 12.",
+  "capacity" : 3
+
+}
+
+### POST a new host (3)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name" : "Futó Rózsa",
+  "address" : "1050 Budapest, Margó utca 70.",
+  "capacity" : 4
+
+}
+
+### POST a new host (4)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name" : "Havasi Gyopárka",
+  "address" : "1150 Budapest, Kelemen sor 20.",
+  "capacity" : 1
+}
+
+### POST a new host (5)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name" : "Kasza Blanka",
+  "address" : "9400 Sopron, Sörgyár utca 2.",
+  "capacity" : 5
+
+}
+
+### POST a new host (6)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name" : "Locsoló K. Anna",
+  "address" : "9000 Győr, Zámoly utca 7.",
+  "capacity" : 4
+}

@@ -1,0 +1,81 @@
+### POST a new host (valid)
+
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Hokkan Tóni",
+  "address": "4000 Debrecen, Kiss Aladár utca 102.",
+  "capacity" : 3
+}
+
+### POST a new host (empty name)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name": "",
+  "address": "Szeged",
+  "capacity" : 3
+}
+### POST a new host (0 capacity)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name": "Cserepes Virág",
+  "address": "Szeged",
+  "capacity" : 0
+}
+### PUT update info
+### Pl. költözés és szabad hely számának változása. A nevet is engedi változtatni,
+### férjezés-válás esetén változhat, így nem célszerű letiltani a funkciót.
+PUT http://localhost:8080/api/hosts/1
+Content-Type: application/json
+
+{
+  "name": "Cserepes Virág",
+  "address": "1072 Budapest, Körtér tér 7.",
+  "capacity" : 5
+}
+
+### GET all hosts
+
+GET http://localhost:8080/api/hosts
+Accept: application/json
+
+### GET hosts by existing name
+
+GET http://localhost:8080/api/hosts?namePart=Elemér
+Accept: application/json
+
+### GET hosts by invalid name
+
+GET http://localhost:8080/api/hosts?namePart=Kovács
+Accept: application/json
+
+### GET hosts by city
+
+GET http://localhost:8080/api/hosts/bycity?city=Budapest
+Accept: application/json
+
+### GET hosts by wrong city
+
+GET http://localhost:8080/api/hosts/bycity?city=Nyíregyháza
+Accept: application/json
+
+### GET host by ID with hamsters
+
+GET http://localhost:8080/api/hosts/1/hamsters
+Accept: application/json
+
+### DELETE host by id (exist)
+DELETE http://localhost:8080/api/hosts/1
+Content-Type: application/json
+Accept: application/json
+
+### DELETE host by id (not exist)
+DELETE http://localhost:8080/api/hosts/101
+Content-Type: application/json
+Accept: application/json

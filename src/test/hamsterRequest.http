@@ -1,0 +1,123 @@
+###POST new hamster
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Gülüke",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+}
+
+###POST new hamster with invalid hostId
+
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+
+  "name": "Cukorka",
+  "hamsterSpecies": "kínai törpehörcsög",
+  "gender": "nőstény",
+  "dateOfBirth": "2022-12-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 111,
+  "startOfFoster": "2023-04-09"
+
+}
+
+###POST new hamster bad name
+
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "hamsterSpecies": "kínai törpehörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-12-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 1,
+  "startOfFoster": "2023-04-09"
+}
+
+###POST new hamster with wrong species/gender/status enum
+### (nincs kész)
+
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Babóca",
+  "hamsterSpecies": "campbell törpehörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-12-01",
+  "hamsterStatus": "örökbeadható",
+  "hostId": 1,
+  "startOfFoster": "2023-04-09"
+}
+###POST new hamster but not enough host capacity
+POST http://localhost:8080/api/hamsters
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Gülüke",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "örökbefogadható",
+  "hostId": 1,
+  "startOfFoster": "2023-03-06"
+
+}
+### PUT update a hamster
+PUT http://localhost:8080/api/hamsters/5
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Gizmó",
+  "hamsterSpecies": "szíriai aranyhörcsög",
+  "gender": "hím",
+  "dateOfBirth": "2022-09-01",
+  "hamsterStatus": "kezelés alatt áll, de örökbefogadható",
+  "hostId": 3,
+  "startOfFoster": "2023-03-06"
+
+
+}
+### PUT adopt a hamster
+PUT http://localhost:8080/api/hamsters/21/adopted
+Content-Type: application/json
+Accept: application/json
+
+{
+  "hamsterStatus": "örökbefogadott",
+  "adoptiveId" : 6,
+  "dateOfAdoption" : "2022-09-01"
+}
+
+### GET all hamsters withNamePart
+
+GET http://localhost:8080/api/hamsters?namePart=B
+Accept: application/json
+
+### GET all hamsters
+
+GET http://localhost:8080/api/hamsters
+Accept: application/json
+
+### GET only actual fostering hamsters
+
+GET http://localhost:8080/api/hamsters/fostering
+Accept: application/json
+
