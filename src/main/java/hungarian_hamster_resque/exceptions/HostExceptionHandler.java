@@ -43,7 +43,7 @@ public class HostExceptionHandler {
 
     @ExceptionHandler(HostCantTakeMoreHamstersException.class)
     public ProblemDetail handleHostCantTakeMoreHamstersException(HostCantTakeMoreHamstersException e) {
-        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         detail.setType(URI.create("hamsterresque/not-enough-capacity"));
 
         return detail;

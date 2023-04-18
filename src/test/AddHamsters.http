@@ -25,7 +25,7 @@ Accept: application/json
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 1,
+  "hostId": 2,
   "startOfFoster": "2023-03-06"
 
 }
@@ -41,7 +41,7 @@ Accept: application/json
   "gender": "nőstény",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 1,
+  "hostId": 3,
   "startOfFoster": "2023-03-06"
 
 }
@@ -201,7 +201,7 @@ Accept: application/json
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hostId": 5,
   "startOfFoster": "2023-03-06"
 
 }
@@ -217,7 +217,7 @@ Accept: application/json
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hostId": 6,
   "startOfFoster": "2023-03-06"
 
 }
@@ -233,7 +233,7 @@ Accept: application/json
   "gender": "nőstény",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hostId": 5,
   "startOfFoster": "2023-03-06"
 
 }
