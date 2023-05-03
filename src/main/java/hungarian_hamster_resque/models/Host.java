@@ -48,9 +48,12 @@ public class Host {
         this.hamsters = hamsters;
     }
 
-    public void addHamster(Hamster hamster) {
-        hamsters.add(hamster);
-        hamster.setHost(this);
+    public Host(Long id, String name, String address, HostStatus hostStatus, int capacity) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
+        this.hostStatus = hostStatus;
     }
 
     public Host(String name, String address, HostStatus hostStatus, int capacity, List<Hamster> hamsters) {
@@ -67,4 +70,10 @@ public class Host {
         this.hostStatus = hostStatus;
         this.capacity = capacity;
     }
+
+    public void addHamster(Hamster hamster) {
+        hamsters.add(hamster);
+        hamster.setHost(this);
+    }
+
 }

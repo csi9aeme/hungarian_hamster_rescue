@@ -225,7 +225,7 @@ public class HamsterControllerWebClientIT {
                 newHost.getId(),
                 LocalDate.parse("2023-01-25")))
                 .exchange()
-                .expectStatus().isEqualTo(404)
+                .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/not-enough-capacity"));
