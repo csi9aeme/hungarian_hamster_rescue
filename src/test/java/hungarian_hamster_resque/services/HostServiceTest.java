@@ -5,6 +5,7 @@ import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
+import hungarian_hamster_resque.exceptions.HostHasNotHamsterYetException;
 import hungarian_hamster_resque.exceptions.HostWithCityNotFoundException;
 import hungarian_hamster_resque.exceptions.HostWithIdNotExistException;
 import hungarian_hamster_resque.exceptions.HostWithNamePartNotExistException;
@@ -213,6 +214,19 @@ class HostServiceTest {
 
         verify(repository).findByIdWithAllHamster(anyLong());
 
+    }
+
+    @Test
+    void testHostHasNotHamster() {
+        when(repository.findByIdWithAllHamster(anyLong()))
+                .thenReturn(new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 1));
+
+        assertThatThrownBy(() ->
+                service.getListOfHostsHamsters(1L))
+                .isInstanceOf(HostHasNotHamsterYetException.class)
+                .hasMessage("A keresett ID-val (1) rendelkező ideiglenes befogadónak nincs jelenleg hörcsöge.");
+
+        verify(repository).findByIdWithAllHamster(anyLong());
     }
 
     @Test

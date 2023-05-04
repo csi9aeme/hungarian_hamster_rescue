@@ -4,10 +4,7 @@ import hungarian_hamster_resque.dtos.*;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
-import hungarian_hamster_resque.exceptions.AdoptiveWithCityNotExistException;
-import hungarian_hamster_resque.exceptions.AdoptiveWithIdNotExistException;
-import hungarian_hamster_resque.exceptions.AdoptiveWithNameNotExistException;
-import hungarian_hamster_resque.exceptions.HostWithCityNotFoundException;
+import hungarian_hamster_resque.exceptions.*;
 import hungarian_hamster_resque.mappers.AdoptiveMapper;
 import hungarian_hamster_resque.models.Adoptive;
 import hungarian_hamster_resque.models.Hamster;
@@ -222,6 +219,22 @@ class AdoptiveServiceTest {
         service.deleteAdoptive(1L);
 
         verify(repository).deleteById(any());
+    }
+
+    @Test
+    void testCantDeleteAdoptive() {
+        when(repository.findById(anyLong()))
+                .thenReturn(Optional.of(new Adoptive(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7.",
+                        List.of(new Hamster("Füles", HamsterSpecies.DWARF, Gender.FEMALE, LocalDate.parse("2022-11-01"),
+                                HamsterStatus.ADOPTABLE,  LocalDate.parse("2023-01-25"))))));
+
+        assertThatThrownBy(() ->
+                service.deleteAdoptive(1L))
+                .isInstanceOf(AdoptiveCantDeleteBecauseHamstersListNotEmptyException.class)
+                .hasMessage("A megadott ID-val (1) rendelkező örökbefogadó nem törölhető, merttartozik hozzá már örökbeadott hörcsög.");
+
+
+        verify(repository).findById(any());
     }
 
 
