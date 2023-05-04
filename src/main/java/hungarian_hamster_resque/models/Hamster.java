@@ -73,5 +73,13 @@ public class Hamster {
                 this.startOfFostering = startOfFostering;
         }
 
+        public Hamster(String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering) {
+                this.name = name;
+                this.hamsterSpecies = hamsterSpecies;
+                this.gender = gender;
+                this.dateOfBirth = dateOfBirth;
+                this.hamsterStatus = hamsterStatus;
+                this.startOfFostering = startOfFostering;
+        }
 }
 

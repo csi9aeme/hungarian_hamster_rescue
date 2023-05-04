@@ -1,5 +1,6 @@
 package hungarian_hamster_resque.dtos;
 
+import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ public class HamsterDtoSimple {
     private String name;
 
     private HamsterSpecies hamsterSpecies;
+
+    private Gender gender;
 
     private LocalDate dateOfBirth;
 
