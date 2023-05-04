@@ -69,16 +69,6 @@ public class HamsterService {
         return hamsterMapper.toDtoWithoutAdoptive(hamster);
     }
 
-    private Host checkHostIsAvailable(long id) {
-        Host host = hostRepository.findById(id).orElseThrow(
-                ()-> new HostWithIdNotExistException(id));
-
-        List<Hamster> fosteringHamstersByHost = hamsterRepository.findFosteringHamstersByHostId(host.getId());
-        if (fosteringHamstersByHost.size() >= host.getCapacity()) {
-            throw new HostCantTakeMoreHamstersException(host.getId());
-        }
-        return host;
-    }
 
     @Transactional
     public HamsterDtoWithoutAdoptive updateHamsterAllAttributes(long id, UpdateHamsterCommand command) {
@@ -124,5 +114,15 @@ public class HamsterService {
                 .orElseThrow(() -> new HamsterWithIdNotExistException(id));
     }
 
+    private Host checkHostIsAvailable(long id) {
+        Host host = hostRepository.findById(id).orElseThrow(
+                ()-> new HostWithIdNotExistException(id));
+
+        List<Hamster> fosteringHamstersByHost = hamsterRepository.findFosteringHamstersByHostId(host.getId());
+        if (fosteringHamstersByHost.size() >= host.getCapacity()) {
+            throw new HostCantTakeMoreHamstersException(host.getId());
+        }
+        return host;
+    }
 
 }

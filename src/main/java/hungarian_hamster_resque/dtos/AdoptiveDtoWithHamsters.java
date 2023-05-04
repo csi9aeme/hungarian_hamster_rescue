@@ -14,9 +14,17 @@ import java.util.List;
 public class AdoptiveDtoWithHamsters {
 
 
+    private long id;
+
     private String name;
 
     private String address;
 
     private List<HamsterDto> hamsters;
+
+    public AdoptiveDtoWithHamsters(String name, String address, List<HamsterDto> hamsters) {
+        this.name = name;
+        this.address = address;
+        this.hamsters = hamsters;
+    }
 }
