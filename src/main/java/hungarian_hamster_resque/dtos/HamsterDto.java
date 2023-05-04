@@ -37,4 +37,14 @@ public class HamsterDto {
 
     private LocalDate dateOfAdoption;
 
+    public HamsterDto(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HostDtoWithoutHamsters host, LocalDate startOfFostering, LocalDate dateOfAdoption) {
+        this.id = id;
+        this.name = name;
+        this.hamsterSpecies = hamsterSpecies;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.host = host;
+        this.startOfFostering = startOfFostering;
+        this.dateOfAdoption = dateOfAdoption;
+    }
 }
