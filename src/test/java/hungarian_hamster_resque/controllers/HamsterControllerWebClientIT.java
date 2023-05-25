@@ -4,6 +4,7 @@ import hungarian_hamster_resque.dtos.*;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
+import hungarian_hamster_resque.enums.HostStatus;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -258,7 +258,7 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Exception: host can't take more hamster")
     void testHostCantTakeMoreHamster() {
-       HostDtoWithoutHamsters newHost = webClient.post().uri("api/hosts")
+        HostDtoWithoutHamsters newHost = webClient.post().uri("api/hosts")
                 .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 1))
                 .exchange()
                 .expectStatus().isEqualTo(201)
@@ -281,22 +281,57 @@ public class HamsterControllerWebClientIT {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
-                "Bolyhos",
+                        "Bolyhos",
                         "dzsungáriai törpehörcsög",
                         "nőstény",
-                LocalDate.parse("2022-11-01"),
+                        LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
-                newHost.getId(),
-                LocalDate.parse("2023-01-25")))
+                        newHost.getId(),
+                        LocalDate.parse("2023-01-25")))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/not-enough-capacity"));
-        assertThat(detail.getDetail()).isEqualTo("Az ideiglenes befogadó a megadott ID-val (" + newHost.getId() +") nem tud több hörcsögöt fogadni.");
+        assertThat(detail.getDetail()).isEqualTo("Az ideiglenes befogadó a megadott ID-val (" + newHost.getId() + ") nem tud több hörcsögöt fogadni.");
+
+    }
+
+    @Test
+    @Description("Exception: host status is inactive")
+    void testHostIsInactive() {
+        HostDtoWithoutHamsters newHost = webClient.post().uri("api/hosts")
+                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 10))
+                .exchange()
+                .expectStatus().isEqualTo(201)
+                .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
+
+        newHost = webClient.put().uri("api/hosts/{id}/inactive", newHost.getId())
+                .exchange()
+                .expectStatus().isEqualTo(201)
+                .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();;
+
+
+        ProblemDetail detail = webClient.post()
+                .uri("/api/hamsters")
+                .bodyValue(new CreateHamsterCommand(
+                        "Bolyhos",
+                        "dzsungáriai törpehörcsög",
+                        "nőstény",
+                        LocalDate.parse("2022-11-01"),
+                        "örökbefogadható",
+                        newHost.getId(),
+                        LocalDate.parse("2023-01-25")))
+                .exchange()
+                .expectStatus().isEqualTo(406)
+                .expectBody(ProblemDetail.class).returnResult().getResponseBody();
+
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/inactive-host"));
+        assertThat(detail.getDetail()).isEqualTo("A megadott ID-val (" + newHost.getId() + ") rendelkező ideiglenes befogadó jelenleg nem tud hörcsögöt fogadni.");
 
 
     }
+
     @Test
     @Description("Get actual fostering hamsters")
     void testGetFosteringHamsters() {
@@ -403,19 +438,17 @@ public class HamsterControllerWebClientIT {
         HamsterDtoWithoutAdoptive updated = webClient.put().uri("/api/hamsters/{id}", id)
                 .bodyValue(new UpdateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
-                        Gender.FEMALE,
+                        "dzsungáriai törpehörcsög",
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTED,
+                        "kezelés alatt áll",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
                 .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
 
-        assertThat(updated.getHamsterStatus()).isEqualTo(HamsterStatus.ADOPTED);
+        assertThat(updated.getHamsterStatus()).isEqualTo(HamsterStatus.UNDER_MEDICAL_TREATMENT);
     }
-
-    //kell hozzá az Adoptive
 
     @Test
     @Description("Adopt a hamster (change status and add an owner)")
@@ -442,7 +475,7 @@ public class HamsterControllerWebClientIT {
         long id = result.getId();
 
         HamsterDto adopted = webClient.put().uri("/api/hamsters/{id}/adopted", id)
-                .bodyValue(new AdoptHamsterCommand(HamsterStatus.ADOPTED, adoptive.getId(), LocalDate.parse("2023-04-12")))
+                .bodyValue(new AdoptHamsterCommand(adoptive.getId(), LocalDate.parse("2023-04-12")))
                 .exchange()
                 .expectBody(HamsterDto.class).returnResult().getResponseBody();
 
