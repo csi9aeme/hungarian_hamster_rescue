@@ -1,13 +1,13 @@
 package hungarian_hamster_resque.enums;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@Getter
 public enum HamsterStatus {
 
     ADOPTABLE("örökbefogadható"),
@@ -16,10 +16,8 @@ public enum HamsterStatus {
     PERMANENTLY_CARED_FOR("tartós gondozott, nem örökbefogadható"),
     DECEASED("elhunyt");
 
-    @JsonValue
     private String status;
 
-    @JsonValue
     public String getStatus() {
         return status;
     }
