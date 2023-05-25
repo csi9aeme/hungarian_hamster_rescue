@@ -25,4 +25,12 @@ public class HamsterExceptionHandler {
         return detail;
     }
 
+    @ExceptionHandler(HamsterSpeciesNotExistException.class)
+    public ProblemDetail handleHamsterSpeciesNotExistException(HamsterSpeciesNotExistException e) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        detail.setType(URI.create("hamsterresque/hamsterspecies-not-exist"));
+
+        return detail;
+    }
+
 }

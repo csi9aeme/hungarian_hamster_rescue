@@ -5,6 +5,7 @@ import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,25 +21,32 @@ import java.time.LocalDate;
 public class CreateHamsterCommand {
 
     @NotEmpty(message = "A név nem lehet üres!")
+    @NotNull(message = "A név nem lehet üres!")
     @Schema(description = "Név", example = "Bolyhos")
     private String name;
 
+    @NotNull
     @Schema(description = "faj", example = "szíriai aranyhörcsög")
-    private HamsterSpecies hamsterSpecies;
+    private String hamsterSpecies;
 
+    @NotNull
     @Schema(description = "nem", example = "hím")
     private Gender gender;
 
+    @NotNull
     @Schema(description = "születési dátum", example = "2022-12-01")
     @PastOrPresent
     private LocalDate dateOfBirth;
 
-    @Schema(description = "örökbefogadhatósági állapot", example = "örökbefogadható, örökbefogadott")
+    @NotNull
+    @Schema(description = "örökbefogadhatósági állapot", example = "örökbefogadható")
     private HamsterStatus hamsterStatus;
 
+    @NotNull
     @Schema(description = "az ideiglenes befogadó azonosítója", example = "1")
     private long hostId;
 
+    @NotNull
     @Schema(description = "gondozásbavétel dátuma", example = "2022-12-01")
     private LocalDate startOfFoster;
 

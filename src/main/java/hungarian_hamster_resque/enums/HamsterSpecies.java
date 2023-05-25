@@ -3,12 +3,14 @@ package hungarian_hamster_resque.enums;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@Getter
+//@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum HamsterSpecies {
     GOLDEN("szíriai aranyhörcsög"),
     HYBRID_DWARF("hibrid dzsgunráiai törpehörcsög"),
@@ -17,10 +19,10 @@ public enum HamsterSpecies {
     ROBOROVSKI("roborovszki törpehörcsög"),
     CHINESE("kínai törpehörcsög");
 
-    @JsonValue
+    //@JsonValue
     private String nameOfSpecies;
 
-    @JsonValue
+   // @JsonValue
     public String getNameOfSpecies() {
         return nameOfSpecies;
     }

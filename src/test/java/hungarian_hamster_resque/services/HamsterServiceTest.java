@@ -93,7 +93,7 @@ class HamsterServiceTest {
 
         HamsterDtoWithoutAdoptive hamster = service.createHamster(
                 new CreateHamsterCommand("Bolyhos",
-                        HamsterSpecies.CAMPBELL,
+                        "dzsungáriai törpehörcsög",
                         Gender.MALE,
                         LocalDate.parse("2022-12-29"),
                         HamsterStatus.ADOPTABLE,
@@ -114,7 +114,7 @@ class HamsterServiceTest {
 
         HostCantTakeMoreHamstersException e = assertThrows(HostCantTakeMoreHamstersException.class,
                 () -> service.createHamster(new CreateHamsterCommand("Bolyhos",
-                        HamsterSpecies.CAMPBELL,
+                        "campbell törpehörcsög",
                         Gender.MALE,
                         LocalDate.parse("2022-12-29"),
                         HamsterStatus.ADOPTABLE,

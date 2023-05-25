@@ -50,7 +50,7 @@ public class HamsterControllerWebClientIT {
         HamsterDtoWithoutAdoptive result = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -71,7 +71,7 @@ public class HamsterControllerWebClientIT {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand("",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -82,6 +82,28 @@ public class HamsterControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/not-valid"));
+        assertThat(detail.getDetail()).isEqualTo("A név nem lehet üres!");
+
+    }
+
+    @Test
+    @Description("Exception: create a new hamster with wrong enum value")
+    void testCreateHamsterWrongEnumValue() {
+        ProblemDetail detail = webClient.post()
+                .uri("/api/hamsters")
+                .bodyValue(new CreateHamsterCommand("Bolyhos",
+                        "dzsungáliai",
+                        Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"),
+                        HamsterStatus.ADOPTABLE,
+                        host.getId(),
+                        LocalDate.parse("2023-01-25")))
+                .exchange()
+                .expectStatus().isEqualTo(406)
+                .expectBody(ProblemDetail.class).returnResult().getResponseBody();
+
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/hamsterspecies-not-exist"));
+        assertThat(detail.getDetail()).isEqualTo("A fajnév (dzsungáliai) hibásan került megadásra.");
     }
 
 
@@ -90,18 +112,20 @@ public class HamsterControllerWebClientIT {
     void testCreateHamsterWithInvalidHostId() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hamsters")
-                .bodyValue(new CreateHamsterCommand("",
-                        HamsterSpecies.DWARF,
+                .bodyValue(new CreateHamsterCommand("Bolyhos",
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
                         22L,
                         LocalDate.parse("2023-01-25")))
                 .exchange()
-                .expectStatus().isEqualTo(406)
+                .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/not-valid"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/host-not-found"));
+        assertThat(detail.getDetail()).isEqualTo("A keresett ID-val (22) ideiglenes befogadó nincs az adatbázisban.");
+
     }
 
     @Test
@@ -110,7 +134,7 @@ public class HamsterControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -121,7 +145,7 @@ public class HamsterControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -147,7 +171,7 @@ public class HamsterControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -158,7 +182,7 @@ public class HamsterControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -188,6 +212,7 @@ public class HamsterControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/hamsters-not-found"));
+        assertThat(detail.getDetail()).isEqualTo("A keresett névrészlettel (Mü) nincs hörcsög  az adatbázisban.");
 
     }
 
@@ -204,7 +229,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -218,7 +243,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                 "Bolyhos",
-                HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                 Gender.FEMALE,
                 LocalDate.parse("2022-11-01"),
                 HamsterStatus.ADOPTABLE,
@@ -229,6 +254,8 @@ public class HamsterControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/not-enough-capacity"));
+        assertThat(detail.getDetail()).isEqualTo("Az ideiglenes befogadó a megadott ID-val (" + newHost.getId() +") nem tud több hörcsögöt fogadni.");
+
 
     }
     @Test
@@ -237,7 +264,7 @@ public class HamsterControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -249,7 +276,7 @@ public class HamsterControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -262,7 +289,7 @@ public class HamsterControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Szotyi",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTED,
@@ -286,7 +313,7 @@ public class HamsterControllerWebClientIT {
         HamsterDtoWithoutAdoptive hamster = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -313,6 +340,8 @@ public class HamsterControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/hamster-not-found"));
+        assertThat(detail.getDetail()).isEqualTo("A keresett ID-val (22) hörcsög nincs az adatbázisban.");
+
     }
 
     @Test
@@ -321,7 +350,7 @@ public class HamsterControllerWebClientIT {
         HamsterDtoWithoutAdoptive result = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
@@ -362,7 +391,7 @@ public class HamsterControllerWebClientIT {
         HamsterDtoWithoutAdoptive result = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,

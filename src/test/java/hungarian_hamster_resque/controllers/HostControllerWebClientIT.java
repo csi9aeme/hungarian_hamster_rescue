@@ -185,7 +185,7 @@ public class HostControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.DWARF,
+                        "dzsungáriai törpehörcsög",
                         Gender.FEMALE,
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
