@@ -5,6 +5,7 @@ import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
+import hungarian_hamster_resque.exceptions.HamsterStatusNotAcceptableException;
 import hungarian_hamster_resque.exceptions.HamsterWithIdNotExistException;
 import hungarian_hamster_resque.exceptions.HamsterWithNameNotExist;
 import hungarian_hamster_resque.exceptions.HostCantTakeMoreHamstersException;
@@ -104,6 +105,21 @@ class HamsterServiceTest {
 
         verify(hostRepository).findById(anyLong());
         verify(hamsterRepository).save(any());
+    }
+
+    @Test
+    void testCreateHamsterInvalidStatus() {
+        when(hostRepository.findById(any())).thenReturn(Optional.of(host));
+        assertThatThrownBy(() ->
+                service.createHamster(new CreateHamsterCommand("Mütyürke",
+                                "dzsungáriai törpehörcsög",
+                                "nőstény",
+                                LocalDate.parse("2022-11-01"),
+                                "örökbefog",
+                                host.getId(),
+                                LocalDate.parse("2023-01-25"))))
+                .isInstanceOf(HamsterStatusNotAcceptableException.class)
+                .hasMessage("A megadott örökbefogadhatósági állapot (örökbefog) nem megfelelő.");
     }
 
     @Test

@@ -142,7 +142,7 @@ public class HamsterService {
                 return g;
             }
         }
-        throw new HamsterSpeciesNotExistException(gender);
+        throw new HamsterGenderNotAcceptableException(gender);
     }
     private HamsterStatus findHamsterStatus(String status) {
         for (HamsterStatus s : HamsterStatus.values()) {

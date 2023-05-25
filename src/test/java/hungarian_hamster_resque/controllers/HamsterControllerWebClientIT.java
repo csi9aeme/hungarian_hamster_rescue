@@ -88,7 +88,7 @@ public class HamsterControllerWebClientIT {
 
     @Test
     @Description("Exception: create a new hamster with wrong enum value")
-    void testCreateHamsterWrongEnumValue() {
+    void testCreateHamsterWrongSpeciesValue() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand("Bolyhos",
@@ -106,6 +106,45 @@ public class HamsterControllerWebClientIT {
         assertThat(detail.getDetail()).isEqualTo("A fajnév (dzsungáliai) hibásan került megadásra.");
     }
 
+    @Test
+    @Description("Exception: create a new hamster with wrong gender value")
+    void testCreateHamsterWrongGenderValue() {
+        ProblemDetail detail = webClient.post()
+                .uri("/api/hamsters")
+                .bodyValue(new CreateHamsterCommand("Bolyhos",
+                        "dzsungáriai törpehörcsög",
+                        "kislány",
+                        LocalDate.parse("2022-11-01"),
+                        "örökbefogadható",
+                        host.getId(),
+                        LocalDate.parse("2023-01-25")))
+                .exchange()
+                .expectStatus().isEqualTo(406)
+                .expectBody(ProblemDetail.class).returnResult().getResponseBody();
+
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/gender-not-acceptable"));
+        assertThat(detail.getDetail()).isEqualTo("A megadott nem (kislány) nem megfelelő.");
+    }
+
+    @Test
+    @Description("Exception: create a new hamster with wrong status value")
+    void testCreateHamsterWrongStatusValue() {
+        ProblemDetail detail = webClient.post()
+                .uri("/api/hamsters")
+                .bodyValue(new CreateHamsterCommand("Bolyhos",
+                        "dzsungáriai törpehörcsög",
+                        "nőstény",
+                        LocalDate.parse("2022-11-01"),
+                        "örökbefogadásra alkalmas",
+                        host.getId(),
+                        LocalDate.parse("2023-01-25")))
+                .exchange()
+                .expectStatus().isEqualTo(406)
+                .expectBody(ProblemDetail.class).returnResult().getResponseBody();
+
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/status-not-acceptable"));
+        assertThat(detail.getDetail()).isEqualTo("A megadott örökbefogadhatósági állapot (örökbefogadásra alkalmas) nem megfelelő.");
+    }
 
     @Test
     @Description("Exception: create a new hamster with invalid host id")

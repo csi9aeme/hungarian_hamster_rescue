@@ -36,7 +36,7 @@ public class HamsterExceptionHandler {
     @ExceptionHandler(HamsterGenderNotAcceptableException.class)
     public ProblemDetail handleGenderNotAcceptableException(HamsterGenderNotAcceptableException e) {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
-        detail.setType(URI.create("hamsterresque/gender-not-valid"));
+        detail.setType(URI.create("hamsterresque/gender-not-acceptable"));
 
         return detail;
     }
