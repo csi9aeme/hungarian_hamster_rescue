@@ -80,7 +80,7 @@ Accept: application/json
 
 }
 ### PUT update a hamster
-PUT http://localhost:8080/api/hamsters/5
+PUT http://localhost:8080/api/hamsters/1
 Content-Type: application/json
 Accept: application/json
 
@@ -89,8 +89,8 @@ Accept: application/json
   "hamsterSpecies": "szíriai aranyhörcsög",
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "kezelés alatt áll, de örökbefogadható",
-  "hostId": 3,
+  "hamsterStatus": "kezelés alatt áll",
+  "hostId": 1,
   "startOfFoster": "2023-03-06"
 
 

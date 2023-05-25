@@ -16,9 +16,6 @@ import java.time.LocalDate;
 public class AdoptHamsterCommand {
 
 
-    @Schema(description = "örökbefogadhatósági állapot", example = "örökbefogadható")
-    private HamsterStatus hamsterStatus;
-
     @NotNull
     @Positive
     @Schema(description = "az új gazda azonosítója", example = "123")

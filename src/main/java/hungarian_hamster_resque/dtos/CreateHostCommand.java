@@ -31,7 +31,7 @@ public class CreateHostCommand {
     @Schema(description = "elhelyezhető hörcsögök száma", example = "2")
     private int capacity;
 
-    @Schema(description = "Az ideiglenes befogadó tud-e hörcsögöt fogadni", example = "aktv/inaktív")
+    @Schema(description = "Az ideiglenes befogadó tud-e hörcsögöt fogadni", example = "aktív/inaktív")
     private HostStatus hostStatus = HostStatus.ACTIVE;
 
     @Schema(description = "a gondozott hörcsögök listája")

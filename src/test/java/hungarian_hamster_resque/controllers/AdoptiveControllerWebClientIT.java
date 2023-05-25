@@ -240,7 +240,7 @@ public class AdoptiveControllerWebClientIT {
                 .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
 
        webClient.put().uri("/api/hamsters/{id}/adopted", hamster.getId())
-                .bodyValue(new AdoptHamsterCommand(HamsterStatus.ADOPTED, adoptive.getId(), LocalDate.parse("2023-04-12")))
+                .bodyValue(new AdoptHamsterCommand(adoptive.getId(), LocalDate.parse("2023-04-12")))
                 .exchange()
                 .expectBody(HamsterDto.class).returnResult().getResponseBody();
 
@@ -279,7 +279,7 @@ public class AdoptiveControllerWebClientIT {
                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
 
         webClient.put().uri("/api/hamsters/{id}/adopted", hamster.getId())
-                .bodyValue(new AdoptHamsterCommand(HamsterStatus.ADOPTED, adoptive.getId(), LocalDate.parse("2023-04-12")))
+                .bodyValue(new AdoptHamsterCommand(adoptive.getId(), LocalDate.parse("2023-04-12")))
                 .exchange();
 
         AdoptiveDtoWithHamsters adoptiveWithHam = webClient.get().uri("/api/adoptives/{id}/hamsters", adoptive.getId())

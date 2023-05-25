@@ -22,7 +22,7 @@ public class CreateHamsterCommand {
 
     @NotEmpty(message = "A név nem lehet üres!")
     @NotNull(message = "A név nem lehet üres!")
-    @Schema(description = "Név", example = "Bolyhos")
+    @Schema(description = "név", example = "Bolyhos")
     private String name;
 
     @NotNull

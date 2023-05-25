@@ -49,4 +49,12 @@ public class HostExceptionHandler {
         return detail;
     }
 
+    @ExceptionHandler(HostIsInactiveException.class)
+    public ProblemDetail handleHostIsInactiveException(HostIsInactiveException e) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        detail.setType(URI.create("hamsterresque/inactive-host"));
+
+        return detail;
+    }
+
 }

@@ -7,14 +7,12 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum HostStatus {
 
     ACTIVE("aktív"), INACTIVE("inaktív");
 
     private String hostStatus;
 
-    @JsonValue
     public String getHostStatus() {
         return hostStatus;
     }

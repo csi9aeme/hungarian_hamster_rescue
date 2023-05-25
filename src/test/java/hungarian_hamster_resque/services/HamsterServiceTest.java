@@ -170,10 +170,10 @@ class HamsterServiceTest {
         HamsterDtoWithoutAdoptive updated = service.updateHamsterAllAttributes(1L,
                 new UpdateHamsterCommand(
                         "Bolyhos",
-                        HamsterSpecies.CAMPBELL,
-                        Gender.MALE,
+                        "campbell törpehörcsög",
+                        "hím",
                         LocalDate.parse("2022-12-29"),
-                        HamsterStatus.UNDER_MEDICAL_TREATMENT,
+                        "kezelés alatt áll",
                         1L,
                         LocalDate.parse("2023-01-02")
                 ));
@@ -336,7 +336,6 @@ class HamsterServiceTest {
 
         HamsterDto hamster = service.adoptHamster(1L,
                 new AdoptHamsterCommand(
-                        HamsterStatus.ADOPTED,
                         adoptiveDtoWithoutHamsters.getId(),
                         LocalDate.parse("2023-01-02")));
 
