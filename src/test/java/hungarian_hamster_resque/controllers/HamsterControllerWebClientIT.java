@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(statements = {"delete from hosts_hamsters", "delete from adoptives_hamsters",  "delete from hamsters",})
+@Sql(statements = {"delete from hamsters"})
 public class HamsterControllerWebClientIT {
 
     @Autowired

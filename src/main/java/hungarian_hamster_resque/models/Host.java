@@ -32,7 +32,7 @@ public class Host {
     @Column(name = "holding_capacity")
     private int capacity;
 
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE} )
+    @OneToMany(mappedBy = "host", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE} )
     private List<Hamster> hamsters = new ArrayList<>();
 
     public Host(String name, String address, int capacity) {

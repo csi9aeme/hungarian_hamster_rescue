@@ -24,7 +24,7 @@ public class Adoptive {
 
     private String address;
 
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "adoptive", cascade = {CascadeType.PERSIST})
     private List<Hamster> hamsters = new ArrayList<>();
 
     public Adoptive(String name, String address) {
