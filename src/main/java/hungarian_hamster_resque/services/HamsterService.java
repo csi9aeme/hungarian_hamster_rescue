@@ -1,7 +1,9 @@
 package hungarian_hamster_resque.services;
 
 import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
+import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.exceptions.*;
 import hungarian_hamster_resque.mappers.HamsterMapper;
 import hungarian_hamster_resque.models.*;
@@ -50,14 +52,14 @@ public class HamsterService {
     @Transactional
     public HamsterDtoWithoutAdoptive createHamster(CreateHamsterCommand command) {
         Host host = checkHostIsAvailable(command.getHostId());
-        HamsterSpecies spec = findHamsterSpecies(command.getHamsterSpecies());
+
 
         Hamster hamster = Hamster.builder()
                 .name(command.getName())
-                .hamsterSpecies(spec)
-                .gender(command.getGender())
+                .hamsterSpecies(findHamsterSpecies(command.getHamsterSpecies()))
+                .gender(findGender(command.getGender()))
                 .dateOfBirth(command.getDateOfBirth())
-                .hamsterStatus(command.getHamsterStatus())
+                .hamsterStatus(findHamsterStatus(command.getHamsterStatus()))
                 .host(host)
                 .startOfFostering(command.getStartOfFoster())
                 .build();
@@ -66,6 +68,63 @@ public class HamsterService {
         hamsterRepository.save(hamster);
 
         return hamsterMapper.toDtoWithoutAdoptive(hamster);
+    }
+
+
+    @Transactional
+    public HamsterDtoWithoutAdoptive updateHamsterAllAttributes(long id, UpdateHamsterCommand command) {
+        Hamster hamsterForUpdate = findHamsterEntityById(id);
+
+        hamsterForUpdate.setName(command.getName());
+        hamsterForUpdate.setHamsterSpecies(command.getHamsterSpecies());
+        hamsterForUpdate.setDateOfBirth(command.getDateOfBirth());
+        hamsterForUpdate.setHamsterStatus(command.getHamsterStatus());
+        Host host = hostRepository.findById(command.getHostId())
+                .orElseThrow(() -> new HostWithIdNotExistException(command.getHostId()));
+        hamsterForUpdate.setHost(host);
+
+        hamsterRepository.save(hamsterForUpdate);
+        return hamsterMapper.toDtoWithoutAdoptive(hamsterForUpdate);
+    }
+
+    public HamsterDto adoptHamster(long id, AdoptHamsterCommand command) {
+        Hamster adopted = findHamsterEntityById(id);
+        Adoptive adoptive = adoptiveRepository.findAdoptiveByIdWithHamsters(command.getAdoptiveId());
+
+        adopted.setHamsterStatus(command.getHamsterStatus());
+
+        adopted.setAdoptive(adoptive);
+        adopted.setDateOfAdoption(command.getDateOfAdoption());
+
+        adoptive.addHamster(adopted);
+        hamsterRepository.save(adopted);
+
+        return hamsterMapper.toDto(adopted);
+    }
+
+
+    private List<Hamster> findHamsterWithNamePart(String hamsterName) {
+        List<Hamster> result = hamsterRepository.findHamsterByNameContains(hamsterName);
+        if (result.isEmpty()) {
+            throw new HamsterWithNameNotExist(hamsterName);
+        }
+        return result;
+    }
+
+    private Hamster findHamsterEntityById(long id) {
+        return hamsterRepository.findById(id)
+                .orElseThrow(() -> new HamsterWithIdNotExistException(id));
+    }
+
+    private Host checkHostIsAvailable(long id) {
+        Host host = hostRepository.findById(id).orElseThrow(
+                () -> new HostWithIdNotExistException(id));
+
+        List<Hamster> fosteringHamstersByHost = hamsterRepository.findFosteringHamstersByHostId(host.getId());
+        if (fosteringHamstersByHost.size() >= host.getCapacity()) {
+            throw new HostCantTakeMoreHamstersException(host.getId());
+        }
+        return host;
     }
 
     private HamsterSpecies findHamsterSpecies(String hamsterSpecies) {
@@ -77,59 +136,21 @@ public class HamsterService {
         throw new HamsterSpeciesNotExistException(hamsterSpecies);
     }
 
-        @Transactional
-        public HamsterDtoWithoutAdoptive updateHamsterAllAttributes ( long id, UpdateHamsterCommand command){
-            Hamster hamsterForUpdate = findHamsterEntityById(id);
-
-            hamsterForUpdate.setName(command.getName());
-            hamsterForUpdate.setHamsterSpecies(command.getHamsterSpecies());
-            hamsterForUpdate.setDateOfBirth(command.getDateOfBirth());
-            hamsterForUpdate.setHamsterStatus(command.getHamsterStatus());
-            Host host = hostRepository.findById(command.getHostId())
-                    .orElseThrow(() -> new HostWithIdNotExistException(command.getHostId()));
-            hamsterForUpdate.setHost(host);
-
-            hamsterRepository.save(hamsterForUpdate);
-            return hamsterMapper.toDtoWithoutAdoptive(hamsterForUpdate);
-        }
-        public HamsterDto adoptHamster ( long id, AdoptHamsterCommand command){
-            Hamster adopted = findHamsterEntityById(id);
-            Adoptive adoptive = adoptiveRepository.findAdoptiveByIdWithHamsters(command.getAdoptiveId());
-
-            adopted.setHamsterStatus(command.getHamsterStatus());
-
-            adopted.setAdoptive(adoptive);
-            adopted.setDateOfAdoption(command.getDateOfAdoption());
-
-            adoptive.addHamster(adopted);
-            hamsterRepository.save(adopted);
-
-            return hamsterMapper.toDto(adopted);
-        }
-
-
-        private List<Hamster> findHamsterWithNamePart (String hamsterName){
-            List<Hamster> result = hamsterRepository.findHamsterByNameContains(hamsterName);
-            if (result.isEmpty()) {
-                throw new HamsterWithNameNotExist(hamsterName);
+    private Gender findGender(String gender) {
+        for (Gender g : Gender.values()) {
+            if (g.getGender().equals(gender)) {
+                return g;
             }
-            return result;
         }
-
-        private Hamster findHamsterEntityById ( long id){
-            return hamsterRepository.findById(id)
-                    .orElseThrow(() -> new HamsterWithIdNotExistException(id));
-        }
-
-        private Host checkHostIsAvailable ( long id){
-            Host host = hostRepository.findById(id).orElseThrow(
-                    () -> new HostWithIdNotExistException(id));
-
-            List<Hamster> fosteringHamstersByHost = hamsterRepository.findFosteringHamstersByHostId(host.getId());
-            if (fosteringHamstersByHost.size() >= host.getCapacity()) {
-                throw new HostCantTakeMoreHamstersException(host.getId());
-            }
-            return host;
-        }
-
+        throw new HamsterSpeciesNotExistException(gender);
     }
+    private HamsterStatus findHamsterStatus(String status) {
+        for (HamsterStatus s : HamsterStatus.values()) {
+            if (s.getStatus().equals(status)) {
+                return s;
+            }
+        }
+        throw new HamsterStatusNotAcceptableException(status);
+    }
+
+}

@@ -31,7 +31,7 @@ public class CreateHamsterCommand {
 
     @NotNull
     @Schema(description = "nem", example = "hím")
-    private Gender gender;
+    private String gender;
 
     @NotNull
     @Schema(description = "születési dátum", example = "2022-12-01")
@@ -40,7 +40,7 @@ public class CreateHamsterCommand {
 
     @NotNull
     @Schema(description = "örökbefogadhatósági állapot", example = "örökbefogadható")
-    private HamsterStatus hamsterStatus;
+    private String hamsterStatus;
 
     @NotNull
     @Schema(description = "az ideiglenes befogadó azonosítója", example = "1")

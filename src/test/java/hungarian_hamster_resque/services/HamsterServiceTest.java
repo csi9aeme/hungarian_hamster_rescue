@@ -8,7 +8,6 @@ import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.exceptions.HamsterWithIdNotExistException;
 import hungarian_hamster_resque.exceptions.HamsterWithNameNotExist;
 import hungarian_hamster_resque.exceptions.HostCantTakeMoreHamstersException;
-import hungarian_hamster_resque.exceptions.HostWithIdNotExistException;
 import hungarian_hamster_resque.mappers.HamsterMapper;
 import hungarian_hamster_resque.models.Adoptive;
 import hungarian_hamster_resque.models.Hamster;
@@ -94,9 +93,9 @@ class HamsterServiceTest {
         HamsterDtoWithoutAdoptive hamster = service.createHamster(
                 new CreateHamsterCommand("Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.MALE,
+                        "hím",
                         LocalDate.parse("2022-12-29"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         1L,
                         LocalDate.parse("2023-01-02")));
 
@@ -115,9 +114,9 @@ class HamsterServiceTest {
         HostCantTakeMoreHamstersException e = assertThrows(HostCantTakeMoreHamstersException.class,
                 () -> service.createHamster(new CreateHamsterCommand("Bolyhos",
                         "campbell törpehörcsög",
-                        Gender.MALE,
+                        "nőstény",
                         LocalDate.parse("2022-12-29"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         2L,
                         LocalDate.parse("2023-01-02"))));
 

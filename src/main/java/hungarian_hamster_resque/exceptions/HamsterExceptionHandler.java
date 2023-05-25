@@ -33,4 +33,20 @@ public class HamsterExceptionHandler {
         return detail;
     }
 
+    @ExceptionHandler(HamsterGenderNotAcceptableException.class)
+    public ProblemDetail handleGenderNotAcceptableException(HamsterGenderNotAcceptableException e) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        detail.setType(URI.create("hamsterresque/gender-not-valid"));
+
+        return detail;
+    }
+
+    @ExceptionHandler(HamsterStatusNotAcceptableException.class)
+    public ProblemDetail handleHamsterStatusNotAcceptableException(HamsterStatusNotAcceptableException e) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        detail.setType(URI.create("hamsterresque/status-not-acceptable"));
+
+        return detail;
+    }
+
 }

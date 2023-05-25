@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-//@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum HamsterSpecies {
     GOLDEN("szíriai aranyhörcsög"),
     HYBRID_DWARF("hibrid dzsgunráiai törpehörcsög"),
@@ -19,10 +18,8 @@ public enum HamsterSpecies {
     ROBOROVSKI("roborovszki törpehörcsög"),
     CHINESE("kínai törpehörcsög");
 
-    //@JsonValue
     private String nameOfSpecies;
 
-   // @JsonValue
     public String getNameOfSpecies() {
         return nameOfSpecies;
     }

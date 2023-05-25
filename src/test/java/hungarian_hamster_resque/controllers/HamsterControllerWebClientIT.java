@@ -51,9 +51,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -72,9 +72,9 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand("",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -93,9 +93,9 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand("Bolyhos",
                         "dzsungáliai",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -114,9 +114,9 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand("Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         22L,
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -135,9 +135,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -146,9 +146,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")
                 ))
@@ -172,9 +172,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -183,9 +183,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")
                 ))
@@ -230,9 +230,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         newHost.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -244,9 +244,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                 "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                Gender.FEMALE,
+                        "nőstény",
                 LocalDate.parse("2022-11-01"),
-                HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                 newHost.getId(),
                 LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -265,9 +265,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -277,9 +277,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")
                 ))
@@ -290,9 +290,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Szotyi",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTED,
+                        "örökbefogadott",
                         host.getId(),
                         LocalDate.parse("2023-01-25")
                 ))
@@ -314,9 +314,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -351,9 +351,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -392,9 +392,9 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()

@@ -1,8 +1,6 @@
 package hungarian_hamster_resque.controllers;
 
 import hungarian_hamster_resque.dtos.*;
-import hungarian_hamster_resque.enums.Gender;
-import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
@@ -232,9 +230,9 @@ public class AdoptiveControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "szíriai aranyhörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
@@ -272,9 +270,9 @@ public class AdoptiveControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
-                        Gender.FEMALE,
+                        "nőstény",
                         LocalDate.parse("2022-11-01"),
-                        HamsterStatus.ADOPTABLE,
+                        "örökbefogadható",
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
