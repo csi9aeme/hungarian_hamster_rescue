@@ -25,9 +25,9 @@ public class HamsterController {
     }
 
     @GetMapping("/fostering")
-    @Operation(summary = "List of actual fostering hamsters")
-    public List<HamsterDtoWithoutAdoptive> getListOfActualHamsters() {
-        return hamsterService.getListOfActualHamsters();
+    @Operation(summary = "List of current fostering hamsters")
+    public List<HamsterDtoWithoutAdoptive> getListOfCurrentHamsters() {
+        return hamsterService.getListOfCurrentHamsters();
     }
 
     @GetMapping("/{id}")

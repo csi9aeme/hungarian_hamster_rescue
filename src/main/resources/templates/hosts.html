@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temporary Hosts Settings</title>
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead, td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        #hostHeader, #tableHeader {
+            background-color: #9ba8e8;
+            text-align: center;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #b6bcde;
+        }
+        tr:nth-child(odd) {
+            background-color: #e6eaff;
+        }
+
+    </style>
+
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th id="hostHeader" colspan="3">List of <span th:text="${host}"></span>'s current hamsters in care</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="tableHeader">
+                <th>Hamster's name</th>
+                <th>Hamster's status</th>
+                <th>Beginning of the fostering</th>
+            </tr>
+            <tr th:each="hamster : ${hamsters}">
+                <td th:text="${hamster.name}"></td>
+                <td th:text="${hamster.hamsterStatus}"></td>
+                <td th:text="${hamster.startOfFostering}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

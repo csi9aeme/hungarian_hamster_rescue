@@ -41,7 +41,7 @@ public class HostController {
 
 
     @GetMapping("/{id}/hamsters")
-    @Operation(summary = "List of the host's actual hamsters.")
+    @Operation(summary = "List of the host's current hamsters.")
     public HostDtoWithHamsters getListOfHostsHamsters(@PathVariable("id") long id) {
         return hostService.getListOfHostsHamsters(id);
     }

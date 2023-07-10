@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +38,7 @@ public class HamsterService {
         return hamsterMapper.toDto(hamsterRepository.findAll());
     }
 
-    public List<HamsterDtoWithoutAdoptive> getListOfActualHamsters() {
+    public List<HamsterDtoWithoutAdoptive> getListOfCurrentHamsters() {
         List<Hamster> hamstersWithoutOwner = hamsterRepository.findFosteringHamsters();
 
         return hamsterMapper.toDtoWithoutAdoptive(hamstersWithoutOwner);
