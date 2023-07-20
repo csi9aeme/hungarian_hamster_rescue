@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Current hamsters in care</title>
+    <!--   <link rel="stylesheet" href="tables.css"> -->
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead, td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        #hostHeader, #tableHeader, #hamsterHeader {
+            background-color: #9ba8e8;
+            text-align: center;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #b6bcde;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #e6eaff;
+        }
+
+    </style>
+
+</head>
+<body>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th id="hamsterHeader" colspan="6">List of current hamsters in care</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr id="tableHeader">
+        <th>Hamster's name</th>
+        <th>Species</th>
+        <th>Gender</th>
+        <th>Beginning of the fostering</th>
+        <th>Host</th>
+        <th>Hamster's status</th>
+    </tr>
+    <tr th:each="hamster : ${hamsters}">
+        <td th:text="${hamster.name}"></td>
+        <td th:text="${hamster.hamsterSpecies}"></td>
+        <td th:text="${hamster.gender}"></td>
+        <td th:text="${hamster.startOfFostering}"></td>
+        <td th:text="${hamster.host.name}"></td>
+        <td th:text="${hamster.hamsterStatus}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</body>
+</html>

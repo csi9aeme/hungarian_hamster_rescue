@@ -13,7 +13,7 @@ public enum HamsterStatus {
     ADOPTABLE("örökbefogadható"),
     ADOPTED ("örökbefogadott"),
     UNDER_MEDICAL_TREATMENT("kezelés alatt áll"),
-    PERMANENTLY_CARED_FOR("tartós gondozott, nem örökbefogadható"),
+    PERMANENTLY_CARED_FOR("tartós gondozott"),
     DECEASED("elhunyt");
 
     private String status;

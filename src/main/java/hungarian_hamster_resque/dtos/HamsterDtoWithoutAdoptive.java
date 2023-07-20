@@ -31,7 +31,8 @@ public class HamsterDtoWithoutAdoptive {
 
     private LocalDate startOfFostering;
 
-    private HostDtoWithoutHamsters host;
+ //   private HostDtoWithoutHamsters host;
+    private String hostName;
 
 
 

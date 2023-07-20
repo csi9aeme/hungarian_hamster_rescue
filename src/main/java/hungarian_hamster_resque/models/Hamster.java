@@ -38,15 +38,17 @@ public class Hamster {
         @Column(name = "hamster_status")
         private HamsterStatus hamsterStatus;
 
+
+        private String description;
+
+
         @Column(name ="start_of_fostering")
         private LocalDate startOfFostering;
 
         @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
-       // @JoinColumn(name="host_id")
         private Host host;
 
         @ManyToOne(cascade = {CascadeType.PERSIST})
-      //  @JoinColumn(name = "adoptive_id")
         private Adoptive adoptive;
 
         @Column(name = "date_of_adoption")
