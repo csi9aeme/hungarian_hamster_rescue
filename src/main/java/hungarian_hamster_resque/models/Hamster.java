@@ -39,7 +39,6 @@ public class Hamster {
         private HamsterStatus hamsterStatus;
 
 
-        private String description;
 
 
         @Column(name ="start_of_fostering")
