@@ -34,6 +34,7 @@ public class HamsterDtoWithoutAdoptive {
    private HostDtoWithoutHamsters host;
   //  private String hostName;
 
+    private String description;
 
 
 }

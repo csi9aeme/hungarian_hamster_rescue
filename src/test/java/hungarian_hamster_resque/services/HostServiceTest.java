@@ -196,13 +196,15 @@ class HostServiceTest {
                                         Gender.FEMALE,
                                         LocalDate.parse("2022-11-01"),
                                         HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25")),
+                                        LocalDate.parse("2023-01-25"),
+                                        "short desc"),
                                 new HamsterDtoSimple("Füles",
                                         HamsterSpecies.DWARF,
                                         Gender.FEMALE,
                                         LocalDate.parse("2022-11-01"),
                                         HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25"))
+                                        LocalDate.parse("2023-01-25"),
+                                        "short desc")
                         )));
 
         HostDtoWithHamsters host = service.getListOfHostsHamsters(1L);
@@ -260,14 +262,16 @@ class HostServiceTest {
                                 Gender.FEMALE,
                                 LocalDate.parse("2022-11-01"),
                                 HamsterStatus.ADOPTABLE,
-                                LocalDate.parse("2023-01-25")))),
+                                LocalDate.parse("2023-01-25"),
+                                        "short desc"))),
                         new HostDtoWithHamsters(2L, "Kiss Eszter", "1110 Székesfehérvár, Fő utca 18", 2, HostStatus.ACTIVE,
                                 List.of(new HamsterDtoSimple("Füles",
                                         HamsterSpecies.DWARF,
                                         Gender.FEMALE,
                                         LocalDate.parse("2022-11-01"),
                                         HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25"))))));
+                                        LocalDate.parse("2023-01-25"),
+                                        "short desc")))));
 
         List<HostDtoWithHamsters> result = service.getListOfHostsWithHamstersByCity("Budapest");
 

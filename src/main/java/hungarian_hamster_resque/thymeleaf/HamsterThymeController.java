@@ -23,7 +23,7 @@ public class HamsterThymeController {
 
     private HamsterService hamsterService;
 
-    @GetMapping("/currentlyallhamsters")
+    @GetMapping("/current_hamsters")
     public ModelAndView findCurrentHamsters() {
         List<HamsterDtoWithoutAdoptive> hamsters = hamsterService.getListOfCurrentHamsters();
         Map<String, Object> model = Map.of();
@@ -32,15 +32,8 @@ public class HamsterThymeController {
                     "hamsters", hamsters
             );
         }
-        return new ModelAndView("hamster/currentlyallhamsters", model);
+        return new ModelAndView("/hamsters/current_hamsters", model);
     }
-
-//    @PostMapping("addnewhamster")
-//    public ModelAndView createHamster(@Valid @RequestBody CreateHamsterCommand command){
-//
-//        return new ModelAndView("hamster/addnewhamster",model);
-//
-//    }
 
 
     @GetMapping("/create_hamster")
@@ -73,6 +66,7 @@ public class HamsterThymeController {
     @PostMapping("/create_hamster")
     public String submitForm(@ModelAttribute("hamster") CreateHamsterCommand hamster) {
         System.out.println(hamster);
+        hamsterService.createHamster(hamster);
         return "/hamsters/create_hamster_succeeded";
     }
 }

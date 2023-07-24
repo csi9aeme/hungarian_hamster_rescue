@@ -55,7 +55,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
@@ -76,7 +77,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -97,7 +99,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -117,7 +120,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -137,7 +141,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadásra alkalmas",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -157,7 +162,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         22L,
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -178,7 +184,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("/api/hamsters")
@@ -189,8 +196,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")
-                ))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -215,7 +222,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("/api/hamsters")
@@ -226,8 +234,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")
-                ))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -273,7 +281,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         newHost.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -287,7 +296,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         newHost.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -321,7 +331,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         newHost.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -343,7 +354,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -355,8 +367,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")
-                ))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -368,8 +380,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadott",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")
-                ))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -392,7 +404,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
@@ -429,7 +442,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
@@ -468,7 +482,8 @@ public class HamsterControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();

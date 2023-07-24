@@ -47,7 +47,12 @@ public class CreateHamsterCommand {
     private long hostId;
 
     @NotNull
-    @Schema(description = "gondozásbavétel dátuma", example = "2022-12-01")
+    @Schema(description = "date of starting foster", example = "2022-12-01")
     private LocalDate startOfFoster;
 
-    }
+    @Schema(description = "short story of the hamster")
+    private String description;
+
+
+
+}

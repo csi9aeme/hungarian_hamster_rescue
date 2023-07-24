@@ -27,8 +27,6 @@ public class HostService {
 
     private final HostMapper hostMapper;
 
-
-
     @Transactional
     public HostDtoWithoutHamsters createHost(CreateHostCommand command) {
         Host host = Host.builder()
@@ -50,7 +48,6 @@ public class HostService {
         host.setAddress(command.getAddress());
         host.setCapacity(command.getCapacity());
         host.setHostStatus(command.getHostStatus());
-
 
         hostRepository.save(host);
         return hostMapper.toDtoWithoutHam(host);

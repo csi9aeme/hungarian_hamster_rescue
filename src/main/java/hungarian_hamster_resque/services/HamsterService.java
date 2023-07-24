@@ -53,7 +53,6 @@ public class HamsterService {
     public HamsterDtoWithoutAdoptive createHamster(CreateHamsterCommand command) {
         Host host = checkHostIsAvailable(command.getHostId());
 
-
         Hamster hamster = Hamster.builder()
                 .name(command.getName())
                 .hamsterSpecies(findHamsterSpecies(command.getHamsterSpecies()))
@@ -62,6 +61,7 @@ public class HamsterService {
                 .hamsterStatus(findHamsterStatus(command.getHamsterStatus()))
                 .host(host)
                 .startOfFostering(command.getStartOfFoster())
+                .description(command.getDescription())
                 .build();
         host.addHamster(hamster);
 

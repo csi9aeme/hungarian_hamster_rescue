@@ -39,8 +39,6 @@ public class Hamster {
         private HamsterStatus hamsterStatus;
 
 
-
-
         @Column(name ="start_of_fostering")
         private LocalDate startOfFostering;
 
@@ -52,6 +50,8 @@ public class Hamster {
 
         @Column(name = "date_of_adoption")
         private LocalDate dateOfAdoption;
+
+        private String description;
 
         public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering) {
                 this.id = id;
@@ -81,6 +81,17 @@ public class Hamster {
                 this.dateOfBirth = dateOfBirth;
                 this.hamsterStatus = hamsterStatus;
                 this.startOfFostering = startOfFostering;
+        }
+
+        public Hamster(String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, Host host, String description) {
+                this.name = name;
+                this.hamsterSpecies = hamsterSpecies;
+                this.gender = gender;
+                this.dateOfBirth = dateOfBirth;
+                this.hamsterStatus = hamsterStatus;
+                this.startOfFostering = startOfFostering;
+                this.host = host;
+                this.description = description;
         }
 }
 

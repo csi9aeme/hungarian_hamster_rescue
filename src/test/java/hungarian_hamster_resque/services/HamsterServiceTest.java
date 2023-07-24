@@ -89,7 +89,8 @@ class HamsterServiceTest {
                         LocalDate.parse("2022-12-29"),
                         HamsterStatus.ADOPTABLE,
                         LocalDate.parse("2023-01-02"),
-                        hostDtoWithoutHamsters));
+                        hostDtoWithoutHamsters,
+                        "short desc"));
 
         HamsterDtoWithoutAdoptive hamster = service.createHamster(
                 new CreateHamsterCommand("Bolyhos",
@@ -98,7 +99,8 @@ class HamsterServiceTest {
                         LocalDate.parse("2022-12-29"),
                         "örökbefogadható",
                         1L,
-                        LocalDate.parse("2023-01-02")));
+                        LocalDate.parse("2023-01-02"),
+                        "short desc"));
 
         assertThat(hamster.getId()).isNotNull();
         assertThat(hamster.getHost().getName()).isEqualTo("Kiss Klára");
@@ -118,7 +120,8 @@ class HamsterServiceTest {
                                 LocalDate.parse("2022-11-01"),
                                 "örökbefog",
                                 host.getId(),
-                                LocalDate.parse("2023-01-25"))))
+                                LocalDate.parse("2023-01-25"),
+                        "short desc")))
                 .isInstanceOf(HamsterStatusNotAcceptableException.class)
                 .hasMessage("A megadott örökbefogadhatósági állapot (örökbefog) nem megfelelő.");
     }
@@ -135,7 +138,8 @@ class HamsterServiceTest {
                         LocalDate.parse("2022-12-29"),
                         "örökbefogadható",
                         2L,
-                        LocalDate.parse("2023-01-02"))));
+                        LocalDate.parse("2023-01-02"),
+                        "short desc")));
 
         assertThat(e.getMessage()).isEqualTo("Az ideiglenes befogadó a megadott ID-val (2) nem tud több hörcsögöt fogadni.");
 
@@ -166,7 +170,8 @@ class HamsterServiceTest {
                         LocalDate.parse("2022-12-29"),
                         HamsterStatus.UNDER_MEDICAL_TREATMENT,
                         LocalDate.parse("2023-01-02"),
-                        hostDtoWithoutHamsters));
+                        hostDtoWithoutHamsters,
+                        "short desc"));
 
         HamsterDtoWithoutAdoptive updated = service.updateHamsterAllAttributes(1L,
                 new UpdateHamsterCommand(
@@ -205,7 +210,8 @@ class HamsterServiceTest {
                         LocalDate.parse("2022-12-29"),
                         HamsterStatus.UNDER_MEDICAL_TREATMENT,
                         LocalDate.parse("2023-01-02"),
-                        hostDtoWithoutHamsters));
+                        hostDtoWithoutHamsters,
+                        "short desc"));
 
         HamsterDtoWithoutAdoptive hamster = service.findAdoptableHamsterById(1L);
 
@@ -237,7 +243,8 @@ class HamsterServiceTest {
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
                                 adoptiveDtoWithoutHamsters,
-                                LocalDate.parse("2023-01-02")),
+                                LocalDate.parse("2023-01-02"),
+                                "short desc"),
                         new HamsterDto(
                                 1L,
                                 "Füles",
@@ -248,7 +255,8 @@ class HamsterServiceTest {
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
                                 null,
-                                null)));
+                                null,
+                                "short desc")));
 
         List<HamsterDto> hamsters = service.getListOfHamsters(Optional.empty());
         assertThat(hamsters).hasSize(2);
@@ -260,10 +268,10 @@ class HamsterServiceTest {
     void testGetListOfHamstersByName() {
         Hamster ham1 = new Hamster(1L,"Bolyhos", HamsterSpecies.CAMPBELL, Gender.MALE, LocalDate.parse("2022-12-29"),
                 HamsterStatus.ADOPTED, LocalDate.parse("2023-01-02"),host,
-                adoptive, LocalDate.parse("2023-01-02"));
+                adoptive, LocalDate.parse("2023-01-02"), "short desc");
         Hamster ham2 = new Hamster(1L,"Boholyka", HamsterSpecies.DWARF, Gender.MALE, LocalDate.parse("2022-12-29"),
                 HamsterStatus.ADOPTED, LocalDate.parse("2023-01-02"),host,
-                adoptive, LocalDate.parse("2023-01-02"));
+                adoptive, LocalDate.parse("2023-01-02"), "short desc");
 
         when(hamsterRepository.findHamsterByNameContains(anyString()))
                 .thenReturn(List.of(ham1, ham2));
@@ -279,7 +287,7 @@ class HamsterServiceTest {
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
                                 adoptiveDtoWithoutHamsters,
-                                LocalDate.parse("2023-01-02")),
+                                LocalDate.parse("2023-01-02"),"short desc"),
                         new HamsterDto(
                                 1L,
                                 "Boholyka",
@@ -290,7 +298,8 @@ class HamsterServiceTest {
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
                                 null,
-                                null)));
+                                null,
+                                "short desc")));
 
         List<HamsterDto> hamsters = service.getListOfHamsters(Optional.of("Bo"));
         assertThat(hamsters).hasSize(2);
@@ -333,7 +342,8 @@ class HamsterServiceTest {
                         hostDtoWithoutHamsters,
                         LocalDate.parse("2023-01-02"),
                         adoptiveDtoWithoutHamsters,
-                        LocalDate.parse("2023-01-02")));
+                        LocalDate.parse("2023-01-02"),
+                        "short desc"));
 
         HamsterDto hamster = service.adoptHamster(1L,
                 new AdoptHamsterCommand(

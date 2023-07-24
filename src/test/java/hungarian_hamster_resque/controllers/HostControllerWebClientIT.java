@@ -188,7 +188,8 @@ public class HostControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         id,
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange().expectStatus().isEqualTo(201);
 
         HostDtoWithHamsters result = webClient.get()

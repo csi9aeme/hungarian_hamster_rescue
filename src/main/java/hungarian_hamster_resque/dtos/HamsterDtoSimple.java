@@ -28,5 +28,5 @@ public class HamsterDtoSimple {
 
     private LocalDate startOfFostering;
 
-
+    private String description;
 }

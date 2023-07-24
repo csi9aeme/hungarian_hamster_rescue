@@ -234,7 +234,8 @@ public class AdoptiveControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
@@ -274,7 +275,8 @@ public class AdoptiveControllerWebClientIT {
                         LocalDate.parse("2022-11-01"),
                         "örökbefogadható",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
                 .exchange()
                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
 

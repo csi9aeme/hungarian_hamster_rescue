@@ -6,9 +6,7 @@ CREATE TABLE hamsters
     gender             VARCHAR(255),
     date_of_birth      DATE,
     hamster_status     VARCHAR(255),
-    host_id            BIGINT,
     start_of_fostering DATE,
-    adoptive_id        BIGINT,
     date_of_adoption   DATE,
     PRIMARY KEY (hamster_id)
 );
