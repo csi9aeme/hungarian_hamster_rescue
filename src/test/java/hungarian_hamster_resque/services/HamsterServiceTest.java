@@ -103,6 +103,7 @@ class HamsterServiceTest {
         assertThat(hamster.getId()).isNotNull();
         assertThat(hamster.getHost().getName()).isEqualTo("Kiss Klára");
 
+        System.out.println(hamster.getHost().getName());
         verify(hostRepository).findById(anyLong());
         verify(hamsterRepository).save(any());
     }

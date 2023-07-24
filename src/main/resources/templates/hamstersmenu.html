@@ -25,9 +25,9 @@
   
   <a role="button" class="btn btn-outline-success" onclick="addNewHamster()">add new hamster</a>
   <a role="button" class="btn btn-outline-success" onclick="findHamstersByName()">find hamster by name</a>
-  <a role="button" class="btn btn-outline-success" href="addnewhamster.html">currently fostering hamsters</a>
-  <a role="button" class="btn btn-outline-success" href="addnewhamster.html">hamsters under treatment</a>
-  <a role="button" class="btn btn-outline-success" href="addnewhamster.html">all time hamsters</a>
+  <a role="button" class="btn btn-outline-success" onclick="listOfAllHamstersCurrentlyInCare()">currently fostering hamsters</a>
+  <a role="button" class="btn btn-outline-success" href="hamsters/addnewhamster.html">hamsters under treatment</a>
+  <a role="button" class="btn btn-outline-success" href="hamsters/addnewhamster.html">all time hamsters</a>
 
   
 
@@ -71,6 +71,15 @@ function findHamstersByName() {
   document.getElementById("open-the-selected-menu").innerHTML = text;
 }
 </script>
+
+<!--listOfAllHamstersCurrentlyInCare-->
+
+<script>
+  function listOfAllHamstersCurrentlyInCare() {
+    $("#open-the-selected-menu").load("http://127.0.0.1:8080/hamsters/listofallhamsters");
+
+    }
+  </script>
 
 
 </body>

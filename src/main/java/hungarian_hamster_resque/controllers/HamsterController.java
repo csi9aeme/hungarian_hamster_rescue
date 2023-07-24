@@ -24,6 +24,7 @@ public class HamsterController {
         return hamsterService.getListOfHamsters(namePart);
     }
 
+    //thymeleaf done
     @GetMapping("/fostering")
     @Operation(summary = "List of current fostering hamsters")
     public List<HamsterDtoWithoutAdoptive> getListOfCurrentHamsters() {
@@ -37,6 +38,7 @@ public class HamsterController {
         return hamsterService.findAdoptableHamsterById(id);
     }
 
+    //thymeleaf in progress
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add a new hamster.")

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new hamster</title>
+
+    <style type="text/css">
+        label {
+            display: inline-block;
+            width: 200px;
+            margin: 5px;
+            text-align: left;
+        }
+        input[type=text], input[type=password], select {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type=radio] {
+            margin-left: 45px;
+        }
+        input[type=checkbox] {
+            margin-right: 190px;
+        }
+        button {
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="#" th:action="@{/hamsters/create_hamster}" method="post" th:object="${hamster}">
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" /><br/>
+
+        <label>Species</label>
+        <select th:field="*{hamsterSpecies}">
+            <option th:each="sp : ${listSpecies}" th:value="${sp}" th:text="${sp}" />
+        </select>
+        <br/>
+        <label>Gender:</label>
+        <select th:field="*{gender}">
+            <option th:each="g : ${listGenders}" th:value="${g}" th:text="${g}" />
+        </select>
+        <br/>
+        <label>Date of birth (yyyy-mm-dd):</label>
+        <input type="text" th:field="*{dateOfBirth}" /><br/>
+        <br/>
+        <label>Status:</label>
+        <select th:field="*{hamsterStatus}">
+            <option th:each="hs : ${listStatus}" th:value="${hs}" th:text="${hs}" />
+        </select>
+        <br/>
+        <label>Host:</label>
+        <input type="text" th:field="*{hostId}" /><br/>
+        <br/>
+
+        <label>Start of fostering (yyyy-mm-dd):</label>
+        <input type="text" th:field="*{startOfFoster}" /><br/>
+        <br/>
+
+
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

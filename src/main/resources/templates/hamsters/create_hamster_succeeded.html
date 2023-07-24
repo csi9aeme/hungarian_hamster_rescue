@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Registration Success</title>
+    <style type="text/css">
+        span {
+            display: inline-block;
+            width: 200px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div align="center">
+    <h2>Adding hamster succeeded!</h2>
+    <span>Name:</span><span th:text="${hamster.name}"></span><br/>
+    <span>Species:</span><span th:text="${hamster.hamsterSpecies}"></span><br/>
+    <span>Gender:</span><span th:text="${hamster.gender}"></span><br/>
+    <span>Date of birth:</span><span th:text="${hamster.dateOfBirth}"></span><br/>
+    <span>Host name:</span><span th:text="${hamster.hostId}"></span><br/>
+    <span>Start of fostering</span><span th:text="${hamster.startOfFoster}"></span><br/>
+</div>
+</body>
+</html>
+</body>
+</html>

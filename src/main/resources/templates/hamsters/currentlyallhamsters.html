@@ -18,7 +18,7 @@
             padding: 8px;
         }
 
-        #hostHeader, #tableHeader, #hamsterHeader {
+        #hamsterHeader, #tableHeader, #hamsterHeader {
             background-color: #9ba8e8;
             text-align: center;
             color: white;
@@ -32,10 +32,20 @@
             background-color: #e6eaff;
         }
 
+        table.table-fit {
+    width: auto !important;
+    table-layout: auto !important;
+}
+table.table-fit thead th, table.table-fit tfoot th {
+    width: auto !important;
+}
+table.table-fit tbody td, table.table-fit tfoot td {
+    width: auto !important;
+}
+
     </style>
 
 </head>
-<body>
 <body>
 <table>
     <thead>
@@ -62,6 +72,5 @@
     </tr>
     </tbody>
 </table>
-</body>
 </body>
 </html>

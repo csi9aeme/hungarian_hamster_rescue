@@ -60,3 +60,13 @@ Content-Type: application/json
   "address" : "9000 Győr, Zámoly utca 7.",
   "capacity" : 4
 }
+
+### POST a new host (7)
+POST http://localhost:8080/api/hosts
+Content-Type: application/json
+
+{
+  "name" : "Locsoló K. Anna",
+  "address" : "9000 Győr, Zámoly utca 7.",
+  "capacity" : 100
+}

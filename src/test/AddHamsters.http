@@ -21,7 +21,7 @@ Accept: application/json
 
 {
   "name": "Kirameku",
-  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
@@ -85,7 +85,7 @@ Accept: application/json
 
 {
   "name": "Peti",
-  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
@@ -117,7 +117,7 @@ Accept: application/json
 
 {
   "name": "Bolyhos",
-  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
   "gender": "nőstény",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
@@ -165,11 +165,11 @@ Accept: application/json
 
 {
   "name": "Liza",
-  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
   "gender": "nőstény",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hostId": 6,
   "startOfFoster": "2023-03-06"
 
 }
@@ -185,7 +185,7 @@ Accept: application/json
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hostId": 5,
   "startOfFoster": "2023-03-06"
 
 }
@@ -201,7 +201,7 @@ Accept: application/json
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 5,
+  "hostId": 4,
   "startOfFoster": "2023-03-06"
 
 }
@@ -213,11 +213,11 @@ Accept: application/json
 
 {
   "name": "Benőke",
-  "hamsterSpecies": "hibrid dzsgunráiai törpehörcsög",
+  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
   "gender": "hím",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "örökbefogadható",
-  "hostId": 6,
+  "hostId": 4,
   "startOfFoster": "2023-03-06"
 
 }
