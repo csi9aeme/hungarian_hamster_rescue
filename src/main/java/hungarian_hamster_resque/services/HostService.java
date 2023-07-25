@@ -1,11 +1,9 @@
 package hungarian_hamster_resque.services;
 
 import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
-import hungarian_hamster_resque.exceptions.HostHasNotHamsterYetException;
-import hungarian_hamster_resque.exceptions.HostWithCityNotFoundException;
-import hungarian_hamster_resque.exceptions.HostWithIdNotExistException;
-import hungarian_hamster_resque.exceptions.HostWithNamePartNotExistException;
+import hungarian_hamster_resque.exceptions.*;
 import hungarian_hamster_resque.mappers.HostMapper;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
@@ -33,13 +31,15 @@ public class HostService {
                 .name(command.getName())
                 .address(command.getAddress())
                 .capacity(command.getCapacity())
-                .hostStatus(command.getHostStatus())
+                .hostStatus(findHostStatus(command.getHostStatus()))
                 .hamsters(new ArrayList<>())
                 .build();
 
         hostRepository.save(host);
         return hostMapper.toDtoWithoutHam(host);
     }
+
+
 
     @Transactional
     public HostDtoWithoutHamsters updateHost(long id, UpdateHostCommand command) {
@@ -125,6 +125,15 @@ public class HostService {
 
             host.getHamsters().removeAll(delete);
         }
+    }
+
+    private HostStatus findHostStatus(String hostStatus) {
+        for (HostStatus s : HostStatus.values()) {
+            if (s.getHostStatus().equals(hostStatus)) {
+                return s;
+            }
+        }
+        throw new HostStatusNotAcceptableException(hostStatus);
     }
 
 }

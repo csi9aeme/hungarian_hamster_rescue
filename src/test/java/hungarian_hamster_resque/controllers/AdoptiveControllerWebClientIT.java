@@ -215,7 +215,7 @@ public class AdoptiveControllerWebClientIT {
     @Description("Find adoptive by ID and hamsters")
     void testFindAdoptiveByIdWithHamsters(){
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5, "aktív"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();

@@ -57,4 +57,11 @@ public class HostExceptionHandler {
         return detail;
     }
 
+    @ExceptionHandler(HostStatusNotAcceptableException.class)
+    public ProblemDetail handleHostStatusNotAcceptableException(HostStatusNotAcceptableException e) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        detail.setType(URI.create("hamsterresque/status-not-acceptable"));
+
+        return detail;
+    }
 }

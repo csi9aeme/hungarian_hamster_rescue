@@ -51,7 +51,7 @@ public class HostControllerWebClientIT {
     void testCreateHostWithNoName() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hosts")
-                .bodyValue(new CreateHostCommand("", "Budapest", 3))
+                .bodyValue(new CreateHostCommand("", "Budapest", 3 ))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();

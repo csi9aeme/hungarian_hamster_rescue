@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Adding hamster succeeded! - Hamster Resque</title>
+    <style type="text/css">
+        span {
+            display: inline-block;
+            width: 200px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div align="center">
+    <h2>Adding host succeeded!</h2>
+    <span>Name:</span><span th:text="${host.name}"></span><br/>
+    <span>Address:</span><span th:text="${host.address}"></span><br/>
+    <span>Status:</span><span th:text="${host.getHostStatus()}"></span><br/>
+    <span>Holding capacity:</span><span th:text="${host.capacity}"></span><br/>
+</div>
+</body>
+</html>
+</body>
+</html>

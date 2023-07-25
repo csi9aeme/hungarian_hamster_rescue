@@ -32,18 +32,23 @@ public class CreateHostCommand {
     private int capacity;
 
     @Schema(description = "Az ideiglenes befogadó tud-e hörcsögöt fogadni", example = "aktív/inaktív")
-    private HostStatus hostStatus = HostStatus.ACTIVE;
+    private String hostStatus;
 
     @Schema(description = "a gondozott hörcsögök listája")
     private List<HamsterDto> hamsters;
+
+
+    public CreateHostCommand(String name, String address, int capacity, String hostStatus) {
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
+        this.hostStatus = hostStatus;
+    }
 
 
     public CreateHostCommand(String name, String address, int capacity) {
         this.name = name;
         this.address = address;
         this.capacity = capacity;
-
     }
-
-
 }
