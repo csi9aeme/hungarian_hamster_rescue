@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+     
+    <div class="menu">
+        <h2>host menu</h2>
+        <button type="button" class="btn btn-outline-success" onclick="add_new_adoptive()">add new adoptive</button>
+
+        <button type="button" class="btn btn-outline-info" onclick="change_attributes_adoptive()">change attributes of a host</button>
+
+        <button type="button" class="btn btn-outline-warning" onclick="delete_adoptive()">delete adoptive</button>
+
+
+    <script>
+        function add_new_adoptive() {
+            const box = document.getElementById('display-function');
+
+            box.innerHTML =
+                '<object width="100%" type="text/html" data="/adoptives/add_new_adoptive"</object>';
+        }
+
+        function change_attributes_adoptive() {
+            const box = document.getElementById('display-function');
+
+            box.innerHTML =
+                '<object width="100%" type="text/html" data="/adoptives/change_adoptive_attribute"</object>';
+        }
+
+        
+        <!--ide felugró ablak jöjjön a sikeres törlés vagy hibaüzenet esetén-->
+        function delete_adoptive() {
+            const box = document.getElementById('display-function');
+
+            box.innerHTML =
+                '<object width="100%" type="text/html" data="/adoptives/delete_adoptive"</object>';
+        }
+
+    </script>
+</body>
+
+</html>

@@ -3,29 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Add new hamster</title>
+    
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
-    <style type="text/css">
-        label {
-            display: inline-block;
-            width: 200px;
-            margin: 5px;
-            text-align: left;
-        }
-        input[type=text], input[type=password], select {
-            display: inline-block;
-            width: 200px;
-        }
-        input[type=radio] {
-            margin-left: 45px;
-        }
-        input[type=checkbox] {
-            margin-right: 190px;
-        }
-        button {
-            padding: 5px;
-            margin: 10px;
-        }
-    </style>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+
 </head>
 <body>
 
@@ -65,5 +49,13 @@
 
         <button type="submit">Add</button>
     </form>
+
+    <div id="back-button">
+        <a href="index.html">Vissza</a>
+      </div>
+
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
 </body>
 </html>

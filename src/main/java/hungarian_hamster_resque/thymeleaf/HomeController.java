@@ -13,11 +13,26 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 public class HomeController {
 
-
-
     @GetMapping("/home")
     public ModelAndView getHomePage() {
 
         return new ModelAndView("index");
+    }
+    @GetMapping("/hamster_menu")
+    public ModelAndView getHamsterMenu() {
+
+        return new ModelAndView("hamster_menu");
+    }
+
+    @GetMapping("/host_menu")
+    public ModelAndView getHostMenu() {
+
+        return new ModelAndView("host_menu");
+    }
+
+    @GetMapping("/adoptive_menu")
+    public ModelAndView getAdoptiveMenu() {
+
+        return new ModelAndView("adoptive_menu");
     }
 }

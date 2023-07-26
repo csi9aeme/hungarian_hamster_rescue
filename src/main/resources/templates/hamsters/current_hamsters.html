@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Current hamsters in care</title>
-    <!--   <link rel="stylesheet" href="tables.css"> -->
+    
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
-    <style>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+
+    
+   <style>
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -72,5 +78,11 @@ table.table-fit tbody td, table.table-fit tfoot td {
     </tr>
     </tbody>
 </table>
+
+
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
 </body>
 </html>

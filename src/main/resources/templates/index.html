@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Hungarian Hamster Resque </title>
-
+    
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
     <link th:href="@{/css/main.css}" rel="stylesheet" />
@@ -11,28 +12,42 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 
 
+
 </head>
+
 <body>
-<!--Navigation bar
-<div id="nav-placeholder">
-</div>
+    <div>
+        <p>
+            <button type="button" class="btn btn-outline-info" onclick="hamster_menu()">hamsters</button>
+            <button type="button" class="btn btn-outline-info" onclick="host_menu()">hosts</button>
+            <button type="button" class="btn btn-outline-info" onclick="adoptive_menu()">adoptives</button>
+        </p>
 
-<script type="text/javascript" th:src="@{/js/navbar.js}"></script>
-end of Navigation bar-->
-
-<div th:insert="navbar :: navbar">  </div>
-
-
+    </div>
 
 
+    <div id="display-function" style="border: 3px;">
+
+    </div>
+    <script>
+        function hamster_menu() {
+            $("#display-function").load("/hamster_menu");
+
+        }
+    
+        function host_menu() {
+            $("#display-function").load("/host_menu");
+
+        }
+   
+        function adoptive_menu() {
+            $("#display-function").load("/adoptive_menu");
+
+        }
+    </script>
+    
 
 
-<div align="center">
-    <h2>Hamster Resque</h2>
-    <a href="/hamsters/create_hamster">Click here to add new hamster</a><br>
-    <a href="/hamsters/current_hamsters">Click here to list current hamster</a><br>
-    <a href="/hosts/add_new_host">Click here to add new hamster</a><br>
-    <a href="/hamsters/current_hamsters">Click here to list current hamster</a><br>
-</div>
 </body>
+
 </html>

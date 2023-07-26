@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+     
+    <div class="menu">
+        <h2>host menu</h2>
+        <button type="button" class="btn btn-outline-success" onclick="add_new_host()">add new host</button>
+
+        <button type="button" class="btn btn-outline-info">change attributes of a host</button>
+
+
+        <a href="/hosts/current_hosts">current hosts</a><br>
+        <button type="button" class="btn btn-outline-primary">list of current hosts</button>
+
+        <a href="/hosts/current_hosts_free_capacity">current hosts with free capacity</a><br>
+        <button type="button" class="btn btn-outline-primary">list of hosts with free capacity</button>
+
+        <a href="/hosts/current_hosts_by_city">current hosts by city</a><br>
+        <button type="button" class="btn btn-outline-primary">list of hosts by city</button>
+
+        <button type="button" class="btn btn-outline-primary">hamsters of a host</button>
+
+
+
+        <button type="button" class="btn btn-outline-warning">set host inactive</button>
+
+
+    <script>
+        function add_new_host() {
+            const box = document.getElementById('display-function');
+
+            box.innerHTML =
+                '<object width="100%" type="text/html" data="/hosts/add_new_host"</object>';
+        }
+
+        function add_new_hamster() {
+            const box = document.getElementById('display-function');
+
+            box.innerHTML =
+                '<object width="100%" type="text/html" data="/hamsters/create_hamster"</object>';
+        }
+        function list_of_current_hamsters() {
+            const box = document.getElementById('display-function');
+
+            box.innerHTML =
+                '<object width="100%" type="text/html" data="/hamsters/current_hamsters"</object>';
+        }
+
+    </script>
+</body>
+
+</html>
