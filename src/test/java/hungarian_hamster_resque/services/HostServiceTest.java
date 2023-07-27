@@ -346,7 +346,7 @@ class HostServiceTest {
         when(repository.findOnlyActiveWithAllHamster())
                 .thenReturn(null);
 
-        List<Host> hostsk = repository.findOnlyActiveWithAllHamster();
+        List<Host> hostk = repository.findOnlyActiveWithAllHamster();
         assertThat(hosts.size()).isEqualTo(1);
     }
 

@@ -44,14 +44,14 @@ public class HostThymeController {
     }
 
 
-    @GetMapping("/{id}")
-    public ModelAndView findHostById(@PathVariable("id") long hostId) {
+    @GetMapping("/host_current_hamsters/{id}")
+    public ModelAndView listOfHostOfHamsters(@PathVariable("id") long hostId) {
         HostDtoWithHamsters host = hostService.getListOfHostsHamsters(hostId);
         Map<String, Object> model = Map.of(
                 "host", host.getName(),
                 "hamsters", host.getHamsters()
         );
-        return new ModelAndView("hostandhamsters", model);
+        return new ModelAndView("/hosts/host_current_hamsters", model);
     }
 
     @GetMapping("/current_hosts")
@@ -64,6 +64,19 @@ public class HostThymeController {
             );
         }
         return new ModelAndView("/hosts/current_hosts", model);
+
+    }
+
+    @GetMapping("/current_hosts_by_city/{city}")
+    public ModelAndView findCurrentHostsByCity(@PathVariable("city") String city) {
+        List<HostDtoCountedFreeCapacity> hosts = hostService.getListOfHostWithFreeCapacityByCity(city);
+        Map<String, Object> model = Map.of();
+        for (HostDtoCountedFreeCapacity h : hosts) {
+            model = Map.of(
+                    "hosts", hosts
+            );
+        }
+        return new ModelAndView("/hosts/current_hosts_by_city", model);
 
     }
 }

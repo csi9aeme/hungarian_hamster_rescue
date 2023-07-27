@@ -11,21 +11,21 @@
         }
 
         thead, td, th {
-            border: 1px solid #dddddd;
+            border: 1px solid #000000;
             text-align: left;
             padding: 8px;
         }
 
-        #hostHeader, #tableHeader, #hamsterHeader{
-            background-color: #9ba8e8;
+        #host-header, #table-header, #hamster-header{
+            background-color: #169db2;
             text-align: center;
             color: white;
         }
         tr:nth-child(even) {
-            background-color: #b6bcde;
+            background-color: #169db2;
         }
         tr:nth-child(odd) {
-            background-color: #e6eaff;
+            background-color: #ffffff;
         }
 
     </style>
@@ -35,17 +35,19 @@
     <table>
         <thead>
             <tr>
-                <th id="hostHeader" colspan="3">List of <span th:text="${host}"></span>'s current hamsters in care</th>
+                <th id="host-header" colspan="4">List of <span th:text="${host}"></span>'s current hamsters in care</th>
             </tr>
         </thead>
         <tbody>
-            <tr id="tableHeader">
+            <tr id="table-header">
                 <th>Hamster's name</th>
+                <th>hamsterSpecies</th>
                 <th>Hamster's status</th>
                 <th>Beginning of the fostering</th>
             </tr>
             <tr th:each="hamster : ${hamsters}">
                 <td th:text="${hamster.name}"></td>
+                <td th:text="${hamster.hamsterSpecies}"></td>
                 <td th:text="${hamster.hamsterStatus}"></td>
                 <td th:text="${hamster.startOfFostering}"></td>
             </tr>

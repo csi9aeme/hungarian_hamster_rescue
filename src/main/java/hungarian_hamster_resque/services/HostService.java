@@ -88,11 +88,16 @@ public class HostService {
         return hostDto;
     }
 
-    private int countFreeCapacityOfAHost(long id) {
-        Host host = hostRepository.findByIdWithAllHamster(id);
-        int freeCapacity = host.getCapacity() - host.getHamsters().size();
-        return freeCapacity;
+    public List<HostDtoCountedFreeCapacity> getListOfHostWithFreeCapacityByCity(String city) {
+        List<Host> hosts = hostRepository.findOnlyActiveWithAllHamsterByCity(city);
+        List<HostDtoCountedFreeCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
+        for (int i = 0; i< hosts.size(); i++) {
+            hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));        }
+
+        return hostDto;
     }
+
+
 
     @Transactional
     public HostDtoWithoutHamsters setHostInactive(long id) {
@@ -150,5 +155,9 @@ public class HostService {
         }
         throw new HostStatusNotAcceptableException(hostStatus);
     }
-
+    private int countFreeCapacityOfAHost(long id) {
+        Host host = hostRepository.findByIdWithAllHamster(id);
+        int freeCapacity = host.getCapacity() - host.getHamsters().size();
+        return freeCapacity;
+    }
 }

@@ -52,14 +52,16 @@
 
         function findHostByCity() {
             let text;
-            let person = prompt("Please enter the city:");
-            if (person == null || person == "") {
+            let city = prompt("Please enter the city:");
+            if (city == null || city == "") {
                 window.alert("Field cannot be empty!");
             } else {
-                $("#display-function-in-menu").load("/hosts/find_host_by_city");
+                $("#display-function-in-menu").load("/hosts/current_hosts_by_city/" + city);
 
             }
             document.getElementById("display-function-in-menu").innerHTML = text;
+            $("#display-function-in-menu").load("/hosts/current_hosts_by_city/" + city);
+
         }
 
         function findHostByName() {
@@ -75,7 +77,17 @@
         }
 
         function listOffAllHamstersOfHost() {
-            $("#display-function-in-menu").load("/hosts/host_current_hamsters");
+            let text;
+            let id = prompt("Please enter the name:");
+            if (id == null || id == "") {
+                window.alert("ID cannot be empty!");
+            } else {
+                $("#display-function-in-menu").load("/hosts/host_current_hamsters/" + id);
+
+            }
+            document.getElementById("display-function-in-menu").innerHTML = text;
+
+            $("#display-function-in-menu").load("/hosts/host_current_hamsters" + id);
 
         }
 
