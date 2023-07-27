@@ -69,4 +69,6 @@ public class HamsterThymeController {
         hamsterService.createHamster(hamster);
         return "/hamsters/create_hamster_succeeded";
     }
+
+
 }

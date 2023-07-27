@@ -13,6 +13,9 @@ public interface HostRepository extends JpaRepository<Host, Long> {
     @Query("select host from Host host left join fetch host.hamsters where host.name like concat('%',:namepart,'%')")
     List<Host> findByNameWithAllHamster(@Param("namepart") String namePart);
 
+    @Query("select host from Host host left join fetch host.hamsters where host.hostStatus = 'ACTIVE'")
+    List<Host> findOnlyActiveWithAllHamster();
+
     @Query("select host from Host host where host.name like concat('%',:namepart,'%')")
     List<Host> findByNameWithoutHamster(@Param("namepart") String namePart);
 

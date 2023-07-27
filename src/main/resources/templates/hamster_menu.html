@@ -2,52 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamster Menu - Hamster Resque</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamster Menu - Hamster Resque</title>
 
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
-    <link th:href="@{/css/main.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <link th:href="@{/css/main.css}" rel="stylesheet" />
+  <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 
-   
+
 </head>
 
 <body>
 
-    <div class="menu">
-        <h2>hamster menu</h2>
+  <div class="menu">
+    <h2>hamster menu</h2>
 
-        <button type="button" class="btn btn-outline-success" onclick="add_new_hamster()">add new hamster</button>
+    <button type="button" class="btn btn-outline-success" onclick="add_new_hamster()">add new hamster</button>
 
-        <button type="button" class="btn btn-outline-info" onclick="change_hamster_attributes()">change attributes of a hamster</button>
+    <button type="button" class="btn btn-outline-info" onclick="change_hamster_attributes()">change attributes of a
+      hamster</button>
 
-        <button type="button" class="btn btn-outline-primary" onclick="list_of_current_hamsters()">list of current hamsters</button>
+    <button type="button" class="btn btn-outline-primary" onclick="list_of_current_hamsters()">list of current
+      hamsters</button>
 
-    </div>
-   
-    <div id="display-function-in-menu">
+  </div>
 
-    </div>
+  <div id="display-function-in-menu">
 
-    
-    <!--add new hamster-->
-    <script>
-      function add_new_hamster() {
-        $("#display-function-in-menu").load("/hamsters/create_hamster");
-    
-        }
-      </script>
-    <!--onclick-->
-<script>
+  </div>
+
+
+  <!--add new hamster-->
+  <script>
+    function add_new_hamster() {
+      $("#display-function-in-menu").load("/hamsters/create_hamster");
+
+    }
+  </script>
+  <!--onclick-->
+  <script>
     function list_of_current_hamsters() {
       $("#display-function-in-menu").load("/hamsters/current_hamsters");
-  
-      }
-    </script>
-<script>
+
+    }
+  </script>
+  <script>
     function findHamstersByName() {
       let text;
       let person = prompt("Please enter the name of hamster:");
@@ -55,11 +57,11 @@
         window.alert("Name cannot be empty!");
       } else {
         $("#display-function-in-menu").load("listofhamstersbyname.html");
-    
+
       }
       document.getElementById("display-function-in-menu").innerHTML = text;
     }
-    </script>
+  </script>
 
 
 </body>

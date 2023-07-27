@@ -1,7 +1,6 @@
 package hungarian_hamster_resque.thymeleaf;
 
-import hungarian_hamster_resque.dtos.CreateHostCommand;
-import hungarian_hamster_resque.dtos.HostDtoWithHamsters;
+import hungarian_hamster_resque.dtos.*;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.services.HostService;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/hosts")
@@ -45,7 +45,7 @@ public class HostThymeController {
 
 
     @GetMapping("/{id}")
-    public ModelAndView findHostById(@PathVariable("id")long hostId) {
+    public ModelAndView findHostById(@PathVariable("id") long hostId) {
         HostDtoWithHamsters host = hostService.getListOfHostsHamsters(hostId);
         Map<String, Object> model = Map.of(
                 "host", host.getName(),
@@ -54,5 +54,16 @@ public class HostThymeController {
         return new ModelAndView("hostandhamsters", model);
     }
 
+    @GetMapping("/current_hosts")
+    public ModelAndView findCurrentHosts() {
+        List<HostDtoCountedFreeCapacity> hosts = hostService.getListOfHostWithFreeCapacity();
+        Map<String, Object> model = Map.of();
+        for (HostDtoCountedFreeCapacity h : hosts) {
+            model = Map.of(
+                    "hosts", hosts
+            );
+        }
+        return new ModelAndView("/hosts/current_hosts", model);
 
+    }
 }

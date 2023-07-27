@@ -40,7 +40,6 @@ public class HostService {
     }
 
 
-
     @Transactional
     public HostDtoWithoutHamsters updateHost(long id, UpdateHostCommand command) {
         Host host = findHostEntityById(id);
@@ -78,6 +77,21 @@ public class HostService {
             throw new HostHasNotHamsterYetException(id);
         }
         return hostMapper.toDtoWithHam(host);
+    }
+
+    public List<HostDtoCountedFreeCapacity> getListOfHostWithFreeCapacity() {
+        List<Host> hosts = hostRepository.findOnlyActiveWithAllHamster();
+        List<HostDtoCountedFreeCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
+        for (int i = 0; i< hosts.size(); i++) {
+            hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));        }
+
+        return hostDto;
+    }
+
+    private int countFreeCapacityOfAHost(long id) {
+        Host host = hostRepository.findByIdWithAllHamster(id);
+        int freeCapacity = host.getCapacity() - host.getHamsters().size();
+        return freeCapacity;
     }
 
     @Transactional
@@ -118,6 +132,7 @@ public class HostService {
         }
         return result;
     }
+
     private void clearAllHamstersFromTheList(Host host) {
         if (host.getHamsters().size() > 0) {
             List<Hamster> delete = host.getHamsters();

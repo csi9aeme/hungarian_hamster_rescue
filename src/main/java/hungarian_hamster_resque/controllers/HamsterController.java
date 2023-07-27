@@ -18,6 +18,7 @@ public class HamsterController {
 
     private HamsterService hamsterService;
 
+
     @GetMapping
     @Operation(summary = "List of all hamster by name.")
     public List<HamsterDto> getListOfHamsters(@RequestParam Optional<String> namePart) {
@@ -38,7 +39,7 @@ public class HamsterController {
         return hamsterService.findAdoptableHamsterById(id);
     }
 
-    //thymeleaf in progress
+    //thymeleaf done
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add a new hamster.")

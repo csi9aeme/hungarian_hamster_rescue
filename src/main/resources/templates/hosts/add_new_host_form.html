@@ -1,52 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Add new host - Hamster Resque</title>
-
-    <style type="text/css">
-        label {
-            display: inline-block;
-            width: 200px;
-            margin: 5px;
-            text-align: left;
-        }
-        input[type=text], input[type=password], select {
-            display: inline-block;
-            width: 200px;
-        }
-        input[type=radio] {
-            margin-left: 45px;
-        }
-        input[type=checkbox] {
-            margin-right: 190px;
-        }
-        button {
-            padding: 5px;
-            margin: 10px;
-        }
-    </style>
 </head>
+
 <body>
 
-<form action="#" th:action="@{/hosts/add_new_host}" method="post" th:object="${host}">
-    <label>Name:</label>
-    <input type="text" th:field="*{name}" /><br/>
+    <form action="#" th:action="@{/hosts/add_new_host}" method="post" th:object="${host}">
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" /><br />
 
-    <label>Address:</label>
-    <input type="text" th:field="*{address}" /><br/>
+        <label>Address:</label>
+        <input type="text" th:field="*{address}" /><br />
 
-    <label>Holding capacity:</label>
-    <input type="text" th:field="*{capacity}" /><br/>
-    <br/>
+        <label>Holding capacity:</label>
+        <input type="text" th:field="*{capacity}" /><br />
+        <br />
 
-    <label>Status:</label>
-    <select th:field="*{hostStatus}">
-        <option th:each="hs : ${listStatus}" th:value="${hs}" th:text="${hs}" />
-    </select>
-    <br/>
+        <label>Status:</label>
+        <select th:field="*{hostStatus}">
+            <option th:each="hs : ${listStatus}" th:value="${hs}" th:text="${hs}" />
+        </select>
+        <br />
 
-    <button type="submit">Add</button>
-</form>
+        <button type="submit">Add</button>
+    </form>
 </body>
+
 </html>

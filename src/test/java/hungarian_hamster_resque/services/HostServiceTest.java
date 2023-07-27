@@ -13,6 +13,7 @@ import hungarian_hamster_resque.mappers.HostMapper;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import hungarian_hamster_resque.repositories.HostRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -291,6 +292,62 @@ class HostServiceTest {
                 .hasMessage("A keresett településen (Budapest) ideiglenes befogadó nem található.");
         verify(repository).findByCityWithHamster(any());
 
+    }
+
+    @Test
+    void testCountFreeCapacity() {
+//
+
+        when(mapper.toDtoFreeCapacity((List<Host>) any()))
+                .thenReturn(List.of(
+                        new HostDtoCountedFreeCapacity(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 4, 2, HostStatus.ACTIVE),
+                        new HostDtoCountedFreeCapacity(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", 6, 4, HostStatus.ACTIVE)
+                        ));
+
+
+        List<HostDtoCountedFreeCapacity> hostFreeCap = service.getListOfHostWithFreeCapacity();
+
+        int free = hostFreeCap.get(0).getFreeCapacity();
+        int free2 = hostFreeCap.get(1).getFreeCapacity();
+        assertThat(2).isEqualTo(free);
+        assertThat(4).isEqualTo(free2);
+
+    }
+    @Disabled //NEED CHECK
+    @Test
+    void testFreeCapacityCounter() {
+        List<Host> hosts = List.of(
+                new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 4,
+                        List.of(new Hamster( "Bolyhos",
+                                        HamsterSpecies.DWARF,
+                                        Gender.FEMALE,
+                                        LocalDate.parse("2022-11-01"),
+                                        HamsterStatus.ADOPTABLE,
+                                        LocalDate.parse("2023-01-25")),
+                                new Hamster("Füles",
+                                        HamsterSpecies.DWARF,
+                                        Gender.FEMALE,
+                                        LocalDate.parse("2022-11-01"),
+                                        HamsterStatus.ADOPTABLE,
+                                        LocalDate.parse("2023-01-25")))),
+                new Host(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", HostStatus.INACTIVE, 6,
+                        List.of(new Hamster( "Boci",
+                                        HamsterSpecies.DWARF,
+                                        Gender.FEMALE,
+                                        LocalDate.parse("2022-11-01"),
+                                        HamsterStatus.ADOPTABLE,
+                                        LocalDate.parse("2023-01-25")),
+                                new Hamster("Tarka",
+                                        HamsterSpecies.DWARF,
+                                        Gender.FEMALE,
+                                        LocalDate.parse("2022-11-01"),
+                                        HamsterStatus.ADOPTABLE,
+                                        LocalDate.parse("2023-01-25")))));
+        when(repository.findOnlyActiveWithAllHamster())
+                .thenReturn(null);
+
+        List<Host> hostsk = repository.findOnlyActiveWithAllHamster();
+        assertThat(hosts.size()).isEqualTo(1);
     }
 
 }

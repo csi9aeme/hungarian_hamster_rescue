@@ -8,52 +8,79 @@
 </head>
 
 <body>
-     
+
     <div class="menu">
         <h2>host menu</h2>
-        <button type="button" class="btn btn-outline-success" onclick="add_new_host()">add new host</button>
+        <button type="button" class="btn btn-outline-success" onclick="addNewHost()">add new host</button>
 
-        <button type="button" class="btn btn-outline-info">change attributes of a host</button>
+        <button type="button" class="btn btn-outline-info" onclick="changeAttributesOfHost()">change attributes of a host</button>
 
+        <button type="button" class="btn btn-outline-info" onclick="listOfCurrentHosts()">list of current hosts</button>
 
-        <a href="/hosts/current_hosts">current hosts</a><br>
-        <button type="button" class="btn btn-outline-primary">list of current hosts</button>
+        <button type="button" class="btn btn-outline-info" onclick="listOfCurrentHostsWithFreeCapacity()">list of hosts with free capacity</button>
 
-        <a href="/hosts/current_hosts_free_capacity">current hosts with free capacity</a><br>
-        <button type="button" class="btn btn-outline-primary">list of hosts with free capacity</button>
+        <button type="button" class="btn btn-outline-info" onclick="findHostByCity()">list of hosts by city</button>
 
-        <a href="/hosts/current_hosts_by_city">current hosts by city</a><br>
-        <button type="button" class="btn btn-outline-primary">list of hosts by city</button>
+        <button type="button" class="btn btn-outline-info" onclick="listOffAllHamstersOfHost()">hamsters of a host</button>
 
-        <button type="button" class="btn btn-outline-primary">hamsters of a host</button>
+        <button type="button" class="btn btn-outline-warning" onclick="setHostInactive()">set host inactive</button>
 
+    </div>
 
+    <div id="display-function-in-menu">
 
-        <button type="button" class="btn btn-outline-warning">set host inactive</button>
-
+    </div>
 
     <script>
-        function add_new_host() {
-            const box = document.getElementById('display-function');
+        function addNewHost() {
+            $("#display-function-in-menu").load("/hosts/add_new_host");
 
-            box.innerHTML =
-                '<object width="100%" type="text/html" data="/hosts/add_new_host"</object>';
         }
 
-        function add_new_hamster() {
-            const box = document.getElementById('display-function');
+        function listOfCurrentHosts() {
+            $("#display-function-in-menu").load("/hosts/current_hosts");
 
-            box.innerHTML =
-                '<object width="100%" type="text/html" data="/hamsters/create_hamster"</object>';
         }
-        function list_of_current_hamsters() {
-            const box = document.getElementById('display-function');
+        function listOfCurrentHostsWithFreeCapacity() {
+            $("#display-function-in-menu").load("/hosts/current_hosts_free");
 
-            box.innerHTML =
-                '<object width="100%" type="text/html" data="/hamsters/current_hamsters"</object>';
+        }
+        function changeAttributesOfHost() {
+            $("#display-function-in-menu").load("/hosts/change_host_attributes");
+
+        }
+
+        function findHostByCity() {
+            let text;
+            let person = prompt("Please enter the city:");
+            if (person == null || person == "") {
+                window.alert("Field cannot be empty!");
+            } else {
+                $("#display-function-in-menu").load("/hosts/find_host_by_city");
+
+            }
+            document.getElementById("display-function-in-menu").innerHTML = text;
+        }
+
+        function findHostByName() {
+            let text;
+            let person = prompt("Please enter the name:");
+            if (person == null || person == "") {
+                window.alert("Name cannot be empty!");
+            } else {
+                $("#display-function-in-menu").load("/hosts/find_host_by_name");
+
+            }
+            document.getElementById("display-function-in-menu").innerHTML = text;
+        }
+
+        function listOffAllHamstersOfHost() {
+            $("#display-function-in-menu").load("/hosts/host_current_hamsters");
+
         }
 
     </script>
+
 </body>
 
 </html>
