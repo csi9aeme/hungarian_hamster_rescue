@@ -19,7 +19,10 @@
 
         <button type="button" class="btn btn-outline-info" onclick="listOfCurrentHostsWithFreeCapacity()">list of hosts with free capacity</button>
 
+        <button type="button" class="btn btn-outline-info" onclick="findHostByName()">list of hosts by name</button>
+
         <button type="button" class="btn btn-outline-info" onclick="findHostByCity()">list of hosts by city</button>
+
 
         <button type="button" class="btn btn-outline-info" onclick="listOffAllHamstersOfHost()">hamsters of a host</button>
 
@@ -63,18 +66,21 @@
             $("#display-function-in-menu").load("/hosts/current_hosts_by_city/" + city);
 
         }
-
         function findHostByName() {
             let text;
-            let person = prompt("Please enter the name:");
-            if (person == null || person == "") {
-                window.alert("Name cannot be empty!");
+            let name = prompt("Please enter the name:");
+            if (name == null || name == "") {
+                window.alert("Field cannot be empty!");
             } else {
-                $("#display-function-in-menu").load("/hosts/find_host_by_name");
+                $("#display-function-in-menu").load("/hosts/hosts_and_hamsters/" + name);
 
             }
             document.getElementById("display-function-in-menu").innerHTML = text;
+            $("#display-function-in-menu").load("/hosts/hosts_and_hamsters/" + name);
+
         }
+
+    
 
         function listOffAllHamstersOfHost() {
             let text;

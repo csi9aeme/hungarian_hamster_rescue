@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${hamster.name}"></title>
+</head>
+
+<body>
+
+    <table>
+        <thead>
+            <p th:text="${hamster.name}">'s page</p>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td th:text="${hamster.name}"></td>
+            </tr>
+            <tr>
+                <td>Species</td>
+                <td th:text="${hamster.hamsterSpecies}"></td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+                <td th:text="${hamster.gender}"></td>
+            </tr>
+            <tr>
+                <td>Date of birth</td>
+                <td th:text="${hamster.dateOfBirth}"></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td th:text="${hamster.hamsterStatus}"></td>
+            </tr>
+            <tr>
+                <td>Start of foster</td>
+                <td th:text="${hamster.startOfFostering}"></td>
+            </tr>
+            <tr>
+                <td>Start of foster</td>
+                <td th:text="${hamster.host.name}"></td>
+            </tr>
+            <tr>
+                <td>Owner</td>
+                <td th:text="${adoptive}">NOPE</td>
+                
+            </tr>
+            <tr>
+                <td>Date of adoption</td>
+                <td th:text="${hamster.dateOfAdoption}"></td>
+            </tr>
+            
+            <tr>
+                <td>Description</td>
+                <td th:text="${hamster.description}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Current hosts by name and hamsters- Hamster Resque</title>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead,
+        td,
+        th {
+            border: 1px solid #000000;
+            text-align: left;
+            padding: 8px;
+        }
+
+        #host-header,
+        #table-header,
+        #hamster-header {
+            background-color: #169db2;
+            text-align: center;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #169db2;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+    </style>
+
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th id="host-header" colspan="5">Hosts by name and hamsters: <span th:text="${name}"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="table-header">
+                <th>Name of host</th>
+                <th>Address</th>
+                <th>Capacity</th>
+                <th>Active/Inactive</th>
+                <th>List of <span ></span>'s current hamsters in care</th>
+            </tr>
+            <tr th:each="host : ${hosts}">
+                <td th:text="${host.name}"></td>
+                <td th:text="${host.address}"></td>
+                <td th:text="${host.capacity}"></td>
+                <td th:text="${host.hostStatus}"></td>
+                <td >
+                    <table>
+                    
+                        <tbody>
+                            <tr id="table-header">
+                                <th>Hamster's name</th>
+                                <th>Species</th>
+                                <th>Hamster's status</th>
+                                <th>Beginning of the fostering</th>
+                            </tr>
+                            <tr th:each="hamster : ${host.hamsters}">
+                                <td th:text="${hamster.name}" onclick="openHamsterPage()"></a></td>
+                                <td th:text="${hamster.hamsterSpecies}"></td>
+                                <td th:text="${hamster.hamsterStatus}"></td>
+                                <td th:text="${hamster.startOfFostering}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>

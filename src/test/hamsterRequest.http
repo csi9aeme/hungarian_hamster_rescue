@@ -96,7 +96,7 @@ Accept: application/json
 
 }
 ### PUT adopt a hamster
-PUT http://localhost:8080/api/hamsters/21/adopted
+PUT http://localhost:8080/api/hamsters/1/adopted
 Content-Type: application/json
 Accept: application/json
 

@@ -49,4 +49,12 @@ public class HamsterExceptionHandler {
         return detail;
     }
 
+    @ExceptionHandler(HamsterNotAdoptedYetException.class)
+    public ProblemDetail handleHamsterNotAdoptedYetException(HamsterNotAdoptedYetException e) {
+        ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+        detail.setType(URI.create("hamsterresque/not-adopted-yet"));
+
+        return detail;
+    }
+
 }

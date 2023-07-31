@@ -70,6 +70,7 @@ public class HostService {
         return hostMapper.toDtoWithoutHam(findHostEntityById(id));
     }
 
+    //ez törölhető, ha elkészült a név alapján keresés
     @Transactional
     public HostDtoWithHamsters getListOfHostsHamsters(long id) {
         Host host = hostRepository.findByIdWithAllHamster(id);
@@ -79,6 +80,15 @@ public class HostService {
         return hostMapper.toDtoWithHam(host);
     }
 
+    @Transactional
+    public List<HostDtoWithHamsters> findHostsByName(String name) {
+        List<Host> hosts = hostRepository.findByNameWithAllHamster(name);
+        if (hosts.size() == 0) {
+            throw  new HostWithNamePartNotExistException(name);
+        }
+
+        return hostMapper.toDtoWithHam(hosts);
+    }
     public List<HostDtoCountedFreeCapacity> getListOfHostWithFreeCapacity() {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamster();
         List<HostDtoCountedFreeCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hosts by name - Hamster Resque</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+
+    
+   <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead, td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        #host-header, #table-header {
+            background-color: #9ba8e8;
+            text-align: center;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #b6bcde;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #e6eaff;
+        }
+
+        table.table-fit {
+    width: auto !important;
+    table-layout: auto !important;
+}
+table.table-fit thead th, table.table-fit tfoot th {
+    width: auto !important;
+}
+table.table-fit tbody td, table.table-fit tfoot td {
+    width: auto !important;
+}
+
+    </style>
+</head>
+<body>
+
+    <table>
+        <thead>
+        <tr>
+            <th id="host-header" colspan="5">List of hosts by name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="table-header">
+            <th>Name of host</th>
+            <th>Address</th>
+            <th>Capacity</th>
+            <th>Active/Inactive</th>
+            <th>Hamsters</th>
+        </tr>
+        <tr th:each="host : ${hosts}">
+            <td th:text="${host.name}"></td>
+            <td th:text="${host.address}"></td>
+            <td th:text="${host.capacity}"></td>
+            <td th:text="${host.hostStatus}"></td>
+            <td th:text="${host.hamsters}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

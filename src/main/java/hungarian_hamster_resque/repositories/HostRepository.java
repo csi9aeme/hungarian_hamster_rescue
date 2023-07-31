@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface HostRepository extends JpaRepository<Host, Long> {
 
-    @Query("select host from Host host left join fetch host.hamsters where host.name like concat('%',:namepart,'%')")
-    List<Host> findByNameWithAllHamster(@Param("namepart") String namePart);
+    @Query("select host from Host host left join fetch host.hamsters where host.name like concat('%',:name,'%')")
+    List<Host> findByNameWithAllHamster(@Param("name") String name);
 
     @Query("select host from Host host left join fetch host.hamsters where host.hostStatus = 'ACTIVE'")
     List<Host> findOnlyActiveWithAllHamster();

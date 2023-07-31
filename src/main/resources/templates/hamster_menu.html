@@ -22,6 +22,8 @@
 
     <button type="button" class="btn btn-outline-success" onclick="add_new_hamster()">add new hamster</button>
 
+    <button type="button" class="btn btn-outline-info" onclick="openHamsterPage()">Open hamster page</button>
+
     <button type="button" class="btn btn-outline-info" onclick="change_hamster_attributes()">change attributes of a
       hamster</button>
 
@@ -57,6 +59,20 @@
         window.alert("Name cannot be empty!");
       } else {
         $("#display-function-in-menu").load("listofhamstersbyname.html");
+
+      }
+      document.getElementById("display-function-in-menu").innerHTML = text;
+    }
+
+    function openHamsterPage() {
+      
+      let text;
+      let id = prompt("Please enter the ID of hamster:");
+      if (id == null || id == "") {
+        window.alert("ID cannot be empty!");
+      } else {
+        $("#display-function-in-menu").load("/hamsters/hamster_page/" + id);
+
 
       }
       document.getElementById("display-function-in-menu").innerHTML = text;

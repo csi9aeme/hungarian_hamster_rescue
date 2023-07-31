@@ -105,6 +105,14 @@ public class HamsterService {
         return hamsterMapper.toDto(adoptedHamster);
     }
 
+    public HamsterDto findHamsterById(long id){
+        Hamster hamster = findHamsterEntityById(id);
+
+        return hamsterMapper.toDto(hamster);
+
+    }
+
+
 
     private List<Hamster> findHamsterWithNamePart(String hamsterName) {
         List<Hamster> result = hamsterRepository.findHamsterByNameContains(hamsterName);

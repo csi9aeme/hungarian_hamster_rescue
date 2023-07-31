@@ -1,6 +1,7 @@
 package hungarian_hamster_resque.thymeleaf;
 
 import hungarian_hamster_resque.dtos.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.HamsterDto;
 import hungarian_hamster_resque.dtos.HamsterDtoWithoutAdoptive;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
@@ -68,6 +69,26 @@ public class HamsterThymeController {
         System.out.println(hamster);
         hamsterService.createHamster(hamster);
         return "/hamsters/create_hamster_succeeded";
+    }
+
+    @GetMapping("/hamster_page/{id}")
+    public ModelAndView getHamsterPage(@PathVariable("id") long id) {
+        HamsterDto hamster = hamsterService.findHamsterById(id);
+
+        Map<String, Object> model = Map.of(
+                "hamster", hamster,
+                "adoptive", checkIfAdopted(hamster));
+
+
+        return new ModelAndView("/hamsters/hamster_page", model);
+
+    }
+
+    private String checkIfAdopted(HamsterDto hamster) {
+        if (hamster.getAdoptive()==null) {
+            return "Not adopted yet";
+        }
+        return hamster.getAdoptive().getName();
     }
 
 
