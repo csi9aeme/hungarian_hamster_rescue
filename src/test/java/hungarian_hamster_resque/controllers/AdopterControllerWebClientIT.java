@@ -1,7 +1,6 @@
 package hungarian_hamster_resque.controllers;
 
 import hungarian_hamster_resque.dtos.*;
-import hungarian_hamster_resque.enums.HamsterStatus;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(statements = {"delete from hamsters", "delete from adoptives"})
-public class AdoptiveControllerWebClientIT {
+public class AdopterControllerWebClientIT {
 
     @Autowired
     WebTestClient webClient;
 
     @Autowired
-    AdoptiveController controller;
+    AdopterController controller;
 
     @Test
     @Description("Create adoptive")

@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum HamsterStatus {
 
-    ADOPTABLE("örökbefogadható"),
-    ADOPTED ("örökbefogadott"),
-    UNDER_MEDICAL_TREATMENT("kezelés alatt áll"),
-    PERMANENTLY_CARED_FOR("tartós gondozott"),
-    DECEASED("elhunyt");
+    ADOPTABLE("adoptable"),
+    ADOPTED ("adopted"),
+    UNDER_MEDICAL_TREATMENT("under medical treatment"),
+    PERMANENTLY_CARED_FOR("permanently cared for"),
+    DECEASED("deceased");
 
     private String status;
 

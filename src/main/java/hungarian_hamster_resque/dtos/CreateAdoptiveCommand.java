@@ -13,11 +13,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateAdoptiveCommand {
 
-    @NotEmpty(message = "A név nem lehet üres!")
-    @Schema(description = "név", example = "Kovács Angéla")
+    @NotEmpty(message = "Name cannot be empty!")
+    @Schema(description = "name", example = "Kovács Angéla")
     private String name;
 
-    @NotEmpty(message = "A cím nem lehet üres!")
-    @Schema(description = "cím", example = "1023 Budapest, Fő utca 28.")
+    @NotEmpty(message = "Address cannot be empty!")
+    @Schema(description = "address", example = "1023 Budapest, Fő utca 28.")
     private String address;
 }

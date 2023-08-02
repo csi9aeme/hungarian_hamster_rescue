@@ -18,11 +18,11 @@ public class AdoptHamsterCommand {
 
     @NotNull
     @Positive
-    @Schema(description = "az új gazda azonosítója", example = "123")
+    @Schema(description = "ID of the new owner.", example = "123")
     private Long adoptiveId;
 
     @NotNull
-    @Schema(description = "az örökbefogadás dátuma", example = "2023-02-21")
+    @Schema(description = "Date of the adoption.", example = "2023-02-21")
     private LocalDate dateOfAdoption;
 
 

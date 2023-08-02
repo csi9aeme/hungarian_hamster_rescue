@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum Gender {
 
-    FEMALE("nőstény"), MALE("hím"), UNKNOWN_YET("egyelőre ismeretlen");
+    FEMALE("female"), MALE("male"), UNKNOWN_YET("unknown for now");
 
     private String gender;
 

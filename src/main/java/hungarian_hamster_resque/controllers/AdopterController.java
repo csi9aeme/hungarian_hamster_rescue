@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/adoptives")
 @RequiredArgsConstructor
-public class AdoptiveController {
+public class AdopterController {
 
     private final AdoptiveService adoptiveService;
 

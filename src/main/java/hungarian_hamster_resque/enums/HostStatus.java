@@ -1,7 +1,6 @@
 package hungarian_hamster_resque.enums;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum HostStatus {
 
-    ACTIVE("aktív"), INACTIVE("inaktív");
+    ACTIVE("active"), INACTIVE("inactive");
 
     private String hostStatus;
 

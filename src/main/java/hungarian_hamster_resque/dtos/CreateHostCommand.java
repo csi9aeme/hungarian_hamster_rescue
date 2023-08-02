@@ -19,22 +19,22 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateHostCommand {
 
-    @NotEmpty(message = "A név nem lehet üres!")
-    @Schema(description = "név", example = "Kovács Angéla")
+    @NotEmpty(message = "Name cannot be empty!")
+    @Schema(description = "Name of the temporary host.", example = "Kovács Angéla")
     private String name;
 
-    @NotEmpty(message = "A cím nem lehet üres!")
-    @Schema(description = "cím", example = "1023 Budapest, Fő utca 28.")
+    @NotEmpty(message = "Address cannot be empty!")
+    @Schema(description = "Address f the temporary host.", example = "1023 Budapest, Fő utca 28.")
     private String address;
 
-    @Positive(message = "Nagyobbnak kell lennie, mint 0!")
-    @Schema(description = "elhelyezhető hörcsögök száma", example = "2")
+    @Positive(message = "Must be higher than 0.")
+    @Schema(description = "Number of hamsters that can be place.", example = "2")
     private int capacity;
 
-    @Schema(description = "Az ideiglenes befogadó tud-e hörcsögöt fogadni", example = "aktív/inaktív")
+    @Schema(description = "The temporary host can accept hamster.", example = "active/inactive")
     private String hostStatus;
 
-    @Schema(description = "a gondozott hörcsögök listája")
+    @Schema(description = "List of hamsters in care (all time).")
     private List<HamsterDto> hamsters;
 
 

@@ -61,12 +61,12 @@ table.table-fit tbody td, table.table-fit tfoot td {
     </thead>
     <tbody>
     <tr id="tableHeader">
-        <th>Hamster's name</th>
-        <th>Species</th>
-        <th>Gender</th>
-        <th>Beginning of the fostering</th>
-        <th>Host</th>
-        <th>Hamster's status</th>
+        <th>Hamster's name:</th>
+        <th>Species:</th>
+        <th>Gender:</th>
+        <th>Date of admission:</th>
+        <th>Host:</th>
+        <th>Hamster's status:</th>
     </tr>
     <tr th:each="hamster : ${hamsters}">
         <td th:text="${hamster.name}"></td>

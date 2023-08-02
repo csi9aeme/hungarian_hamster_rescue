@@ -12,32 +12,32 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UpdateHamsterCommand {
 
-    @Schema(description = "név", example = "Bolyhos")
+    @Schema(description = "Name.", example = "Bolyhos")
     private String name;
 
-    @Schema(description = "faj", example = "szíriai aranyhörcsög")
+    @Schema(description = "Species.", example = "golden hamster")
     private String hamsterSpecies;
 
-    @Schema(description = "nem", example = "hím")
+    @Schema(description = "Gender.", example = "male")
     private String gender;
 
-    @Schema(description = "születési dátum", example = "2022-12-01")
+    @Schema(description = "Date of birth.", example = "2022-12-01")
     private LocalDate dateOfBirth;
 
-    @Schema(description = "örökbefogadhatósági állapot", example = "örökbefogadott")
+    @Schema(description = "Adoption status of the hamster.", example = "adopted")
     private String hamsterStatus;
 
-    @Schema(description = "az ideiglenes befogadó azonosítója", example = "1")
+    @Schema(description = "ID of the temporary host.", example = "1")
     private Long hostId;
 
-    @Schema(description = "gondozásbavétel dátuma", example = "1")
+    @Schema(description = "Date of admission.", example = "1")
     private LocalDate startOfFoster;
 
 
-    @Schema(description = "az új gazda azonosítója", example = "123")
+    @Schema(description = "ID of the new owner.", example = "123")
     private Long adoptiveId;
 
-    @Schema(description = "az örökbefogadás dátuma", example = "2023-02-21")
+    @Schema(description = "Date of adoption.", example = "2023-02-21")
     private LocalDate dateOfAdoption;
 
 
