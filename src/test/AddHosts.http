@@ -5,7 +5,8 @@ Content-Type: application/json
 {
   "name" : "Elektrom Ágnes",
   "address" : "7030 Paks, Fő utca 27.",
-  "capacity" : 1
+  "capacity" : 1,
+  "hostStatus" : "active"
 }
 
 ### POST a new host (2)
@@ -15,7 +16,9 @@ Content-Type: application/json
 {
   "name" : "Csin CSilla",
   "address" : "1190 Budapest, Petőfi utca 12.",
-  "capacity" : 3
+  "capacity" : 3,
+  "hostStatus" : "active"
+
 
 }
 
@@ -26,7 +29,9 @@ Content-Type: application/json
 {
   "name" : "Futó Rózsa",
   "address" : "1050 Budapest, Margó utca 70.",
-  "capacity" : 4
+  "capacity" : 4,
+  "hostStatus" : "active"
+
 
 }
 
@@ -37,7 +42,9 @@ Content-Type: application/json
 {
   "name" : "Havasi Gyopárka",
   "address" : "1150 Budapest, Kelemen sor 20.",
-  "capacity" : 1
+  "capacity" : 1,
+  "hostStatus" : "active"
+
 }
 
 ### POST a new host (5)
@@ -47,7 +54,9 @@ Content-Type: application/json
 {
   "name" : "Kasza Blanka",
   "address" : "9400 Sopron, Sörgyár utca 2.",
-  "capacity" : 5
+  "capacity" : 5,
+  "hostStatus" : "active"
+
 
 }
 
@@ -58,7 +67,9 @@ Content-Type: application/json
 {
   "name" : "Locsoló K. Anna",
   "address" : "9000 Győr, Zámoly utca 7.",
-  "capacity" : 4
+  "capacity" : 4,
+  "hostStatus" : "active"
+
 }
 
 ### POST a new host (7)
@@ -68,5 +79,7 @@ Content-Type: application/json
 {
   "name" : "Locsoló K. Anna",
   "address" : "9000 Győr, Zámoly utca 7.",
-  "capacity" : 100
+  "capacity" : 100,
+  "hostStatus" : "active"
+
 }
