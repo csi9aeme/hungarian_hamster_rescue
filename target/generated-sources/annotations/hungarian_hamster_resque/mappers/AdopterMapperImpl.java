@@ -4,7 +4,7 @@ import hungarian_hamster_resque.dtos.AdopterDtoWithHamsters;
 import hungarian_hamster_resque.dtos.AdopterDtoWithoutHamsters;
 import hungarian_hamster_resque.dtos.HamsterDto;
 import hungarian_hamster_resque.dtos.HostDtoWithoutHamsters;
-import hungarian_hamster_resque.models.Adoptive;
+import hungarian_hamster_resque.models.Adopter;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import java.util.ArrayList;
@@ -18,66 +18,66 @@ import org.springframework.stereotype.Component;
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 20.0.2 (Oracle Corporation)"
 )
 @Component
-public class AdoptiveMapperImpl implements AdoptiveMapper {
+public class AdopterMapperImpl implements AdopterMapper {
 
     @Override
-    public AdopterDtoWithHamsters toDtoWithHamster(Adoptive adoptive) {
-        if ( adoptive == null ) {
+    public AdopterDtoWithHamsters toDtoWithHamster(Adopter adopter) {
+        if ( adopter == null ) {
             return null;
         }
 
         AdopterDtoWithHamsters adopterDtoWithHamsters = new AdopterDtoWithHamsters();
 
-        if ( adoptive.getId() != null ) {
-            adopterDtoWithHamsters.setId( adoptive.getId() );
+        if ( adopter.getId() != null ) {
+            adopterDtoWithHamsters.setId( adopter.getId() );
         }
-        adopterDtoWithHamsters.setName( adoptive.getName() );
-        adopterDtoWithHamsters.setAddress( adoptive.getAddress() );
-        adopterDtoWithHamsters.setHamsters( hamsterListToHamsterDtoList( adoptive.getHamsters() ) );
+        adopterDtoWithHamsters.setName( adopter.getName() );
+        adopterDtoWithHamsters.setAddress( adopter.getAddress() );
+        adopterDtoWithHamsters.setHamsters( hamsterListToHamsterDtoList( adopter.getHamsters() ) );
 
         return adopterDtoWithHamsters;
     }
 
     @Override
-    public List<AdopterDtoWithHamsters> toDtoWithHamster(List<Adoptive> adoptives) {
-        if ( adoptives == null ) {
+    public List<AdopterDtoWithHamsters> toDtoWithHamster(List<Adopter> adopters) {
+        if ( adopters == null ) {
             return null;
         }
 
-        List<AdopterDtoWithHamsters> list = new ArrayList<AdopterDtoWithHamsters>( adoptives.size() );
-        for ( Adoptive adoptive : adoptives ) {
-            list.add( toDtoWithHamster( adoptive ) );
+        List<AdopterDtoWithHamsters> list = new ArrayList<AdopterDtoWithHamsters>( adopters.size() );
+        for ( Adopter adopter : adopters) {
+            list.add( toDtoWithHamster(adopter) );
         }
 
         return list;
     }
 
     @Override
-    public AdopterDtoWithoutHamsters toDtoWithoutHamster(Adoptive adoptive) {
-        if ( adoptive == null ) {
+    public AdopterDtoWithoutHamsters toDtoWithoutHamster(Adopter adopter) {
+        if ( adopter == null ) {
             return null;
         }
 
         AdopterDtoWithoutHamsters adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters();
 
-        if ( adoptive.getId() != null ) {
-            adopterDtoWithoutHamsters.setId( adoptive.getId() );
+        if ( adopter.getId() != null ) {
+            adopterDtoWithoutHamsters.setId( adopter.getId() );
         }
-        adopterDtoWithoutHamsters.setName( adoptive.getName() );
-        adopterDtoWithoutHamsters.setAddress( adoptive.getAddress() );
+        adopterDtoWithoutHamsters.setName( adopter.getName() );
+        adopterDtoWithoutHamsters.setAddress( adopter.getAddress() );
 
         return adopterDtoWithoutHamsters;
     }
 
     @Override
-    public List<AdopterDtoWithoutHamsters> toDtoWithoutHamster(List<Adoptive> adoptives) {
-        if ( adoptives == null ) {
+    public List<AdopterDtoWithoutHamsters> toDtoWithoutHamster(List<Adopter> adopters) {
+        if ( adopters == null ) {
             return null;
         }
 
-        List<AdopterDtoWithoutHamsters> list = new ArrayList<AdopterDtoWithoutHamsters>( adoptives.size() );
-        for ( Adoptive adoptive : adoptives ) {
-            list.add( toDtoWithoutHamster( adoptive ) );
+        List<AdopterDtoWithoutHamsters> list = new ArrayList<AdopterDtoWithoutHamsters>( adopters.size() );
+        for ( Adopter adopter : adopters) {
+            list.add( toDtoWithoutHamster(adopter) );
         }
 
         return list;
@@ -114,7 +114,7 @@ public class AdoptiveMapperImpl implements AdoptiveMapper {
         hamsterDto.setHamsterStatus( hamster.getHamsterStatus() );
         hamsterDto.setHost( hostToHostDtoWithoutHamsters( hamster.getHost() ) );
         hamsterDto.setStartOfFostering( hamster.getStartOfFostering() );
-        hamsterDto.setAdoptive( toDtoWithoutHamster( hamster.getAdoptive() ) );
+        hamsterDto.setAdopter( toDtoWithoutHamster( hamster.getAdopter() ) );
         hamsterDto.setDateOfAdoption( hamster.getDateOfAdoption() );
         hamsterDto.setDescription( hamster.getDescription() );
 

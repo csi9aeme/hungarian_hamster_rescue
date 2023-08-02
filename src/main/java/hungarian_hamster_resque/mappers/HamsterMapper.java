@@ -13,8 +13,8 @@ public interface HamsterMapper {
     HamsterDto toDto(Hamster hamster);
     List<HamsterDto> toDto(List<Hamster> hamsters);
 
-    List<HamsterDtoWithoutAdopter> toDtoWithoutAdoptive(List<Hamster> hamsters);
-    HamsterDtoWithoutAdopter toDtoWithoutAdoptive(Hamster hamster);
+    List<HamsterDtoWithoutAdopter> toDtoWithoutAdopter(List<Hamster> hamsters);
+    HamsterDtoWithoutAdopter toDtoWithoutAdopter(Hamster hamster);
 
     List<HamsterDto> hamsterConverter(List<HamsterDtoWithoutAdopter> hamsters);
 }

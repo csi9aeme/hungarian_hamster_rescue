@@ -30,9 +30,9 @@ public class HomeController {
         return new ModelAndView("host_menu");
     }
 
-    @GetMapping("/adoptive_menu")
+    @GetMapping("/adopter_menu")
     public ModelAndView getAdoptiveMenu() {
 
-        return new ModelAndView("adoptive_menu");
+        return new ModelAndView("adopter_menu");
     }
 }

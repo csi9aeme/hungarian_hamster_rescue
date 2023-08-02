@@ -22,7 +22,7 @@ A `Hamster` entitás a következő attribútumokkal rendelkezik:
 * `hamsterStatus` - enum az örökbeadhatóság jelzésére.
 * `host` - az ideiglenes befogadóhoz tartozó entitás, nem hozható létre új hörcsög nélküle. 
 * `startOfFostering` - hozzánk kerülés dátuma.
-* `adoptive` - az örökbefogadó entitása, később kerül megadásra.
+* `adopter` - az örökbefogadó entitása, később kerül megadásra.
 * `dateOfAdoption` - az örökbefogadás dátuma. 
 
 
@@ -82,13 +82,13 @@ Végpontok:
 
 | HTTP metódus | Végpont                            | Leírás                                                         |
 |--------------|------------------------------------|----------------------------------------------------------------|
-| GET          | `"/api/adoptives"`                 | lekérdezi az összes örökbebefogadót, vagy név szerint szűrhető |
-| GET          | `"/api/adoptives/adoptivesbycity"` | lekérdezi örökbebefogadókat város alapján                      |
-| GET          | `"/api/adoptives/{id}"`            | lekérdez egy örökbebefogadót `id` alapján                      |
-| GET          | `"/api/adoptives/{id}/hamsters"`   | lekérdezi egy örökbebefogadó hörcsögeit `id` alapján           |
-| POST         | `"/api/adoptives"`                 | létrehoz egy új örökbebefogadót                                |
-| PUT          | `"/api/adoptives/{id}"`            | frissíti az adott entitás tetszőleges adatait                  |
-| DELETE       | `"/api/adoptives/{id}"`            | törli az örökbebefogadót a rendszerből                         |
+| GET          | `"/api/adopters"`                 | lekérdezi az összes örökbebefogadót, vagy név szerint szűrhető |
+| GET          | `"/api/adopters/adoptivesbycity"` | lekérdezi örökbebefogadókat város alapján                      |
+| GET          | `"/api/adopters/{id}"`            | lekérdez egy örökbebefogadót `id` alapján                      |
+| GET          | `"/api/adopters/{id}/hamsters"`   | lekérdezi egy örökbebefogadó hörcsögeit `id` alapján           |
+| POST         | `"/api/adopters"`                 | létrehoz egy új örökbebefogadót                                |
+| PUT          | `"/api/adopters/{id}"`            | frissíti az adott entitás tetszőleges adatait                  |
+| DELETE       | `"/api/adopters/{id}"`            | törli az örökbebefogadót a rendszerből                         |
 
 A törlést csak akkor engedélyezi a rendszer, ha a jelentkező végül mégsem fogadott örökbe, így nincs hörcsög a listájában.
 

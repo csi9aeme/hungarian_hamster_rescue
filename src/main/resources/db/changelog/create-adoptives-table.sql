@@ -1,4 +1,4 @@
-CREATE TABLE adoptives
+CREATE TABLE adopters
 (
     adoptive_id BIGINT auto_increment,
     name VARCHAR(255),

@@ -46,7 +46,7 @@ public class Hamster {
         private Host host;
 
         @ManyToOne(cascade = {CascadeType.PERSIST})
-        private Adoptive adoptive;
+        private Adopter adopter;
 
         @Column(name = "date_of_adoption")
         private LocalDate dateOfAdoption;

@@ -32,7 +32,7 @@ public class HamsterControllerWebClientIT {
     HostDtoWithoutHamsters host;
 
     @BeforeEach
-    void initHostAndAdoptive() {
+    void initHostAndAdopter() {
         host = webClient.post().uri("api/hosts")
                 .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
                 .exchange()
@@ -464,8 +464,8 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Adopt a hamster (change status and add an owner)")
     void testAdoptHamster() {
-        AdopterDtoWithoutHamsters adoptive = webClient.post()
-                .uri("/api/adoptives")
+        AdopterDtoWithoutHamsters adopter = webClient.post()
+                .uri("/api/adopters")
                 .bodyValue(new CreateAdopterCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
@@ -487,7 +487,7 @@ public class HamsterControllerWebClientIT {
         long id = result.getId();
 
         HamsterDto adopted = webClient.put().uri("/api/hamsters/{id}/adopted", id)
-                .bodyValue(new AdoptHamsterCommand(adoptive.getId(), LocalDate.parse("2023-04-12")))
+                .bodyValue(new AdoptHamsterCommand(adopter.getId(), LocalDate.parse("2023-04-12")))
                 .exchange()
                 .expectBody(HamsterDto.class).returnResult().getResponseBody();
 

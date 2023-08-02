@@ -4,7 +4,7 @@ import hungarian_hamster_resque.dtos.AdopterDtoWithoutHamsters;
 import hungarian_hamster_resque.dtos.HamsterDto;
 import hungarian_hamster_resque.dtos.HamsterDtoWithoutAdopter;
 import hungarian_hamster_resque.dtos.HostDtoWithoutHamsters;
-import hungarian_hamster_resque.models.Adoptive;
+import hungarian_hamster_resque.models.Adopter;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class HamsterMapperImpl implements HamsterMapper {
         hamsterDto.setHamsterStatus( hamster.getHamsterStatus() );
         hamsterDto.setHost( hostToHostDtoWithoutHamsters( hamster.getHost() ) );
         hamsterDto.setStartOfFostering( hamster.getStartOfFostering() );
-        hamsterDto.setAdoptive( adoptiveToAdopterDtoWithoutHamsters( hamster.getAdoptive() ) );
+        hamsterDto.setAdopter( adoptiveToAdopterDtoWithoutHamsters( hamster.getAdopter() ) );
         hamsterDto.setDateOfAdoption( hamster.getDateOfAdoption() );
         hamsterDto.setDescription( hamster.getDescription() );
 
@@ -58,21 +58,21 @@ public class HamsterMapperImpl implements HamsterMapper {
     }
 
     @Override
-    public List<HamsterDtoWithoutAdopter> toDtoWithoutAdoptive(List<Hamster> hamsters) {
+    public List<HamsterDtoWithoutAdopter> toDtoWithoutAdopter(List<Hamster> hamsters) {
         if ( hamsters == null ) {
             return null;
         }
 
         List<HamsterDtoWithoutAdopter> list = new ArrayList<HamsterDtoWithoutAdopter>( hamsters.size() );
         for ( Hamster hamster : hamsters ) {
-            list.add( toDtoWithoutAdoptive( hamster ) );
+            list.add( toDtoWithoutAdopter( hamster ) );
         }
 
         return list;
     }
 
     @Override
-    public HamsterDtoWithoutAdopter toDtoWithoutAdoptive(Hamster hamster) {
+    public HamsterDtoWithoutAdopter toDtoWithoutAdopter(Hamster hamster) {
         if ( hamster == null ) {
             return null;
         }
@@ -122,18 +122,18 @@ public class HamsterMapperImpl implements HamsterMapper {
         return hostDtoWithoutHamsters;
     }
 
-    protected AdopterDtoWithoutHamsters adoptiveToAdopterDtoWithoutHamsters(Adoptive adoptive) {
-        if ( adoptive == null ) {
+    protected AdopterDtoWithoutHamsters adoptiveToAdopterDtoWithoutHamsters(Adopter adopter) {
+        if ( adopter == null ) {
             return null;
         }
 
         AdopterDtoWithoutHamsters adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters();
 
-        if ( adoptive.getId() != null ) {
-            adopterDtoWithoutHamsters.setId( adoptive.getId() );
+        if ( adopter.getId() != null ) {
+            adopterDtoWithoutHamsters.setId( adopter.getId() );
         }
-        adopterDtoWithoutHamsters.setName( adoptive.getName() );
-        adopterDtoWithoutHamsters.setAddress( adoptive.getAddress() );
+        adopterDtoWithoutHamsters.setName( adopter.getName() );
+        adopterDtoWithoutHamsters.setAddress( adopter.getAddress() );
 
         return adopterDtoWithoutHamsters;
     }

@@ -1,0 +1,49 @@
+### POST a new adopter
+POST http://localhost:8080/api/adopters
+Content-Type: application/json
+
+{
+  "name" : "Égeto Napsugár",
+  "address" : "4400 Nyíregyháza, Keleti park 32."
+}
+
+### PUT update an adopter
+### Pl. költözés miatti címváltozás. A nevet is engedi változtatni,
+### férjezés-válás esetén változhat, így nem célszerű letiltani a funkciót.
+PUT http://localhost:8080/api/adopters/1
+Content-Type: application/json
+
+{
+  "name" : "Elektrom Ágnes",
+  "address" : "6000 Kecskemét, Fő tér 5."
+}
+
+
+### GET all adopters
+GET http://localhost:8080/api/adopters
+Accept: application/json
+
+### GET adopters by existing name
+GET http://localhost:8080/api/adopters?namePart=Emma
+Accept: application/json
+
+### GET adopters by invalid name
+
+GET http://localhost:8080/api/adopters?namePart=Kovács
+Accept: application/json
+
+### GET adopters by city
+
+GET http://localhost:8080/api/adopters/adoptivesbycity?city=Budapest
+Accept: application/json
+
+### GET adopters by wrong city
+
+GET http://localhost:8080/api/adopters/adoptivesbycity?city=Békéscsaba
+Accept: application/json
+
+### GET adopter by ID with hamsters
+
+GET http://localhost:8080/api/adopters/1/hamsters
+Accept: application/json
+

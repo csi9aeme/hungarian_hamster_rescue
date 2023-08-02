@@ -1,6 +1,5 @@
 package hungarian_hamster_resque.dtos;
 
-import hungarian_hamster_resque.enums.HamsterStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,7 +18,7 @@ public class AdoptHamsterCommand {
     @NotNull
     @Positive
     @Schema(description = "ID of the new owner.", example = "123")
-    private Long adoptiveId;
+    private Long adopterId;
 
     @NotNull
     @Schema(description = "Date of the adoption.", example = "2023-02-21")

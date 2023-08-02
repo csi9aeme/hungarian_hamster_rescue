@@ -10,10 +10,10 @@ import hungarian_hamster_resque.exceptions.HamsterWithIdNotExistException;
 import hungarian_hamster_resque.exceptions.HamsterWithNameNotExist;
 import hungarian_hamster_resque.exceptions.HostCantTakeMoreHamstersException;
 import hungarian_hamster_resque.mappers.HamsterMapper;
-import hungarian_hamster_resque.models.Adoptive;
+import hungarian_hamster_resque.models.Adopter;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
-import hungarian_hamster_resque.repositories.AdoptiveRepository;
+import hungarian_hamster_resque.repositories.AdopterRepository;
 import hungarian_hamster_resque.repositories.HamsterRepository;
 import hungarian_hamster_resque.repositories.HostRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +46,7 @@ class HamsterServiceTest {
     HostRepository hostRepository;
 
     @Mock
-    AdoptiveRepository adoptiveRepository;
+    AdopterRepository adopterRepository;
 
     @Mock
     HamsterMapper mapper;
@@ -58,7 +58,7 @@ class HamsterServiceTest {
     HostDtoWithoutHamsters hostDtoWithoutHamsters;
     HostDtoWithHamsters hostDtoWithHamsters;
 
-    Adoptive adoptive;
+    Adopter adopter;
     AdopterDtoWithoutHamsters adopterDtoWithoutHamsters;
     AdopterDtoWithHamsters adopterDtoWithHamsters;
 
@@ -69,7 +69,7 @@ class HamsterServiceTest {
         hostDtoWithoutHamsters = new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE);
         hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE, new ArrayList<>());
 
-        adoptive = new Adoptive(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
+        adopter = new Adopter(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
         adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
         adopterDtoWithHamsters = new AdopterDtoWithHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.", new ArrayList<>());
 
@@ -79,7 +79,7 @@ class HamsterServiceTest {
     void testCreateHamster() {
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
 
-        when(mapper.toDtoWithoutAdoptive((Hamster) any()))
+        when(mapper.toDtoWithoutAdopter((Hamster) any()))
                 .thenReturn(new HamsterDtoWithoutAdopter(
                         1L,
                         "Bolyhos",
@@ -160,7 +160,7 @@ class HamsterServiceTest {
                         host,
                         LocalDate.parse("2023-01-02"))));
 
-        when(mapper.toDtoWithoutAdoptive((Hamster) any()))
+        when(mapper.toDtoWithoutAdopter((Hamster) any()))
                 .thenReturn(new HamsterDtoWithoutAdopter(
                         1L,
                         "Bolyhos",
@@ -200,7 +200,7 @@ class HamsterServiceTest {
                         host,
                         LocalDate.parse("2023-01-02"))));
 
-        when(mapper.toDtoWithoutAdoptive((Hamster) any()))
+        when(mapper.toDtoWithoutAdopter((Hamster) any()))
                 .thenReturn(new HamsterDtoWithoutAdopter(
                         1L,
                         "Bolyhos",
@@ -267,10 +267,10 @@ class HamsterServiceTest {
     void testGetListOfHamstersByName() {
         Hamster ham1 = new Hamster(1L,"Bolyhos", HamsterSpecies.CAMPBELL, Gender.MALE, LocalDate.parse("2022-12-29"),
                 HamsterStatus.ADOPTED, LocalDate.parse("2023-01-02"),host,
-                adoptive, LocalDate.parse("2023-01-02"), "short desc");
+                adopter, LocalDate.parse("2023-01-02"), "short desc");
         Hamster ham2 = new Hamster(1L,"Boholyka", HamsterSpecies.DWARF, Gender.MALE, LocalDate.parse("2022-12-29"),
                 HamsterStatus.ADOPTED, LocalDate.parse("2023-01-02"),host,
-                adoptive, LocalDate.parse("2023-01-02"), "short desc");
+                adopter, LocalDate.parse("2023-01-02"), "short desc");
 
         when(hamsterRepository.findHamsterByNameContains(anyString()))
                 .thenReturn(List.of(ham1, ham2));
@@ -328,7 +328,7 @@ class HamsterServiceTest {
                         host,
                         LocalDate.parse("2023-01-02"))));
 
-        when(adoptiveRepository.findAdoptiveByIdWithHamsters(anyLong())).thenReturn(adoptive);
+        when(adopterRepository.findAdopterByIdWithHamsters(anyLong())).thenReturn(adopter);
 
         when(mapper.toDto((Hamster) any()))
                 .thenReturn(new HamsterDto(
@@ -349,11 +349,11 @@ class HamsterServiceTest {
                         adopterDtoWithoutHamsters.getId(),
                         LocalDate.parse("2023-01-02")));
 
-        assertThat(hamster.getAdoptive()).isNotNull();
+        assertThat(hamster.getAdopter()).isNotNull();
         assertThat(hamster.getHamsterStatus()).isEqualTo(HamsterStatus.ADOPTED);
 
         verify(hamsterRepository).findById(anyLong());
-        verify(adoptiveRepository).findAdoptiveByIdWithHamsters(anyLong());
+        verify(adopterRepository).findAdopterByIdWithHamsters(anyLong());
         verify(hamsterRepository).save(any());
     }
 

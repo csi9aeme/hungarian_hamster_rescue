@@ -12,11 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "adoptives")
-public class Adoptive {
+@Table(name = "adopters")
+public class Adopter {
 
     @Id
-    @Column(name = "adoptive_id")
+    @Column(name = "adopter_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -24,15 +24,15 @@ public class Adoptive {
 
     private String address;
 
-    @OneToMany(mappedBy = "adoptive", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "adopter", cascade = {CascadeType.PERSIST})
     private List<Hamster> hamsters = new ArrayList<>();
 
-    public Adoptive(String name, String address) {
+    public Adopter(String name, String address) {
         this.name = name;
         this.address = address;
     }
 
-    public Adoptive(Long id, String name, String address) {
+    public Adopter(Long id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -40,6 +40,6 @@ public class Adoptive {
 
     public void addHamster(Hamster hamster) {
         hamsters.add(hamster);
-        hamster.setAdoptive(this);
+        hamster.setAdopter(this);
     }
 }

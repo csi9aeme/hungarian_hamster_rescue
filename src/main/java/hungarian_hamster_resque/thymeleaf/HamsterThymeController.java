@@ -77,7 +77,7 @@ public class HamsterThymeController {
 
         Map<String, Object> model = Map.of(
                 "hamster", hamster,
-                "adoptive", checkIfAdopted(hamster),
+                "adopter", checkIfAdopted(hamster),
                 "place", hamsterService.findHamsterPlace(hamster.getId()));
 
 
@@ -86,10 +86,10 @@ public class HamsterThymeController {
     }
 
     private String checkIfAdopted(HamsterDto hamster) {
-        if (hamster.getAdoptive()==null) {
+        if (hamster.getAdopter()==null) {
             return "Not adopted yet";
         }
-        return hamster.getAdoptive().getName();
+        return hamster.getAdopter().getName();
     }
 
 

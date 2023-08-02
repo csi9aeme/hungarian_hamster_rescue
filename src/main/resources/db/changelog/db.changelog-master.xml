@@ -13,8 +13,8 @@
         <sqlFile path="create-hosts-table.sql"
                  relativeToChangelogFile="true" />
     </changeSet>
-    <changeSet id="create-adoptives-table" author="csi9aeme">
-        <sqlFile path="create-adoptives-table.sql"
+    <changeSet id="create-adopters-table" author="csi9aeme">
+        <sqlFile path="create-adopters-table.sql"
                  relativeToChangelogFile="true" />
     </changeSet>
     <changeSet id="create-hamsters-table" author="csi9aeme">

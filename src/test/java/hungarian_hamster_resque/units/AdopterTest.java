@@ -1,12 +1,10 @@
 package hungarian_hamster_resque.units;
 
-import hungarian_hamster_resque.dtos.CreateHamsterCommand;
-import hungarian_hamster_resque.dtos.CreateHostCommand;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
-import hungarian_hamster_resque.models.Adoptive;
+import hungarian_hamster_resque.models.Adopter;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import org.junit.jupiter.api.Test;
@@ -15,14 +13,14 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AdoptiveTest {
+class AdopterTest {
 
 
 
     @Test
     void testCreate() {
-        Adoptive adoptive = new Adoptive("Kiss Virág", "1092 Budapest, Fő utca 7.");
-        String name = adoptive.getName();
+        Adopter adopter = new Adopter("Kiss Virág", "1092 Budapest, Fő utca 7.");
+        String name = adopter.getName();
 
         assertThat(name).isEqualTo("Kiss Virág");
     }
@@ -31,8 +29,8 @@ class AdoptiveTest {
     void testAddHamster() {
         Host host = new Host("Békési Klára", "Szeged", HostStatus.ACTIVE,  5);
 
-        Adoptive adoptive = new Adoptive("Kiss Virág", "1092 Budapest, Fő utca 7.");
-        adoptive.addHamster(new Hamster(
+        Adopter adopter = new Adopter("Kiss Virág", "1092 Budapest, Fő utca 7.");
+        adopter.addHamster(new Hamster(
                 "Bolyhos",
                 HamsterSpecies.DWARF,
                 Gender.FEMALE,
@@ -41,7 +39,7 @@ class AdoptiveTest {
                 host,
                 LocalDate.parse("2023-01-25")));
 
-        assertThat(adoptive.getHamsters())
+        assertThat(adopter.getHamsters())
                 .hasSize(1)
                 .extracting(Hamster::getName)
                 .contains("Bolyhos");

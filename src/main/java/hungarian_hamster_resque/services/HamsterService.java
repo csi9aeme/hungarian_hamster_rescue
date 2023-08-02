@@ -8,7 +8,7 @@ import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.exceptions.*;
 import hungarian_hamster_resque.mappers.HamsterMapper;
 import hungarian_hamster_resque.models.*;
-import hungarian_hamster_resque.repositories.AdoptiveRepository;
+import hungarian_hamster_resque.repositories.AdopterRepository;
 import hungarian_hamster_resque.repositories.HamsterRepository;
 import hungarian_hamster_resque.repositories.HostRepository;
 import jakarta.transaction.Transactional;
@@ -26,7 +26,7 @@ public class HamsterService {
     private final HamsterMapper hamsterMapper;
     private final HamsterRepository hamsterRepository;
     private final HostRepository hostRepository;
-    private final AdoptiveRepository adoptiveRepository;
+    private final AdopterRepository adopterRepository;
 
 
     public List<HamsterDto> getListOfHamsters(Optional<String> hamsterName) {
@@ -41,12 +41,12 @@ public class HamsterService {
     public List<HamsterDtoWithoutAdopter> getListOfCurrentHamsters() {
         List<Hamster> hamstersWithoutOwner = hamsterRepository.findFosteringHamsters();
 
-        return hamsterMapper.toDtoWithoutAdoptive(hamstersWithoutOwner);
+        return hamsterMapper.toDtoWithoutAdopter(hamstersWithoutOwner);
 
     }
 
     public HamsterDtoWithoutAdopter findAdoptableHamsterById(long id) {
-        return hamsterMapper.toDtoWithoutAdoptive(findHamsterEntityById(id));
+        return hamsterMapper.toDtoWithoutAdopter(findHamsterEntityById(id));
     }
 
     @Transactional
@@ -67,7 +67,7 @@ public class HamsterService {
 
         hamsterRepository.save(hamster);
 
-        return hamsterMapper.toDtoWithoutAdoptive(hamster);
+        return hamsterMapper.toDtoWithoutAdopter(hamster);
     }
 
 
@@ -88,18 +88,18 @@ public class HamsterService {
 
         hamsterRepository.save(hamsterForUpdate);
 
-        return hamsterMapper.toDtoWithoutAdoptive(hamsterForUpdate);
+        return hamsterMapper.toDtoWithoutAdopter(hamsterForUpdate);
     }
 
     public HamsterDto adoptHamster(long id, AdoptHamsterCommand command) {
         Hamster adoptedHamster = findHamsterEntityById(id);
-        Adoptive adoptive = adoptiveRepository.findAdoptiveByIdWithHamsters(command.getAdoptiveId());
+        Adopter adopter = adopterRepository.findAdopterByIdWithHamsters(command.getAdopterId());
 
         adoptedHamster.setHamsterStatus(HamsterStatus.ADOPTED);
-        adoptedHamster.setAdoptive(adoptive);
+        adoptedHamster.setAdopter(adopter);
         adoptedHamster.setDateOfAdoption(command.getDateOfAdoption());
 
-        adoptive.addHamster(adoptedHamster);
+        adopter.addHamster(adoptedHamster);
         hamsterRepository.save(adoptedHamster);
 
         return hamsterMapper.toDto(adoptedHamster);
@@ -114,7 +114,7 @@ public class HamsterService {
 
     public String findHamsterPlace(long id){
         Hamster hamster = findHamsterEntityById(id);
-        if (hamster.getAdoptive() != null) {
+        if (hamster.getAdopter() != null) {
             return "Already adopted, not in our care.";
         }
         String address = hamsterRepository.findHamsterPlace(id);
