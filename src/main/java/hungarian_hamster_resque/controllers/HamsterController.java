@@ -28,14 +28,14 @@ public class HamsterController {
     //thymeleaf done
     @GetMapping("/fostering")
     @Operation(summary = "List of current fostering hamsters")
-    public List<HamsterDtoWithoutAdoptive> getListOfCurrentHamsters() {
+    public List<HamsterDtoWithoutAdopter> getListOfCurrentHamsters() {
         return hamsterService.getListOfCurrentHamsters();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.FOUND)
     @Operation(summary = "Find a adoptable hamster by ID.")
-    public HamsterDtoWithoutAdoptive findAdoptableHamsterById(@PathVariable("id") long id) {
+    public HamsterDtoWithoutAdopter findAdoptableHamsterById(@PathVariable("id") long id) {
         return hamsterService.findAdoptableHamsterById(id);
     }
 
@@ -43,14 +43,14 @@ public class HamsterController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add a new hamster.")
-    public HamsterDtoWithoutAdoptive createHamster(@Valid @RequestBody CreateHamsterCommand command) {
+    public HamsterDtoWithoutAdopter createHamster(@Valid @RequestBody CreateHamsterCommand command) {
         return hamsterService.createHamster(command);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Update an existed hamster's attributes.")
-    public HamsterDtoWithoutAdoptive updateHamsterAllAttributes(@PathVariable("id") long id, @Valid @RequestBody UpdateHamsterCommand command) {
+    public HamsterDtoWithoutAdopter updateHamsterAllAttributes(@PathVariable("id") long id, @Valid @RequestBody UpdateHamsterCommand command) {
         return hamsterService.updateHamsterAllAttributes(id, command);
     }
 

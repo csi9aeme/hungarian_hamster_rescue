@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdoptiveDtoWithHamsters {
+public class AdopterDtoWithHamsters {
 
 
     private long id;
@@ -22,7 +22,7 @@ public class AdoptiveDtoWithHamsters {
 
     private List<HamsterDto> hamsters;
 
-    public AdoptiveDtoWithHamsters(String name, String address, List<HamsterDto> hamsters) {
+    public AdopterDtoWithHamsters(String name, String address, List<HamsterDto> hamsters) {
         this.name = name;
         this.address = address;
         this.hamsters = hamsters;

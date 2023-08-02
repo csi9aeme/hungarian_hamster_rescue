@@ -38,19 +38,19 @@ public class HamsterService {
         return hamsterMapper.toDto(hamsterRepository.findAll());
     }
 
-    public List<HamsterDtoWithoutAdoptive> getListOfCurrentHamsters() {
+    public List<HamsterDtoWithoutAdopter> getListOfCurrentHamsters() {
         List<Hamster> hamstersWithoutOwner = hamsterRepository.findFosteringHamsters();
 
         return hamsterMapper.toDtoWithoutAdoptive(hamstersWithoutOwner);
 
     }
 
-    public HamsterDtoWithoutAdoptive findAdoptableHamsterById(long id) {
+    public HamsterDtoWithoutAdopter findAdoptableHamsterById(long id) {
         return hamsterMapper.toDtoWithoutAdoptive(findHamsterEntityById(id));
     }
 
     @Transactional
-    public HamsterDtoWithoutAdoptive createHamster(CreateHamsterCommand command) {
+    public HamsterDtoWithoutAdopter createHamster(CreateHamsterCommand command) {
         Host host = checkHostIsAvailable(command.getHostId());
 
         Hamster hamster = Hamster.builder()
@@ -72,7 +72,7 @@ public class HamsterService {
 
 
     @Transactional
-    public HamsterDtoWithoutAdoptive updateHamsterAllAttributes(long id, UpdateHamsterCommand command) {
+    public HamsterDtoWithoutAdopter updateHamsterAllAttributes(long id, UpdateHamsterCommand command) {
         Hamster hamsterForUpdate = findHamsterEntityById(id);
 
         hamsterForUpdate.setName(command.getName());

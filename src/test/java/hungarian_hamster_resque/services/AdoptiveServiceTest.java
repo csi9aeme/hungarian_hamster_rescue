@@ -8,7 +8,6 @@ import hungarian_hamster_resque.exceptions.*;
 import hungarian_hamster_resque.mappers.AdoptiveMapper;
 import hungarian_hamster_resque.models.Adoptive;
 import hungarian_hamster_resque.models.Hamster;
-import hungarian_hamster_resque.models.Host;
 import hungarian_hamster_resque.repositories.AdoptiveRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +21,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -43,9 +41,9 @@ class AdoptiveServiceTest {
     @Test
     void testCreateAdoptive() {
         when(mapper.toDtoWithoutHamster((Adoptive) any()))
-                .thenReturn(new AdoptiveDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."));
+                .thenReturn(new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."));
 
-        AdoptiveDtoWithoutHamsters adoptive = service.createAdoptive(new CreateAdoptiveCommand("Megyek Elemér", "1181 Budapest, Havanna utca 7."));
+        AdopterDtoWithoutHamsters adoptive = service.createAdoptive(new CreateAdopterCommand("Megyek Elemér", "1181 Budapest, Havanna utca 7."));
 
         assertThat(adoptive.getId()).isNotNull();
         assertThat(adoptive.getName()).isEqualTo("Megyek Elemér");
@@ -58,10 +56,10 @@ class AdoptiveServiceTest {
         when(repository.findById(anyLong()))
                 .thenReturn(Optional.of(new Adoptive(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7.")));
         when(mapper.toDtoWithoutHamster((Adoptive) any()))
-                .thenReturn(new AdoptiveDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 32."));
+                .thenReturn(new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 32."));
 
-        AdoptiveDtoWithoutHamsters adoptive = service.updateAdoptive(1L,
-                new UpdateAdoptiveCommand("Megyek Elemér", "1181 Budapest, Havanna utca 32."));
+        AdopterDtoWithoutHamsters adoptive = service.updateAdoptive(1L,
+                new UpdateAdopterCommand("Megyek Elemér", "1181 Budapest, Havanna utca 32."));
 
         assertThat(adoptive.getAddress()).isEqualTo("1181 Budapest, Havanna utca 32.");
         verify(repository).save(any());
@@ -78,10 +76,10 @@ class AdoptiveServiceTest {
                 .thenReturn(List.of(adoptive1, adoptive2));
         when(mapper.toDtoWithoutHamster((List<Adoptive>) any()))
                 .thenReturn(List.of(
-                        new AdoptiveDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."),
-                        new AdoptiveDtoWithoutHamsters(1L, "Hiszt Erika", "7400 Szekszárd, Fő utca 87.")));
+                        new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."),
+                        new AdopterDtoWithoutHamsters(1L, "Hiszt Erika", "7400 Szekszárd, Fő utca 87.")));
 
-        List<AdoptiveDtoWithoutHamsters> result = service.getAdoptives(Optional.empty());
+        List<AdopterDtoWithoutHamsters> result = service.getAdoptives(Optional.empty());
         assertThat(result).hasSize(2);
 
         verify(repository).findAll();
@@ -97,10 +95,10 @@ class AdoptiveServiceTest {
                 .thenReturn(List.of(adoptive1, adoptive2));
         when(mapper.toDtoWithoutHamster(List.of(adoptive1, adoptive2)))
                 .thenReturn(List.of(
-                        new AdoptiveDtoWithoutHamsters(1L, "Kiss Elemér", "1181 Budapest, Havanna utca 7."),
-                        new AdoptiveDtoWithoutHamsters(1L, "Kiss Erika", "7400 Szekszárd, Fő utca 87.")));
+                        new AdopterDtoWithoutHamsters(1L, "Kiss Elemér", "1181 Budapest, Havanna utca 7."),
+                        new AdopterDtoWithoutHamsters(1L, "Kiss Erika", "7400 Szekszárd, Fő utca 87.")));
 
-        List<AdoptiveDtoWithoutHamsters> result = service.getAdoptives(Optional.of("Kiss"));
+        List<AdopterDtoWithoutHamsters> result = service.getAdoptives(Optional.of("Kiss"));
         assertThat(result).hasSize(2);
 
         verify(repository).findAdoptiveByNameContains(anyString());
@@ -111,7 +109,7 @@ class AdoptiveServiceTest {
     void testGetAdoptivesByNotExistingName() {
         assertThatThrownBy(() ->
                 service.getAdoptives(Optional.of("Kelemen")))
-                .isInstanceOf(AdoptiveWithNameNotExistException.class)
+                .isInstanceOf(AdopterWithNameNotExistException.class)
                 .hasMessage("A keresett névrészlettel (Kelemen) örökbefogadó nincs az adatbázisban.");
 
         verify(repository).findAdoptiveByNameContains(anyString());
@@ -127,10 +125,10 @@ class AdoptiveServiceTest {
                 .thenReturn(List.of(adoptive1, adoptive2));
         when(mapper.toDtoWithoutHamster((List<Adoptive>) any()))
                 .thenReturn(List.of(
-                        new AdoptiveDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."),
-                        new AdoptiveDtoWithoutHamsters(1L, "Hiszt Erika", "1181 Budapest, Fő utca 87.")));
+                        new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."),
+                        new AdopterDtoWithoutHamsters(1L, "Hiszt Erika", "1181 Budapest, Fő utca 87.")));
 
-        List<AdoptiveDtoWithoutHamsters> result = service.getAdoptivesByCity("Budapest");
+        List<AdopterDtoWithoutHamsters> result = service.getAdoptivesByCity("Budapest");
 
         assertThat(result).hasSize(2);
 
@@ -142,7 +140,7 @@ class AdoptiveServiceTest {
     void testGetAdoptivesByWrongCityName() {
         assertThatThrownBy(() ->
                 service.getAdoptivesByCity("Budapest"))
-                .isInstanceOf(AdoptiveWithCityNotExistException.class)
+                .isInstanceOf(AdopterWithCityNotExistException.class)
                 .hasMessage("A keresett városban (Budapest) jelenleg nincs örökbefogadó.");
         verify(repository).findAdoptiveByAddressContains(any());
     }
@@ -159,7 +157,7 @@ class AdoptiveServiceTest {
                         List.of(ham1, ham2)));
 
         when(mapper.toDtoWithHamster((Adoptive) any()))
-                .thenReturn(new AdoptiveDtoWithHamsters(
+                .thenReturn(new AdopterDtoWithHamsters(
                        "Megyek Elemér", "1181 Budapest, Havanna utca 7.",
                         List.of(new HamsterDto(1L, "Bolyhos",
                                         HamsterSpecies.DWARF,
@@ -176,7 +174,7 @@ class AdoptiveServiceTest {
                                         LocalDate.parse("2023-02-25"),
                                         LocalDate.parse("2023-04-30")))));
 
-        AdoptiveDtoWithHamsters adoptive = service.findAdoptiveByIdWithHamsters(1L);
+        AdopterDtoWithHamsters adoptive = service.findAdoptiveByIdWithHamsters(1L);
 
         assertThat(adoptive.getHamsters())
                 .hasSize(2)
@@ -191,9 +189,9 @@ class AdoptiveServiceTest {
         when(repository.findById(anyLong()))
                 .thenReturn(Optional.of(new Adoptive(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7.")));
         when(mapper.toDtoWithoutHamster((Adoptive) any()))
-                .thenReturn(new AdoptiveDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."));
+                .thenReturn(new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1181 Budapest, Havanna utca 7."));
 
-        AdoptiveDtoWithoutHamsters adoptive = service.findAdoptiveById(1L);
+        AdopterDtoWithoutHamsters adoptive = service.findAdoptiveById(1L);
         assertThat(adoptive).isNotNull();
         assertThat(adoptive.getName()).isEqualTo("Megyek Elemér");
 
@@ -204,7 +202,7 @@ class AdoptiveServiceTest {
     void testIdNotExist() {
         assertThatThrownBy(() ->
                 service.findAdoptiveById(1102))
-                .isInstanceOf(AdoptiveWithIdNotExistException.class)
+                .isInstanceOf(AdopterWithIdNotExistException.class)
                 .hasMessage("A keresett ID-val (1102) örökbefogadó nincs az adatbázisban.");
 
         verify(repository).findById(any());
@@ -230,7 +228,7 @@ class AdoptiveServiceTest {
 
         assertThatThrownBy(() ->
                 service.deleteAdoptive(1L))
-                .isInstanceOf(AdoptiveCantDeleteBecauseHamstersListNotEmptyException.class)
+                .isInstanceOf(AdopterCantDeleteBecauseHamstersListNotEmptyException.class)
                 .hasMessage("A megadott ID-val (1) rendelkező örökbefogadó nem törölhető, merttartozik hozzá már örökbeadott hörcsög.");
 
 

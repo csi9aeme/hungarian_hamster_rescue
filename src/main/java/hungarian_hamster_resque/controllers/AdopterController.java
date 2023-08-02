@@ -1,9 +1,9 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.AdoptiveDtoWithHamsters;
-import hungarian_hamster_resque.dtos.AdoptiveDtoWithoutHamsters;
-import hungarian_hamster_resque.dtos.CreateAdoptiveCommand;
-import hungarian_hamster_resque.dtos.UpdateAdoptiveCommand;
+import hungarian_hamster_resque.dtos.AdopterDtoWithHamsters;
+import hungarian_hamster_resque.dtos.AdopterDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.CreateAdopterCommand;
+import hungarian_hamster_resque.dtos.UpdateAdopterCommand;
 import hungarian_hamster_resque.services.AdoptiveService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -15,56 +15,56 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/adoptives")
+@RequestMapping("/api/adopters")
 @RequiredArgsConstructor
 public class AdopterController {
 
     private final AdoptiveService adoptiveService;
 
     @GetMapping
-    @Operation(summary = "List of adoptives (optional by name)")
+    @Operation(summary = "List of adopters (optional by name)")
     @ResponseStatus(HttpStatus.FOUND)
-    public List<AdoptiveDtoWithoutHamsters> getAdoptivesByName(@RequestParam Optional<String> namePart) {
+    public List<AdopterDtoWithoutHamsters> getAdoptersByName(@RequestParam Optional<String> namePart) {
         return adoptiveService.getAdoptives(namePart);
     }
-    @GetMapping("/adoptivesbycity")
-    @Operation(summary = "List of adoptives by city")
+    @GetMapping("/adoptersbycity")
+    @Operation(summary = "List of adopters by city")
     @ResponseStatus(HttpStatus.FOUND)
-    public List<AdoptiveDtoWithoutHamsters> getAdoptivesByCity(@RequestParam String city) {
+    public List<AdopterDtoWithoutHamsters> getAdoptivesByCity(@RequestParam String city) {
         return adoptiveService.getAdoptivesByCity(city);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Find adoptive by id")
+    @Operation(summary = "Find adopter by id")
     @ResponseStatus(HttpStatus.FOUND)
-    public AdoptiveDtoWithoutHamsters findAdoptiveById(@PathVariable("id") long id) {
+    public AdopterDtoWithoutHamsters findAdoptiveById(@PathVariable("id") long id) {
         return adoptiveService.findAdoptiveById(id);
     }
     @GetMapping("/{id}/hamsters")
     @Operation(summary = "List of hamsters by host id")
     @ResponseStatus(HttpStatus.FOUND)
-    public AdoptiveDtoWithHamsters findAdoptiveByIdWithHamsters(@PathVariable("id") long id) {
+    public AdopterDtoWithHamsters findAdoptiveByIdWithHamsters(@PathVariable("id") long id) {
         return adoptiveService.findAdoptiveByIdWithHamsters(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Add a new adoptive")
-    public AdoptiveDtoWithoutHamsters createAdoptive(@Valid @RequestBody CreateAdoptiveCommand command) {
+    @Operation(summary = "Add a new adopter")
+    public AdopterDtoWithoutHamsters createAdoptive(@Valid @RequestBody CreateAdopterCommand command) {
         return adoptiveService.createAdoptive(command);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Update an existing adoptive")
-    public AdoptiveDtoWithoutHamsters updateAdoptive(@PathVariable("id") long id, @Valid @RequestBody UpdateAdoptiveCommand command) {
+    @Operation(summary = "Update an existing adopter")
+    public AdopterDtoWithoutHamsters updateAdoptive(@PathVariable("id") long id, @Valid @RequestBody UpdateAdopterCommand command) {
         return adoptiveService.updateAdoptive(id, command);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete adoptive")
+    @Operation(summary = "Delete adopter")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAdoptiveFromDatabase(@PathVariable("id") long id) {
+    public void deleteAdopterFromDatabase(@PathVariable("id") long id) {
         adoptiveService.deleteAdoptive(id);
 
     }

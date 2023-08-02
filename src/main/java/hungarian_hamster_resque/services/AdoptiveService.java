@@ -1,13 +1,13 @@
 package hungarian_hamster_resque.services;
 
-import hungarian_hamster_resque.dtos.AdoptiveDtoWithHamsters;
-import hungarian_hamster_resque.dtos.AdoptiveDtoWithoutHamsters;
-import hungarian_hamster_resque.dtos.CreateAdoptiveCommand;
-import hungarian_hamster_resque.dtos.UpdateAdoptiveCommand;
-import hungarian_hamster_resque.exceptions.AdoptiveCantDeleteBecauseHamstersListNotEmptyException;
-import hungarian_hamster_resque.exceptions.AdoptiveWithCityNotExistException;
-import hungarian_hamster_resque.exceptions.AdoptiveWithIdNotExistException;
-import hungarian_hamster_resque.exceptions.AdoptiveWithNameNotExistException;
+import hungarian_hamster_resque.dtos.AdopterDtoWithHamsters;
+import hungarian_hamster_resque.dtos.AdopterDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.CreateAdopterCommand;
+import hungarian_hamster_resque.dtos.UpdateAdopterCommand;
+import hungarian_hamster_resque.exceptions.AdopterCantDeleteBecauseHamstersListNotEmptyException;
+import hungarian_hamster_resque.exceptions.AdopterWithCityNotExistException;
+import hungarian_hamster_resque.exceptions.AdopterWithIdNotExistException;
+import hungarian_hamster_resque.exceptions.AdopterWithNameNotExistException;
 import hungarian_hamster_resque.mappers.AdoptiveMapper;
 import hungarian_hamster_resque.models.Adoptive;
 import hungarian_hamster_resque.repositories.AdoptiveRepository;
@@ -25,7 +25,7 @@ public class AdoptiveService {
 
     private final AdoptiveRepository adoptiveRepository;
 
-    public AdoptiveDtoWithoutHamsters createAdoptive(CreateAdoptiveCommand command) {
+    public AdopterDtoWithoutHamsters createAdoptive(CreateAdopterCommand command) {
         Adoptive adoptive = Adoptive.builder()
                 .name(command.getName())
                 .address(command.getAddress())
@@ -36,7 +36,7 @@ public class AdoptiveService {
 
     }
 
-    public AdoptiveDtoWithoutHamsters updateAdoptive(long id, UpdateAdoptiveCommand command) {
+    public AdopterDtoWithoutHamsters updateAdoptive(long id, UpdateAdopterCommand command) {
         Adoptive adoptive = findAdoptiveEntityById(id);
 
         adoptive.setName(command.getName());
@@ -46,7 +46,7 @@ public class AdoptiveService {
     }
 
 
-    public List<AdoptiveDtoWithoutHamsters> getAdoptives(Optional<String> namePart) {
+    public List<AdopterDtoWithoutHamsters> getAdoptives(Optional<String> namePart) {
         if (namePart.isPresent()) {
             List<Adoptive> result = findAdoptivesByNamePartWithoutHamstersList(namePart.get());
             return adoptiveMapper.toDtoWithoutHamster(result);
@@ -55,32 +55,32 @@ public class AdoptiveService {
         return adoptiveMapper.toDtoWithoutHamster(adoptiveRepository.findAll());
     }
 
-    public List<AdoptiveDtoWithoutHamsters> getAdoptivesByCity(String city) {
+    public List<AdopterDtoWithoutHamsters> getAdoptivesByCity(String city) {
         List<Adoptive> result = adoptiveRepository.findAdoptiveByAddressContains(city);
         if (result.isEmpty()) {
-            throw new AdoptiveWithCityNotExistException(city);
+            throw new AdopterWithCityNotExistException(city);
         }
 
         return adoptiveMapper.toDtoWithoutHamster(result);
 
     }
 
-    public AdoptiveDtoWithHamsters findAdoptiveByIdWithHamsters(long id) {
+    public AdopterDtoWithHamsters findAdoptiveByIdWithHamsters(long id) {
         Adoptive adoptive = adoptiveRepository.findAdoptiveByIdWithHamsters(id);
         return adoptiveMapper.toDtoWithHamster(adoptive);
     }
 
-    public AdoptiveDtoWithoutHamsters findAdoptiveById(long id) {
+    public AdopterDtoWithoutHamsters findAdoptiveById(long id) {
         return adoptiveMapper.toDtoWithoutHamster(findAdoptiveEntityById(id));
     }
 
 
     public void deleteAdoptive(long id) {
         Adoptive adoptive = adoptiveRepository.findById(id)
-                .orElseThrow(() -> new AdoptiveWithIdNotExistException(id));
+                .orElseThrow(() -> new AdopterWithIdNotExistException(id));
 
         if (adoptive.getHamsters().size() > 0) {
-            throw new AdoptiveCantDeleteBecauseHamstersListNotEmptyException(id);
+            throw new AdopterCantDeleteBecauseHamstersListNotEmptyException(id);
         }
 
         adoptiveRepository.deleteById(id);
@@ -89,13 +89,13 @@ public class AdoptiveService {
     }
     private Adoptive findAdoptiveEntityById(long id) {
         return adoptiveRepository.findById(id).orElseThrow(
-                () -> new AdoptiveWithIdNotExistException(id));
+                () -> new AdopterWithIdNotExistException(id));
     }
 
     private List<Adoptive> findAdoptivesByNamePartWithoutHamstersList(String s) {
         List<Adoptive> result = adoptiveRepository.findAdoptiveByNameContains(s);
         if (result.isEmpty()) {
-            throw new AdoptiveWithNameNotExistException(s);
+            throw new AdopterWithNameNotExistException(s);
         }
         return result;
 

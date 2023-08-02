@@ -27,24 +27,24 @@ public class AdopterControllerWebClientIT {
     AdopterController controller;
 
     @Test
-    @Description("Create adoptive")
-    void createAdoptive() {
-        AdoptiveDtoWithoutHamsters adoptive = webClient.post()
-                .uri("/api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
+    @Description("Create adopter")
+    void createAdopter() {
+        AdopterDtoWithoutHamsters adopter = webClient.post()
+                .uri("/api/adopters")
+                .bodyValue(new CreateAdopterCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-        assertThat(adoptive.getId()).isNotNull();
+        assertThat(adopter.getId()).isNotNull();
     }
 
     @Test
-    @Description("Exception: create adoptive with empty name")
-    void createAdoptiveWithEmptyName() {
+    @Description("Exception: create adopter with empty name")
+    void createAdopterWithEmptyName() {
         ProblemDetail detail = webClient.post()
-                .uri("/api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("", "7054 Tengelic, Alkotmány u. 32"))
+                .uri("/api/adopters")
+                .bodyValue(new CreateAdopterCommand("", "7054 Tengelic, Alkotmány u. 32"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -53,179 +53,179 @@ public class AdopterControllerWebClientIT {
     }
 
     @Test
-    @Description("Update adoptive's address")
-    void updateAdoptive() {
-        AdoptiveDtoWithoutHamsters adoptive = webClient.post()
-                .uri("/api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
+    @Description("Update adopter's address")
+    void updateAdopter() {
+        AdopterDtoWithoutHamsters adopter = webClient.post()
+                .uri("/api/adopters")
+                .bodyValue(new CreateAdopterCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
-        long id = adoptive.getId();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
+        long id = adopter.getId();
 
-        AdoptiveDtoWithoutHamsters updated = webClient.put()
-                .uri("/api/adoptives/{id}", id)
-                .bodyValue(new UpdateAdoptiveCommand("Zsíros B. Ödön", "6000 Kecskemét, Fő tér 6."))
+        AdopterDtoWithoutHamsters updated = webClient.put()
+                .uri("/api/adopters/{id}", id)
+                .bodyValue(new UpdateAdopterCommand("Zsíros B. Ödön", "6000 Kecskemét, Fő tér 6."))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
 
         assertThat(updated.getAddress()).isEqualTo("6000 Kecskemét, Fő tér 6.");
     }
 
     @Test
-    @Description("Get adoptives' list")
-    void testGetAllAdoptives() {
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Békési Klára", "Szeged"))
+    @Description("Get adopters' list")
+    void testGetAllAdopters() {
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Békési Klára", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Bogdán Klaudia", "Budapest"))
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Bogdán Klaudia", "Budapest"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Nagy Ernő", "Békéscsaba"))
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Nagy Ernő", "Békéscsaba"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
-        List<AdoptiveDtoWithoutHamsters> result = webClient.get().uri("/api/adoptives")
+        List<AdopterDtoWithoutHamsters> result = webClient.get().uri("/api/adopters")
                 .exchange()
-                .expectBodyList(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBodyList(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         assertThat(result)
                 .hasSize(3)
-                .extracting(AdoptiveDtoWithoutHamsters::getName)
+                .extracting(AdopterDtoWithoutHamsters::getName)
                 .containsExactly("Békési Klára", "Bogdán Klaudia", "Nagy Ernő");
     }
 
     @Test
-    @Description("Get adoptives' list by name")
-    void testGetAdoptivesListWithNamePart() {
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Békési Klára", "Szeged"))
+    @Description("Get adopters' list by name")
+    void testGetAdoptersListWithNamePart() {
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Békési Klára", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Bogdán Klaudia", "Budapest"))
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Bogdán Klaudia", "Budapest"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Nagy Klaudia", "Békéscsaba"))
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Nagy Klaudia", "Békéscsaba"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
-        List<AdoptiveDtoWithoutHamsters> result = webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/api/adoptives").queryParam("namePart", "Klaudia").build())
+        List<AdopterDtoWithoutHamsters> result = webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/api/adopters").queryParam("namePart", "Klaudia").build())
                 .exchange()
-                .expectBodyList(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBodyList(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         assertThat(result)
                 .hasSize(2)
-                .extracting(AdoptiveDtoWithoutHamsters::getName)
+                .extracting(AdopterDtoWithoutHamsters::getName)
                 .containsExactly("Bogdán Klaudia", "Nagy Klaudia");
     }
 
     @Test
-    @Description("Exception: get adoptives' list with wrong name (empty list)")
-    void testGetAdoptivesListWithWrongNamePart() {
+    @Description("Exception: get adopters' list with wrong name (empty list)")
+    void testGetAdoptersListWithWrongNamePart() {
         ProblemDetail detail = webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/api/adoptives").queryParam("namePart", "Bence").build())
+                .uri(uriBuilder -> uriBuilder.path("/api/adopters").queryParam("namePart", "Bence").build())
                 .exchange()
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertEquals(URI.create("hamsterresque/adoptive-not-found"), detail.getType());
+        assertEquals(URI.create("hamsterresque/adopter-not-found"), detail.getType());
     }
 
     @Test
-    @Description("Get adoptives' list by city")
-    void testGetAdoptivesListByCity() {
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Békési Klára", "Szeged"))
+    @Description("Get adopters' list by city")
+    void testGetAdoptersListByCity() {
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Békési Klára", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Bogdán Klaudia", "Budapest"))
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Bogdán Klaudia", "Budapest"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
-        webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Nagy Klaudia", "Szeged"))
+        webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Nagy Klaudia", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
-        List<AdoptiveDtoWithoutHamsters> result = webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/api/adoptives/adoptivesbycity").queryParam("city", "Szeged").build())
+        List<AdopterDtoWithoutHamsters> result = webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/api/adopters/adoptersbycity").queryParam("city", "Szeged").build())
                 .exchange()
-                .expectBodyList(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBodyList(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         assertThat(result)
                 .hasSize(2)
-                .extracting(AdoptiveDtoWithoutHamsters::getName)
+                .extracting(AdopterDtoWithoutHamsters::getName)
                 .containsExactly("Békési Klára", "Nagy Klaudia");
     }
 
     @Test
-    @Description("Exception: adoptive with city not exist")
-    void testGetAdoptivesListByCityNotExist() {
+    @Description("Exception: adopter with city not exist")
+    void testGetAdoptersListByCityNotExist() {
         ProblemDetail detail = webClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/api/adoptives/adoptivesbycity").queryParam("city", "Békéscsaba")
+                .uri(uriBuilder -> uriBuilder.path("/api/adopters/adoptersbycity").queryParam("city", "Békéscsaba")
                         .build())
                 .exchange()
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adoptive-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-not-found"));
     }
 
     @Test
-    @Description("Find adoptive by id")
-    void testFindAdoptiveById() {
-        AdoptiveDtoWithoutHamsters adoptive = webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Békési Klára", "Szeged"))
+    @Description("Find adopter by id")
+    void testFindAdopterById() {
+        AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Békési Klára", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
-        long id = adoptive.getId();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
+        long id = adopter.getId();
 
-        AdoptiveDtoWithoutHamsters result = webClient.get().uri("/api/adoptives/{id}", id)
+        AdopterDtoWithoutHamsters result = webClient.get().uri("/api/adopters/{id}", id)
                 .exchange()
-                .expectBody(AdoptiveDtoWithoutHamsters.class)
+                .expectBody(AdopterDtoWithoutHamsters.class)
                 .returnResult().getResponseBody();
 
         assertThat(result.getName()).isEqualTo("Békési Klára");
     }
 
     @Test
-    @Description("Exception: find adoptive by invalid id")
-    void testFindAdoptiveByIdInvalidId() {
+    @Description("Exception: find adopter by invalid id")
+    void testFindAdopterByIdInvalidId() {
         long id = 200;
-        ProblemDetail detail = webClient.get().uri("/api/adoptives/{id}", id)
+        ProblemDetail detail = webClient.get().uri("/api/adopters/{id}", id)
                 .exchange()
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class)
                 .returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adoptive-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-not-found"));
     }
 
     @Test
-    @Description("Find adoptive by ID and hamsters")
-    void testFindAdoptiveByIdWithHamsters(){
+    @Description("Find adopter by ID and hamsters")
+    void testFindAdopterByIdWithHamsters(){
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
                 .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5, "aktív"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-        AdoptiveDtoWithoutHamsters adoptive = webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Kiss Ernő", "Szeged"))
+        AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Kiss Ernő", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-        HamsterDtoWithoutAdoptive hamster = webClient.post().uri("/api/hamsters")
+        HamsterDtoWithoutAdopter hamster = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "szíriai aranyhörcsög",
@@ -237,36 +237,36 @@ public class AdopterControllerWebClientIT {
                         "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+                .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
 
        webClient.put().uri("/api/hamsters/{id}/adopted", hamster.getId())
-                .bodyValue(new AdoptHamsterCommand(adoptive.getId(), LocalDate.parse("2023-04-12")))
+                .bodyValue(new AdoptHamsterCommand(adopter.getId(), LocalDate.parse("2023-04-12")))
                 .exchange()
                 .expectBody(HamsterDto.class).returnResult().getResponseBody();
 
-        AdoptiveDtoWithHamsters ownerWithHam = webClient.get().uri("/api/adoptives/{id}/hamsters", adoptive.getId())
+        AdopterDtoWithHamsters ownerWithHam = webClient.get().uri("/api/adopters/{id}/hamsters", adopter.getId())
                         .exchange()
-                                .expectBody(AdoptiveDtoWithHamsters.class).returnResult().getResponseBody();
+                                .expectBody(AdopterDtoWithHamsters.class).returnResult().getResponseBody();
         assertThat(ownerWithHam.getHamsters())
                 .hasSize(1)
                 .extracting(HamsterDto::getName)
                 .contains("Bolyhos");
     }
     @Test
-    @Description("Delete adoptive by id")
-    void testDeleteAdoptive() {
-        AdoptiveDtoWithoutHamsters adoptive = webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Kiss Ernő", "Szeged"))
+    @Description("Delete adopter by id")
+    void testDeleteAdopter() {
+        AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Kiss Ernő", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
                 .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
                 .exchange()
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-       HamsterDtoWithoutAdoptive hamster = webClient.post().uri("/api/hamsters")
+       HamsterDtoWithoutAdopter hamster = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
@@ -277,44 +277,44 @@ public class AdopterControllerWebClientIT {
                         LocalDate.parse("2023-01-25"),
                         "short desc"))
                 .exchange()
-               .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+               .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
 
         webClient.put().uri("/api/hamsters/{id}/adopted", hamster.getId())
-                .bodyValue(new AdoptHamsterCommand(adoptive.getId(), LocalDate.parse("2023-04-12")))
+                .bodyValue(new AdoptHamsterCommand(adopter.getId(), LocalDate.parse("2023-04-12")))
                 .exchange();
 
-        AdoptiveDtoWithHamsters adoptiveWithHam = webClient.get().uri("/api/adoptives/{id}/hamsters", adoptive.getId())
-                .exchange().expectBody(AdoptiveDtoWithHamsters.class).returnResult().getResponseBody();
+        AdopterDtoWithHamsters adopterDtoWithHam = webClient.get().uri("/api/adopters/{id}/hamsters", adopter.getId())
+                .exchange().expectBody(AdopterDtoWithHamsters.class).returnResult().getResponseBody();
 
-        ProblemDetail detail = webClient.delete().uri("api/adoptives/{id}", adoptive.getId())
+        ProblemDetail detail = webClient.delete().uri("api/adopters/{id}", adopter.getId())
                 .exchange()
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adoptive-cant-delete"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-cant-delete"));
 
     }
 
     @Test
-    @Description("Exception: delete adoptive by id with hamsters")
-    void testDeleteAdoptiveWithHamsters() {
-        AdoptiveDtoWithoutHamsters adoptive = webClient.post().uri("api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Kiss Ernő", "Szeged"))
+    @Description("Exception: delete adopter by id with hamsters")
+    void testDeleteAdopterWithHamsters() {
+        AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
+                .bodyValue(new CreateAdopterCommand("Kiss Ernő", "Szeged"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
-        long id = adoptive.getId();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
+        long id = adopter.getId();
 
-        webClient.delete().uri("api/adoptives/{id}", id)
+        webClient.delete().uri("api/adopters/{id}", id)
                 .exchange()
                 .expectStatus().isEqualTo(204);
 
-        ProblemDetail detail = webClient.get().uri("/api/adoptives/{id}", id)
+        ProblemDetail detail = webClient.get().uri("/api/adopters/{id}", id)
                 .exchange()
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class)
                 .returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adoptive-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-not-found"));
     }
 }
 

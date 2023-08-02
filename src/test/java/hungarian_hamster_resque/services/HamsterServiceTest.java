@@ -30,7 +30,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
@@ -60,8 +59,8 @@ class HamsterServiceTest {
     HostDtoWithHamsters hostDtoWithHamsters;
 
     Adoptive adoptive;
-    AdoptiveDtoWithoutHamsters adoptiveDtoWithoutHamsters;
-    AdoptiveDtoWithHamsters adoptiveDtoWithHamsters;
+    AdopterDtoWithoutHamsters adopterDtoWithoutHamsters;
+    AdopterDtoWithHamsters adopterDtoWithHamsters;
 
 
     @BeforeEach
@@ -71,8 +70,8 @@ class HamsterServiceTest {
         hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE, new ArrayList<>());
 
         adoptive = new Adoptive(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
-        adoptiveDtoWithoutHamsters = new AdoptiveDtoWithoutHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
-        adoptiveDtoWithHamsters = new AdoptiveDtoWithHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.", new ArrayList<>());
+        adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
+        adopterDtoWithHamsters = new AdopterDtoWithHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.", new ArrayList<>());
 
     }
 
@@ -81,7 +80,7 @@ class HamsterServiceTest {
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
 
         when(mapper.toDtoWithoutAdoptive((Hamster) any()))
-                .thenReturn(new HamsterDtoWithoutAdoptive(
+                .thenReturn(new HamsterDtoWithoutAdopter(
                         1L,
                         "Bolyhos",
                         HamsterSpecies.CAMPBELL,
@@ -92,7 +91,7 @@ class HamsterServiceTest {
                         hostDtoWithoutHamsters,
                         "short desc"));
 
-        HamsterDtoWithoutAdoptive hamster = service.createHamster(
+        HamsterDtoWithoutAdopter hamster = service.createHamster(
                 new CreateHamsterCommand("Bolyhos",
                         "dzsungáriai törpehörcsög",
                         "hím",
@@ -162,7 +161,7 @@ class HamsterServiceTest {
                         LocalDate.parse("2023-01-02"))));
 
         when(mapper.toDtoWithoutAdoptive((Hamster) any()))
-                .thenReturn(new HamsterDtoWithoutAdoptive(
+                .thenReturn(new HamsterDtoWithoutAdopter(
                         1L,
                         "Bolyhos",
                         HamsterSpecies.CAMPBELL,
@@ -173,7 +172,7 @@ class HamsterServiceTest {
                         hostDtoWithoutHamsters,
                         "short desc"));
 
-        HamsterDtoWithoutAdoptive updated = service.updateHamsterAllAttributes(1L,
+        HamsterDtoWithoutAdopter updated = service.updateHamsterAllAttributes(1L,
                 new UpdateHamsterCommand(
                         "Bolyhos",
                         "campbell törpehörcsög",
@@ -202,7 +201,7 @@ class HamsterServiceTest {
                         LocalDate.parse("2023-01-02"))));
 
         when(mapper.toDtoWithoutAdoptive((Hamster) any()))
-                .thenReturn(new HamsterDtoWithoutAdoptive(
+                .thenReturn(new HamsterDtoWithoutAdopter(
                         1L,
                         "Bolyhos",
                         HamsterSpecies.CAMPBELL,
@@ -213,7 +212,7 @@ class HamsterServiceTest {
                         hostDtoWithoutHamsters,
                         "short desc"));
 
-        HamsterDtoWithoutAdoptive hamster = service.findAdoptableHamsterById(1L);
+        HamsterDtoWithoutAdopter hamster = service.findAdoptableHamsterById(1L);
 
         assertThat(hamster.getName()).isEqualTo("Bolyhos");
 
@@ -242,7 +241,7 @@ class HamsterServiceTest {
                                 HamsterStatus.ADOPTED,
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
-                                adoptiveDtoWithoutHamsters,
+                                adopterDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
                                 "short desc"),
                         new HamsterDto(
@@ -286,7 +285,7 @@ class HamsterServiceTest {
                                 HamsterStatus.ADOPTED,
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
-                                adoptiveDtoWithoutHamsters,
+                                adopterDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),"short desc"),
                         new HamsterDto(
                                 1L,
@@ -341,13 +340,13 @@ class HamsterServiceTest {
                         HamsterStatus.ADOPTED,
                         hostDtoWithoutHamsters,
                         LocalDate.parse("2023-01-02"),
-                        adoptiveDtoWithoutHamsters,
+                        adopterDtoWithoutHamsters,
                         LocalDate.parse("2023-01-02"),
                         "short desc"));
 
         HamsterDto hamster = service.adoptHamster(1L,
                 new AdoptHamsterCommand(
-                        adoptiveDtoWithoutHamsters.getId(),
+                        adopterDtoWithoutHamsters.getId(),
                         LocalDate.parse("2023-01-02")));
 
         assertThat(hamster.getAdoptive()).isNotNull();

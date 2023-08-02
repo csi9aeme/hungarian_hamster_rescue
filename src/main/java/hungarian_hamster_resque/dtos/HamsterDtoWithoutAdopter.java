@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HamsterDtoWithoutAdoptive {
+public class HamsterDtoWithoutAdopter {
 
     private Long id;
 

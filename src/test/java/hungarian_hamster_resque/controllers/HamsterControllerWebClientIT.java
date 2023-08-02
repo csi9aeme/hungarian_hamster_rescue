@@ -1,10 +1,7 @@
 package hungarian_hamster_resque.controllers;
 
 import hungarian_hamster_resque.dtos.*;
-import hungarian_hamster_resque.enums.Gender;
-import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
-import hungarian_hamster_resque.enums.HostStatus;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +44,7 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Create a new hamster")
     void testCreateHamster() {
-        HamsterDtoWithoutAdoptive result = webClient.post().uri("/api/hamsters")
+        HamsterDtoWithoutAdopter result = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
@@ -59,7 +56,7 @@ public class HamsterControllerWebClientIT {
                         "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+                .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
 
         assertThat(result.getId()).isNotNull();
         assertThat(result.getName()).isEqualTo("Bolyhos");
@@ -396,7 +393,7 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Find hamster by ID")
     void testFindHamsterById() {
-        HamsterDtoWithoutAdoptive hamster = webClient.post().uri("/api/hamsters")
+        HamsterDtoWithoutAdopter hamster = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
@@ -408,13 +405,13 @@ public class HamsterControllerWebClientIT {
                         "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+                .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
 
         long id = hamster.getId();
 
-        HamsterDtoWithoutAdoptive result = webClient.get().uri("/api/hamsters/{id}", id)
+        HamsterDtoWithoutAdopter result = webClient.get().uri("/api/hamsters/{id}", id)
                 .exchange()
-                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+                .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
 
         assertThat(result.getName()).isEqualTo("Bolyhos");
     }
@@ -434,7 +431,7 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Update an existing hamster's attribute")
     void testUpdateHamster() {
-        HamsterDtoWithoutAdoptive result = webClient.post().uri("/api/hamsters")
+        HamsterDtoWithoutAdopter result = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
@@ -446,10 +443,10 @@ public class HamsterControllerWebClientIT {
                         "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+                .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
         long id = result.getId();
 
-        HamsterDtoWithoutAdoptive updated = webClient.put().uri("/api/hamsters/{id}", id)
+        HamsterDtoWithoutAdopter updated = webClient.put().uri("/api/hamsters/{id}", id)
                 .bodyValue(new UpdateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
@@ -459,7 +456,7 @@ public class HamsterControllerWebClientIT {
                         host.getId(),
                         LocalDate.parse("2023-01-25")))
                 .exchange()
-                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+                .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
 
         assertThat(updated.getHamsterStatus()).isEqualTo(HamsterStatus.UNDER_MEDICAL_TREATMENT);
     }
@@ -467,14 +464,14 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Adopt a hamster (change status and add an owner)")
     void testAdoptHamster() {
-        AdoptiveDtoWithoutHamsters adoptive = webClient.post()
+        AdopterDtoWithoutHamsters adoptive = webClient.post()
                 .uri("/api/adoptives")
-                .bodyValue(new CreateAdoptiveCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
+                .bodyValue(new CreateAdopterCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(AdoptiveDtoWithoutHamsters.class).returnResult().getResponseBody();
+                .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-        HamsterDtoWithoutAdoptive result = webClient.post().uri("/api/hamsters")
+        HamsterDtoWithoutAdopter result = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "dzsungáriai törpehörcsög",
@@ -486,7 +483,7 @@ public class HamsterControllerWebClientIT {
                         "short desc"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
-                .expectBody(HamsterDtoWithoutAdoptive.class).returnResult().getResponseBody();
+                .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
         long id = result.getId();
 
         HamsterDto adopted = webClient.put().uri("/api/hamsters/{id}/adopted", id)

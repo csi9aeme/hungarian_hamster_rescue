@@ -2,7 +2,7 @@ package hungarian_hamster_resque.thymeleaf;
 
 import hungarian_hamster_resque.dtos.CreateHamsterCommand;
 import hungarian_hamster_resque.dtos.HamsterDto;
-import hungarian_hamster_resque.dtos.HamsterDtoWithoutAdoptive;
+import hungarian_hamster_resque.dtos.HamsterDtoWithoutAdopter;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
@@ -26,9 +26,9 @@ public class HamsterThymeController {
 
     @GetMapping("/current_hamsters")
     public ModelAndView findCurrentHamsters() {
-        List<HamsterDtoWithoutAdoptive> hamsters = hamsterService.getListOfCurrentHamsters();
+        List<HamsterDtoWithoutAdopter> hamsters = hamsterService.getListOfCurrentHamsters();
         Map<String, Object> model = Map.of();
-        for (HamsterDtoWithoutAdoptive h : hamsters) {
+        for (HamsterDtoWithoutAdopter h : hamsters) {
             model = Map.of(
                     "hamsters", hamsters
             );

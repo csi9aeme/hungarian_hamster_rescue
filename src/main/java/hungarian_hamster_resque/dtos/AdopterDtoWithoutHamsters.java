@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdoptiveDtoWithoutHamsters {
+public class AdopterDtoWithoutHamsters {
 
     private long id;
 

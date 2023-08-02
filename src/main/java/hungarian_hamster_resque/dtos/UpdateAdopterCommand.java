@@ -9,15 +9,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class CreateAdoptiveCommand {
+@NoArgsConstructor
+public class UpdateAdopterCommand {
 
     @NotEmpty(message = "Name cannot be empty!")
-    @Schema(description = "name", example = "Kovács Angéla")
+    @Schema(description = "Name of the owner.", example = "Kovács Angéla")
     private String name;
 
     @NotEmpty(message = "Address cannot be empty!")
-    @Schema(description = "address", example = "1023 Budapest, Fő utca 28.")
+    @Schema(description = "Address of the owner.", example = "1023 Budapest, Fő utca 28.")
     private String address;
 }

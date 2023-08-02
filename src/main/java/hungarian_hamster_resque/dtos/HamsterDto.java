@@ -33,7 +33,7 @@ public class HamsterDto {
 
     private LocalDate startOfFostering;
 
-    private AdoptiveDtoWithoutHamsters adoptive;
+    private AdopterDtoWithoutHamsters adoptive;
 
     private LocalDate dateOfAdoption;
 
