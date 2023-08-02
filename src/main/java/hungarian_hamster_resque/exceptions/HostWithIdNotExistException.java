@@ -3,7 +3,7 @@ package hungarian_hamster_resque.exceptions;
 public class HostWithIdNotExistException extends RuntimeException{
 
     public HostWithIdNotExistException(long id) {
-        super(String.format("A keresett ID-val (%d) ideiglenes befogadó nincs az adatbázisban.", id));
+        super(String.format("The temporary host with the given ID (%d) is not exist.", id));
     }
 
 }

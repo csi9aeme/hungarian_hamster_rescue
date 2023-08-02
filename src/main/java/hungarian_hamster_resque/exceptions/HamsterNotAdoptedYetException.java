@@ -1,6 +1,5 @@
 package hungarian_hamster_resque.exceptions;
 
-import hungarian_hamster_resque.models.Hamster;
 
 public class HamsterNotAdoptedYetException extends RuntimeException{
 

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-08-02T19:25:27+0200",
+    date = "2023-08-02T20:27:40+0200",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 20.0.2 (Oracle Corporation)"
 )
 @Component
@@ -100,7 +100,7 @@ public class HamsterMapperImpl implements HamsterMapper {
 
         List<HamsterDto> list = new ArrayList<HamsterDto>( hamsters.size() );
         for ( HamsterDtoWithoutAdopter hamsterDtoWithoutAdopter : hamsters ) {
-            list.add( hamsterDtoWithoutAdoptiveToHamsterDto(hamsterDtoWithoutAdopter) );
+            list.add( hamsterDtoWithoutAdopterToHamsterDto( hamsterDtoWithoutAdopter ) );
         }
 
         return list;
@@ -138,7 +138,7 @@ public class HamsterMapperImpl implements HamsterMapper {
         return adopterDtoWithoutHamsters;
     }
 
-    protected HamsterDto hamsterDtoWithoutAdoptiveToHamsterDto(HamsterDtoWithoutAdopter hamsterDtoWithoutAdopter) {
+    protected HamsterDto hamsterDtoWithoutAdopterToHamsterDto(HamsterDtoWithoutAdopter hamsterDtoWithoutAdopter) {
         if ( hamsterDtoWithoutAdopter == null ) {
             return null;
         }
