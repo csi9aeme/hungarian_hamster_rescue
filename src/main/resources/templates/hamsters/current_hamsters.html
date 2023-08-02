@@ -70,11 +70,11 @@ table.table-fit tbody td, table.table-fit tfoot td {
     </tr>
     <tr th:each="hamster : ${hamsters}">
         <td th:text="${hamster.name}"></td>
-        <td th:text="${hamster.hamsterSpecies}"></td>
-        <td th:text="${hamster.gender}"></td>
+        <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
+        <td th:text="${hamster.gender.gender}"></td>
         <td th:text="${hamster.startOfFostering}"></td>
         <td th:text="${hamster.host.name}"></td>
-        <td th:text="${hamster.hamsterStatus}"></td>
+        <td th:text="${hamster.hamsterStatus.status}"></td>
     </tr>
     </tbody>
 </table>

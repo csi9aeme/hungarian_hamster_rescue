@@ -77,7 +77,8 @@ public class HamsterThymeController {
 
         Map<String, Object> model = Map.of(
                 "hamster", hamster,
-                "adoptive", checkIfAdopted(hamster));
+                "adoptive", checkIfAdopted(hamster),
+                "place", hamsterService.findHamsterPlace(hamster.getId()));
 
 
         return new ModelAndView("/hamsters/hamster_page", model);

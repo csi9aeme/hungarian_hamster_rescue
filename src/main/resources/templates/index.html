@@ -5,14 +5,17 @@
     <meta charset="UTF-8">
     <title>Hungarian Hamster Resque </title>
     
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <style th:src="@{_styles/css/hamster-form.css}"></style>
+    <!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <style th:src="@{_styles/css/hamster-form.css}"></style> 
     <style th:href="@{_styles/css/hamster-form.css}"></style>
 
     <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />-->
 
     
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" /> 
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 
 
 </head>
@@ -20,9 +23,9 @@
 <body>
     <div>
         <p>
-            <button type="button" class="btn btn-outline-info" onclick="hamster_menu()">hamsters</button>
-            <button type="button" class="btn btn-outline-info" onclick="host_menu()">hosts</button>
-            <button type="button" class="btn btn-outline-info" onclick="adoptive_menu()">adoptives</button>
+            <button type="button" class="btn btn-outline-info" onclick="openHamsterMenu()">hamsters</button>
+            <button type="button" class="btn btn-outline-info" onclick="openHostMenu()">hosts</button>
+            <button type="button" class="btn btn-outline-info" onclick="openAdoptiveMenu()">adoptives</button>
         </p>
 
     </div>
@@ -32,17 +35,17 @@
 
     </div>
     <script>
-        function hamster_menu() {
+        function openHamsterMenu() {
             $("#display-function").load("/hamster_menu");
 
         }
     
-        function host_menu() {
+        function openHostMenu() {
             $("#display-function").load("/host_menu");
 
         }
    
-        function adoptive_menu() {
+        function openAdoptiveMenu() {
             $("#display-function").load("/adoptive_menu");
 
         }

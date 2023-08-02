@@ -8,7 +8,7 @@
 
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
-  <link th:href="@{/css/main.css}" rel="stylesheet" />
+  <!--<link th:href="@{/css/main.css}" rel="stylesheet" />-->
   <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 
@@ -20,14 +20,15 @@
   <div class="menu">
     <h2>hamster menu</h2>
 
-    <button type="button" class="btn btn-outline-success" onclick="add_new_hamster()">add new hamster</button>
+    <button type="button" class="btn btn-outline-success" onclick="addNewHamster()">add new hamster</button>
 
-    <button type="button" class="btn btn-outline-info" onclick="openHamsterPage()">Open hamster page</button>
+    <button type="button" class="btn btn-outline-info" onclick="openSelectedHamsterPage()">Open hamster page</button>
 
-    <button type="button" class="btn btn-outline-info" onclick="change_hamster_attributes()">change attributes of a
+    <button type="button" class="btn btn-outline-info" onclick="changeSelectedHamsterAttributes()">change attributes of
+      a
       hamster</button>
 
-    <button type="button" class="btn btn-outline-primary" onclick="list_of_current_hamsters()">list of current
+    <button type="button" class="btn btn-outline-primary" onclick="listOfAllCurrentHamsters()">list of current
       hamsters</button>
 
   </div>
@@ -37,43 +38,36 @@
   </div>
 
 
-  <!--add new hamster-->
   <script>
-    function add_new_hamster() {
+    function addNewHamster() {
       $("#display-function-in-menu").load("/hamsters/create_hamster");
 
     }
-  </script>
-  <!--onclick-->
-  <script>
-    function list_of_current_hamsters() {
+
+    function listOfAllCurrentHamsters() {
       $("#display-function-in-menu").load("/hamsters/current_hamsters");
 
     }
-  </script>
-  <script>
+
     function findHamstersByName() {
       let text;
       let person = prompt("Please enter the name of hamster:");
       if (person == null || person == "") {
         window.alert("Name cannot be empty!");
       } else {
-        $("#display-function-in-menu").load("listofhamstersbyname.html");
+        $("#display-function-in-menu").load("list_of_hamsters_by_name.html");
 
       }
       document.getElementById("display-function-in-menu").innerHTML = text;
     }
 
-    function openHamsterPage() {
-      
+    function openSelectedHamsterPage() {
       let text;
       let id = prompt("Please enter the ID of hamster:");
       if (id == null || id == "") {
         window.alert("ID cannot be empty!");
       } else {
         $("#display-function-in-menu").load("/hamsters/hamster_page/" + id);
-
-
       }
       document.getElementById("display-function-in-menu").innerHTML = text;
     }

@@ -21,6 +21,8 @@ public interface HamsterRepository extends JpaRepository<Hamster, Long> {
     List<Hamster> findFosteringHamstersByHostId(@Param("id") long id);
 
 
+    @Query("select hamster.host.address from Hamster hamster where hamster.id = :id")
+    String findHamsterPlace(@Param("id") long id);
 
 
 }

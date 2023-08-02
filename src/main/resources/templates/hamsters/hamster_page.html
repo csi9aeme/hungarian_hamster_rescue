@@ -20,11 +20,11 @@
             </tr>
             <tr>
                 <td>Species</td>
-                <td th:text="${hamster.hamsterSpecies}"></td>
+                <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
             </tr>
             <tr>
                 <td>Gender</td>
-                <td th:text="${hamster.gender}"></td>
+                <td th:text="${hamster.gender.gender}"></td>
             </tr>
             <tr>
                 <td>Date of birth</td>
@@ -32,7 +32,11 @@
             </tr>
             <tr>
                 <td>Status</td>
-                <td th:text="${hamster.hamsterStatus}"></td>
+                <td th:text="${hamster.hamsterStatus.status}"></td>
+            </tr>
+            <tr>
+                <td>Place</td>
+                <td th:text="${place}"></td>
             </tr>
             <tr>
                 <td>Start of foster</td>
@@ -44,7 +48,7 @@
             </tr>
             <tr>
                 <td>Owner</td>
-                <td th:text="${adoptive}">NOPE</td>
+                <td th:text="${adoptive}"></td>
                 
             </tr>
             <tr>

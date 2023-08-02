@@ -16,11 +16,12 @@
 <div align="center">
     <h2>Adding hamster succeeded!</h2>
     <span>Name:</span><span th:text="${hamster.name}"></span><br/>
-    <span>Species:</span><span th:text="${hamster.hamsterSpecies}"></span><br/>
-    <span>Gender:</span><span th:text="${hamster.gender}"></span><br/>
+    <span>Species:</span><span th:text="${hamster.hamsterSpecies.nameOfSpecies}"></span><br/>
+    <span>Gender:</span><span th:text="${hamster.gender.gender}"></span><br/>
     <span>Date of birth:</span><span th:text="${hamster.dateOfBirth}"></span><br/>
     <span>Host name:</span><span th:text="${hamster.hostId}"></span><br/>
     <span>Start of fostering</span><span th:text="${hamster.startOfFoster}"></span><br/>
+    <span>Hamster's status</span><span th:text="${hamster.hamsterStatus.status}"></span><br/>
     <span>Description:</span><span th:text="${hamster.description}"></span><br/>
 </div>
 

@@ -112,6 +112,16 @@ public class HamsterService {
 
     }
 
+    public String findHamsterPlace(long id){
+        Hamster hamster = findHamsterEntityById(id);
+        if (hamster.getAdoptive() != null) {
+            return "Already adopted, not in our care.";
+        }
+        String address = hamsterRepository.findHamsterPlace(id);
+
+        return sliceHostAddress(address);
+    }
+
 
 
     private List<Hamster> findHamsterWithNamePart(String hamsterName) {
@@ -166,6 +176,12 @@ public class HamsterService {
             }
         }
         throw new HamsterStatusNotAcceptableException(status);
+    }
+
+    private String sliceHostAddress(String address){
+        String[] temp = address.split(" ");
+        String place = temp[1].substring(0,temp[1].length()-1);
+        return place;
     }
 
 }

@@ -47,8 +47,8 @@
             </tr>
             <tr th:each="hamster : ${hamsters}">
                 <td th:text="${hamster.name}"></td>
-                <td th:text="${hamster.hamsterSpecies}"></td>
-                <td th:text="${hamster.hamsterStatus}"></td>
+                <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
+                <td th:text="${hamster.hamsterStatus.status}"></td>
                 <td th:text="${hamster.startOfFostering}"></td>
             </tr>
         </tbody>

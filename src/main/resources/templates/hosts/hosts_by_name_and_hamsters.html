@@ -65,7 +65,7 @@
                 <td th:text="${host.name}"></td>
                 <td th:text="${host.address}"></td>
                 <td th:text="${host.capacity}"></td>
-                <td th:text="${host.hostStatus}"></td>
+                <td th:text="${host.hostStatus.status}"></td>
                 <td >
                     <table>
                     
@@ -78,8 +78,8 @@
                             </tr>
                             <tr th:each="hamster : ${host.hamsters}">
                                 <td th:text="${hamster.name}" onclick="openHamsterPage()"></a></td>
-                                <td th:text="${hamster.hamsterSpecies}"></td>
-                                <td th:text="${hamster.hamsterStatus}"></td>
+                                <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
+                                <td th:text="${hamster.hamsterStatus.status}"></td>
                                 <td th:text="${hamster.startOfFostering}"></td>
                             </tr>
                         </tbody>

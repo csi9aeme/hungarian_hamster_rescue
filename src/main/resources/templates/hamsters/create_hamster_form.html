@@ -1,62 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Add new hamster</title>
-    
+
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    
+
     <!--<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />-->
     <link rel="stylesheet" type="text/css" th:href="@{_styles/css/hamster-form.css}" />
 
 
 </head>
+
 <body>
 
     <form action="#" th:action="@{/hamsters/create_hamster}" method="post" th:object="${hamster}">
         <label>Name:</label>
-        <input type="text" th:field="*{name}" /><br/>
+        <input type="text" th:field="*{name}" /><br />
 
         <label>Species</label>
         <select th:field="*{hamsterSpecies}">
             <option th:each="sp : ${listSpecies}" th:value="${sp}" th:text="${sp}" />
         </select>
-        <br/>
+        <br />
         <label>Gender:</label>
         <select th:field="*{gender}">
             <option th:each="g : ${listGenders}" th:value="${g}" th:text="${g}" />
         </select>
-        <br/>
+        <br />
         <label>Date of birth (yyyy-mm-dd):</label>
-        <input type="text" th:field="*{dateOfBirth}" /><br/>
-        <br/>
+        <input type="text" th:field="*{dateOfBirth}" /><br />
+        <br />
         <label>Status:</label>
         <select th:field="*{hamsterStatus}">
             <option th:each="hs : ${listStatus}" th:value="${hs}" th:text="${hs}" />
         </select>
-        <br/>
+        <br />
         <label>Host:</label>
-        <input type="text" th:field="*{hostId}" /><br/>
-        <br/>
+        <input type="text" th:field="*{hostId}" /><br />
+        <br />
 
         <label>Start of fostering (yyyy-mm-dd):</label>
-        <input type="text" th:field="*{startOfFoster}" /><br/>
-        <br/>
+        <input type="text" th:field="*{startOfFoster}" /><br />
+        <br />
 
         <label>Description:</label>
         <textarea rows="5" cols="25" th:field="*{description}"></textarea>
-        <br/>
+        <br />
 
         <button type="submit">Add</button>
     </form>
 
     <div id="back-button">
         <a href="index.html">Vissza</a>
-      </div>
+    </div>
 
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 
 </body>
+
 </html>
