@@ -6,6 +6,7 @@ import hungarian_hamster_resque.dtos.HamsterDtoSimple;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
 import jdk.jfr.Description;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,11 +32,22 @@ public class HostControllerWebClientIT {
     @Autowired
     WebTestClient webClient;
 
+    CreateHostCommand klara;
+    CreateHostCommand klaudia;
+    CreateHostCommand erno;
+
+    @BeforeEach
+    void init() {
+        klara = new CreateHostCommand("Békési Klára", "Szeged", 5, "active");
+        klaudia = new CreateHostCommand("Bogdán Klaudia", "Budapest", 2, "active");
+        erno = new CreateHostCommand("Nagy Ernő", "Budapest", 4, "active");
+    }
+
     @Test
     @Description("Create new host")
     void testCreateHost() {
         HostDtoWithoutHamsters result = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -57,6 +69,7 @@ public class HostControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertEquals(URI.create("hamsterresque/not-valid"), detail.getType());
+        assertThat(detail.getDetail()).isEqualTo("Name cannot be empty!");
     }
 
     @Test
@@ -70,21 +83,22 @@ public class HostControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertEquals(URI.create("hamsterresque/not-valid"), detail.getType());
+        assertThat(detail.getDetail()).isEqualTo("Must be higher than 0.");
     }
 
     @Test
     @Description("Get hosts' list")
     void testGetHostsList() {
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Bogdán Klaudia", "Budapest", 2))
+                .bodyValue(klaudia)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Nagy Ernő", "Békéscsaba", 4))
+                .bodyValue(erno)
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -102,15 +116,15 @@ public class HostControllerWebClientIT {
     @Description("Get hosts' list by name")
     void testGetHostsListWithNamePart() {
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Bogdán Klaudia", "Budapest", 2))
+                .bodyValue(klaudia)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Nagy Ernő", "Békéscsaba", 4))
+                .bodyValue(erno)
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -135,13 +149,14 @@ public class HostControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertEquals(URI.create("hamsterresque/host-not-found"), detail.getType());
+        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given name (Bence) is not exit.");
     }
 
     @Test
     @Description("Find host by ID without hamsters' list")
     void testFindHostByIdWithoutHam() {
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -160,13 +175,15 @@ public class HostControllerWebClientIT {
     @Test
     @Description("Exception: Find host by wrong ID")
     void testFindHostByIdWithoutHamWrongId() {
+        long id = 2222;
         ProblemDetail detail = webClient.get()
-                .uri("/api/hosts/22")
+                .uri("/api/hosts/{id}", id)
                 .exchange()
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertEquals(URI.create("hamsterresque/host-not-found"), detail.getType());
+        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given ID ("+ id + ") is not exist.");
 
     }
 
@@ -174,7 +191,7 @@ public class HostControllerWebClientIT {
     @Description("Find host by ID and get the host's hamsters list")
     void testFindHostByIdWithHam() {
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -183,10 +200,10 @@ public class HostControllerWebClientIT {
         webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "dzsungáriai törpehörcsög",
-                        "nőstény",
+                        "golden hamster",
+                        "female",
                         LocalDate.parse("2022-11-01"),
-                        "örökbefogadható",
+                        "adoptable",
                         id,
                         LocalDate.parse("2023-01-25"),
                         "short desc"))
@@ -209,7 +226,7 @@ public class HostControllerWebClientIT {
     @Description("Exception: find a host by ID, but empty hamsters list")
     void testFindHostByIdWithEmptyHamList() {
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klaudia)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -223,13 +240,15 @@ public class HostControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertEquals(URI.create("hamsterresque/hamsters-not-found"), detail.getType());
+        assertThat(detail.getDetail()).isEqualTo("The temporary host with the requested ID ("
+                + host.getId() +") does not currently have a hamster.");
     }
 
     @Test
     @Description("Update a host's address")
     void testUpdateHost() {
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -248,15 +267,15 @@ public class HostControllerWebClientIT {
     @Description("Get hosts' list by city")
     void testGetHostsByCity() {
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Bogdán Klaudia", "Budapest", 2))
+                .bodyValue(klaudia)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Nagy Ernő", "Budapest", 4))
+                .bodyValue(erno)
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -275,15 +294,15 @@ public class HostControllerWebClientIT {
     @Description("Exception: get hosts' list by wrong city")
     void testGetHostsByWrongCity() {
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Bogdán Klaudia", "Budapest", 2))
+                .bodyValue(klaudia)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Nagy Ernő", "Budapest", 4))
+                .bodyValue(erno)
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -302,7 +321,7 @@ public class HostControllerWebClientIT {
     @Description("Set a host inactive")
     void testSetHostInactive() {
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5))
+                .bodyValue(klaudia)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -312,10 +331,7 @@ public class HostControllerWebClientIT {
         HostDtoWithoutHamsters hostGet = webClient.get().uri("api/hosts/{id}", id)
                 .exchange()
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
-        System.out.println(hostGet.getHostStatus());
         assertThat(hostGet.getHostStatus()).isEqualTo(HostStatus.ACTIVE);
-
-
 
         host = webClient.put().uri("api/hosts/{id}/inactive", id)
                 .exchange()
