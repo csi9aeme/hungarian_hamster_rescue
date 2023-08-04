@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class HostDtoCountedFreeCapacity {
+public class HostDtoCountedCapacity {
 
     private Long id;
 
@@ -24,7 +24,7 @@ public class HostDtoCountedFreeCapacity {
 
     private HostStatus hostStatus;
 
-    public HostDtoCountedFreeCapacity(String name, String address, int capacity, int freeCapacity, HostStatus hostStatus) {
+    public HostDtoCountedCapacity(String name, String address, int capacity, int freeCapacity, HostStatus hostStatus) {
         this.name = name;
         this.address = address;
         this.capacity = capacity;

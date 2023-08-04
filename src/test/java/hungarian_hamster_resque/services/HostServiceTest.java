@@ -19,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -51,7 +49,7 @@ class HostServiceTest {
 
 
         HostDtoWithoutHamsters host = service.createHost(
-                new CreateHostCommand("Kiss Klára", "1092 Budapest, Virág utca 7", 1));
+                new CreateHostCommand("Kiss Klára", "1092 Budapest, Virág utca 7", 1, "active"));
 
         assertThat(host.getId()).isNotNull();
         assertThat(host.getName()).isEqualTo("Kiss Klára");
@@ -84,7 +82,7 @@ class HostServiceTest {
         assertThatThrownBy(() ->
                 service.updateHost(101L, new UpdateHostCommand("Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE)))
                 .isInstanceOf(HostWithIdNotExistException.class)
-                .hasMessage("A keresett ID-val (101) ideiglenes befogadó nincs az adatbázisban.");
+                .hasMessage("The temporary host with the given ID (101) is not exist.");
         verify(repository).findById(any());
 
     }
@@ -141,7 +139,7 @@ class HostServiceTest {
         assertThatThrownBy(() ->
                 service.getListOfHosts(Optional.of("Kelemen")))
                 .isInstanceOf(HostWithNamePartNotExistException.class)
-                .hasMessage("A keresett névrészlettel (Kelemen) ideiglenes befogadó nincs az adatbázisban.");
+                .hasMessage("The temporary host with the given name (Kelemen) is not exit.");
 
         verify(repository).findByNameWithoutHamster(anyString());
 
@@ -167,7 +165,7 @@ class HostServiceTest {
         assertThatThrownBy(() ->
                 service.findHostById(1000L))
                 .isInstanceOf(HostWithIdNotExistException.class)
-                .hasMessage("A keresett ID-val (1000) ideiglenes befogadó nincs az adatbázisban.");
+                .hasMessage("The temporary host with the given ID (1000) is not exist.");
         verify(repository).findById(any());
 
     }
@@ -227,7 +225,7 @@ class HostServiceTest {
         assertThatThrownBy(() ->
                 service.getListOfHostsHamsters(1L))
                 .isInstanceOf(HostHasNotHamsterYetException.class)
-                .hasMessage("A keresett ID-val (1) rendelkező ideiglenes befogadónak nincs jelenleg hörcsöge.");
+                .hasMessage("The temporary host with the requested ID (1) does not currently have a hamster.");
 
         verify(repository).findByIdWithAllHamster(anyLong());
     }
@@ -289,23 +287,19 @@ class HostServiceTest {
         assertThatThrownBy(() ->
                 service.getListOfHostsWithHamstersByCity("Budapest"))
                 .isInstanceOf(HostWithCityNotFoundException.class)
-                .hasMessage("A keresett településen (Budapest) ideiglenes befogadó nem található.");
+                .hasMessage("There are currently no temporary hosts in the specified city: (Budapest).");
         verify(repository).findByCityWithHamster(any());
 
     }
 
     @Test
     void testCountFreeCapacity() {
-//
-
-        when(mapper.toDtoFreeCapacity((List<Host>) any()))
+       when(mapper.toDtoFreeCapacity((List<Host>) any()))
                 .thenReturn(List.of(
-                        new HostDtoCountedFreeCapacity(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 4, 2, HostStatus.ACTIVE),
-                        new HostDtoCountedFreeCapacity(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", 6, 4, HostStatus.ACTIVE)
+                        new HostDtoCountedCapacity(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 4, 2, HostStatus.ACTIVE),
+                        new HostDtoCountedCapacity(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", 6, 4, HostStatus.ACTIVE)
                         ));
-
-
-        List<HostDtoCountedFreeCapacity> hostFreeCap = service.getListOfHostWithFreeCapacity();
+        List<HostDtoCountedCapacity> hostFreeCap = service.getListOfHostWithCapacity();
 
         int free = hostFreeCap.get(0).getFreeCapacity();
         int free2 = hostFreeCap.get(1).getFreeCapacity();
@@ -316,8 +310,9 @@ class HostServiceTest {
     @Disabled //NEED CHECK
     @Test
     void testFreeCapacityCounter() {
-        List<Host> hosts = List.of(
-                new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 4,
+        when(repository.findOnlyActiveWithAllHamster())
+                .thenReturn(List.of(
+                new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 2,
                         List.of(new Hamster( "Bolyhos",
                                         HamsterSpecies.DWARF,
                                         Gender.FEMALE,
@@ -330,7 +325,7 @@ class HostServiceTest {
                                         LocalDate.parse("2022-11-01"),
                                         HamsterStatus.ADOPTABLE,
                                         LocalDate.parse("2023-01-25")))),
-                new Host(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", HostStatus.INACTIVE, 6,
+                new Host(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 6,
                         List.of(new Hamster( "Boci",
                                         HamsterSpecies.DWARF,
                                         Gender.FEMALE,
@@ -342,12 +337,41 @@ class HostServiceTest {
                                         Gender.FEMALE,
                                         LocalDate.parse("2022-11-01"),
                                         HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25")))));
-        when(repository.findOnlyActiveWithAllHamster())
-                .thenReturn(null);
+                                        LocalDate.parse("2023-01-25"))))));
+        List<Host> hosts = repository.findOnlyActiveWithAllHamster();
 
-        List<Host> hostk = repository.findOnlyActiveWithAllHamster();
-        assertThat(hosts.size()).isEqualTo(1);
+        when(mapper.toDtoFreeCapacity(hosts))
+                .thenReturn(List.of(
+                        new HostDtoCountedCapacity( "Nagy Klára", "1092 Szeged, Őz utca 9", 6, 4, HostStatus.ACTIVE)));
+        List<HostDtoCountedCapacity> hostDtoCountedFreeCapacities = mapper.toDtoFreeCapacity(hosts);
+
+        when(repository.findByIdWithAllHamster(anyLong()))
+                .thenReturn(new Host(2L,"Nagy Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 6,
+                        List.of(new Hamster( "Boci",
+                                        HamsterSpecies.DWARF,
+                                        Gender.FEMALE,
+                                        LocalDate.parse("2022-11-01"),
+                                        HamsterStatus.ADOPTABLE,
+                                        LocalDate.parse("2023-01-25")),
+                                new Hamster("Tarka",
+                                        HamsterSpecies.DWARF,
+                                        Gender.FEMALE,
+                                        LocalDate.parse("2022-11-01"),
+                                        HamsterStatus.ADOPTABLE,
+                                        LocalDate.parse("2023-01-25")
+                                        ))));
+
+        System.out.println(hostDtoCountedFreeCapacities.size());
+        Host host = repository.findByIdWithAllHamster(2L);
+        System.out.println(host.getId());
+        when(service.getListOfHostWithCapacity())
+                .thenReturn(hostDtoCountedFreeCapacities);
+
+        List<HostDtoCountedCapacity> hostsWithFreeCapacity = service.getListOfHostWithCapacity();
+        System.out.println(hostsWithFreeCapacity.size());
+        HostDtoCountedCapacity hostCap = hostsWithFreeCapacity.get(0);
+        assertThat(hostsWithFreeCapacity.size()).isEqualTo(1);
+        assertThat(hostCap.getFreeCapacity()).isEqualTo(4);
     }
 
 }

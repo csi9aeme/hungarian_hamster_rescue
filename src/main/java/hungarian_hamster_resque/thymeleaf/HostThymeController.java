@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/hosts")
@@ -56,9 +55,10 @@ public class HostThymeController {
 
     @GetMapping("/current_hosts")
     public ModelAndView findCurrentHosts() {
-        List<HostDtoCountedFreeCapacity> hosts = hostService.getListOfHostWithFreeCapacity();
+        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithCapacity();
         Map<String, Object> model = Map.of();
-        for (HostDtoCountedFreeCapacity h : hosts) {
+
+        for (HostDtoCountedCapacity h : hosts) {
             model = Map.of(
                     "hosts", hosts
             );
@@ -67,11 +67,25 @@ public class HostThymeController {
 
     }
 
+
+    @GetMapping("/current_hosts_free_capacity")
+    public ModelAndView findCurrentHostsWithFreeCapacity() {
+        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacity();
+        Map<String, Object> model = Map.of();
+        for (HostDtoCountedCapacity h : hosts) {
+            model = Map.of(
+                    "hosts", hosts
+            );
+        }
+        return new ModelAndView("/hosts/current_hosts_free_capacity", model);
+
+    }
+
     @GetMapping("/current_hosts_by_city/{city}")
     public ModelAndView findCurrentHostsByCity(@PathVariable("city") String city) {
-        List<HostDtoCountedFreeCapacity> hosts = hostService.getListOfHostWithFreeCapacityByCity(city);
+        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacityByCity(city);
         Map<String, Object> model = Map.of();
-        for (HostDtoCountedFreeCapacity h : hosts) {
+        for (HostDtoCountedCapacity h : hosts) {
             model = Map.of(
                     "hosts", hosts
             );

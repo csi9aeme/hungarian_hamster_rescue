@@ -3,351 +3,428 @@ POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Gülüke",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 1,
-  "startOfFoster": "2023-03-06"
+  "startOfFoster": "2023-03-06",
+  "description" : "short story"
+
+
+
 
 }
+
 
 ###POST new hamster (2)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Kirameku",
-  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "hybrid djungarian dwarf hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 2,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
+
 }
+
 
 ###POST new hamster (3)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Borka",
-  "hamsterSpecies": "roborovszki törpehörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "roborovski dwarf hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 3,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
+
 }
+
 
 ###POST new hamster (4)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Panda",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "golden hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 7,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
+
 }
+
 
 ###POST new hamster (5)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Alice",
-  "hamsterSpecies": "roborovszki törpehörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "roborovski dwarf hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 2,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
+
 }
+
 
 ###POST new hamster (6)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Peti",
-  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "hybrid djungarian dwarf hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 3,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
+
 }
+
 
 ###POST new hamster (7)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Simon",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 4,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (8)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Bolyhos",
-  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "hybrid djungarian dwarf hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 5,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (9)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Szotyi",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 3,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (10)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Mogyi",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 3,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (11)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Liza",
-  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "hybrid djungarian dwarf hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (12)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Gizmó",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 5,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (13)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Dakota",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 4,
+  "hamsterStatus": "adoptable",
+  "hostId": 5,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (14)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Benőke",
-  "hamsterSpecies": "hibrid dzsungáriai törpehörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "hybrid djungarian dwarf hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 4,
+  "hamsterStatus": "adoptable",
+  "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
 
+
+
+
 }
+
 
 ###POST new hamster (15)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Milli",
-  "hamsterSpecies": "roborovszki törpehörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "roborovski dwarf hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
+  "hamsterStatus": "adoptable",
   "hostId": 5,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (16)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Kerkez",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hamsterStatus": "adoptable",
+  "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (17)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Szofi",
-  "hamsterSpecies": "roborovszki törpehörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "roborovski dwarf hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hamsterStatus": "under medical treatment",
+  "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (18)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Trapista",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hamsterStatus": "adoptable",
+  "hostId": 7,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (19)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Ementáli",
-  "hamsterSpecies": "roborovszki törpehörcsög",
-  "gender": "nőstény",
+  "hamsterSpecies": "roborovski dwarf hamster",
+  "gender": "female",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hamsterStatus": "adoptable",
+  "hostId": 7,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+
 
 ###POST new hamster (20)
 POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Paprika",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 3,
+  "hamsterStatus": "under medical treatment",
+  "hostId": 7,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
+
+
 
 
 }
@@ -357,15 +434,19 @@ POST http://localhost:8080/api/hamsters
 Content-Type: application/json
 Accept: application/json
 
+
 {
   "name": "Gizmó22",
-  "hamsterSpecies": "szíriai aranyhörcsög",
-  "gender": "hím",
+  "hamsterSpecies": "golden hamster",
+  "gender": "male",
   "dateOfBirth": "2022-09-01",
-  "hamsterStatus": "örökbefogadható",
-  "hostId": 1,
+  "hamsterStatus": "adoptable",
+  "hostId": 2,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
 
+
+
 }
+

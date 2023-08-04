@@ -1,6 +1,6 @@
 package hungarian_hamster_resque.mappers;
 
-import hungarian_hamster_resque.dtos.HostDtoCountedFreeCapacity;
+import hungarian_hamster_resque.dtos.HostDtoCountedCapacity;
 import hungarian_hamster_resque.dtos.HostDtoWithHamsters;
 import hungarian_hamster_resque.dtos.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.models.Host;
@@ -19,9 +19,9 @@ public interface HostMapper {
 
     List<HostDtoWithHamsters> toDtoWithHam(List<Host> hosts);
 
-    HostDtoCountedFreeCapacity toDtoFreeCapacity(Host host);
+    HostDtoCountedCapacity toDtoFreeCapacity(Host host);
 
-    List<HostDtoCountedFreeCapacity> toDtoFreeCapacity(List<Host> hosts);
+    List<HostDtoCountedCapacity> toDtoFreeCapacity(List<Host> hosts);
 
 
 

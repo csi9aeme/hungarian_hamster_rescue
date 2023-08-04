@@ -1,13 +1,11 @@
 package hungarian_hamster_resque.services;
 
 import hungarian_hamster_resque.dtos.*;
-import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.exceptions.*;
 import hungarian_hamster_resque.mappers.HostMapper;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
-import hungarian_hamster_resque.repositories.HamsterRepository;
 import hungarian_hamster_resque.repositories.HostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -89,25 +87,31 @@ public class HostService {
 
         return hostMapper.toDtoWithHam(hosts);
     }
-    public List<HostDtoCountedFreeCapacity> getListOfHostWithFreeCapacity() {
+    public List<HostDtoCountedCapacity> getListOfHostWithCapacity() {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamster();
-        List<HostDtoCountedFreeCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
-        for (int i = 0; i< hosts.size(); i++) {
-            hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));        }
+        List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
+        setFreeCapacity(hosts, hostDto);
 
         return hostDto;
     }
 
-    public List<HostDtoCountedFreeCapacity> getListOfHostWithFreeCapacityByCity(String city) {
+    public List<HostDtoCountedCapacity> getListOfHostWithFreeCapacity() {
+        List<Host> hosts = hostRepository.getListOfHostWithFreeCapacity();
+        List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
+        setFreeCapacity(hosts, hostDto);
+
+        return hostDto;
+    }
+
+
+
+    public List<HostDtoCountedCapacity> getListOfHostWithFreeCapacityByCity(String city) {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamsterByCity(city);
-        List<HostDtoCountedFreeCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
-        for (int i = 0; i< hosts.size(); i++) {
-            hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));        }
+        List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
+        setFreeCapacity(hosts, hostDto);
 
         return hostDto;
     }
-
-
 
     @Transactional
     public HostDtoWithoutHamsters setHostInactive(long id) {
@@ -169,5 +173,10 @@ public class HostService {
         Host host = hostRepository.findByIdWithAllHamster(id);
         int freeCapacity = host.getCapacity() - host.getHamsters().size();
         return freeCapacity;
+    }
+    private void setFreeCapacity(List<Host> hosts, List<HostDtoCountedCapacity> hostDto) {
+        for (int i = 0; i< hosts.size(); i++) {
+            hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));
+        }
     }
 }
