@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,12 +45,13 @@ class HostServiceTest {
 
     @Test
     void testCreateHostDtoWithoutHamWithValidData() {
+        HostDtoWithoutHamsters hostDto = new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Budapest, Virág utca 7", 1, HostStatus.ACTIVE);
+        CreateHostCommand createHost = new CreateHostCommand("Kiss Klára", "1092 Budapest, Virág utca 7", 1, "active");
+
         when(mapper.toDtoWithoutHam((Host) any()))
-                .thenReturn(new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Budapest, Virág utca 7", 1, HostStatus.ACTIVE));
+                .thenReturn(hostDto);
 
-
-        HostDtoWithoutHamsters host = service.createHost(
-                new CreateHostCommand("Kiss Klára", "1092 Budapest, Virág utca 7", 1, "active"));
+        HostDtoWithoutHamsters host = service.createHost(createHost);
 
         assertThat(host.getId()).isNotNull();
         assertThat(host.getName()).isEqualTo("Kiss Klára");
@@ -61,17 +63,17 @@ class HostServiceTest {
 
     @Test
     void testUpdateHost() {
-        when(repository.findById(anyLong())).thenReturn(
-                Optional.of(new Host(1L, "Kiss Klára", "1092 Budapest, Virág utca 7", HostStatus.ACTIVE, 1)));
+        Host host = new Host(1L, "Kiss Klára", "1092 Budapest, Virág utca 7", HostStatus.ACTIVE, 1);
+        HostDtoWithoutHamsters hostDto = new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE);
+        UpdateHostCommand updateHost = new UpdateHostCommand("Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE);
 
-        when(mapper.toDtoWithoutHam((Host) any()))
-                .thenReturn(new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE));
+        when(repository.findById(anyLong())).thenReturn(Optional.of(host));
+        when(mapper.toDtoWithoutHam((Host) any())).thenReturn(hostDto);
 
-
-        HostDtoWithoutHamsters updated = service.updateHost(1L,
-                new UpdateHostCommand("Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE));
+        HostDtoWithoutHamsters updated = service.updateHost(1L, updateHost);
 
         assertThat(updated.getAddress()).contains("Szeged");
+
         verify(repository).findById(any());
         verify(repository).save(any());
 
@@ -97,8 +99,7 @@ class HostServiceTest {
         hosts.add(host2);
         hosts.add(host3);
 
-        when(mapper.toDtoWithoutHam((List<Host>) any()))
-                .thenReturn(hosts);
+        when(mapper.toDtoWithoutHam((List<Host>) any())).thenReturn(hosts);
 
         List<HostDtoWithoutHamsters> result = service.getListOfHosts(Optional.empty());
 
@@ -147,16 +148,15 @@ class HostServiceTest {
 
     @Test
     void testFindHostById() {
-        when(repository.findById(any()))
-                .thenReturn(Optional.of(new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 1)));
+        Host host = new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 1);
+        HostDtoWithoutHamsters hostDto = new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE);
 
-        when(mapper.toDtoWithoutHam((Host) any()))
-                .thenReturn(new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE));
+        when(repository.findById(any())).thenReturn(Optional.of(host));
+        when(mapper.toDtoWithoutHam((Host) any())).thenReturn(hostDto);
 
-        HostDtoWithoutHamsters host = service.findHostById(1L);
+        HostDtoWithoutHamsters wantedHost = service.findHostById(1L);
 
-        assertThat(host.getName()).isEqualTo("Kiss Klára");
-
+        assertThat(wantedHost.getName()).isEqualTo("Kiss Klára");
         verify(repository).findById(any());
     }
 
@@ -172,43 +172,41 @@ class HostServiceTest {
 
     @Test
     void testGetListOfHostsHamsters() {
-       when(repository.findByIdWithAllHamster(anyLong()))
-                .thenReturn(new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 1,
-                        List.of(new Hamster( "Bolyhos",
+        Host host = new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 1,
+                List.of(new Hamster( "Bolyhos",
                                 HamsterSpecies.DWARF,
                                 Gender.FEMALE,
                                 LocalDate.parse("2022-11-01"),
                                 HamsterStatus.ADOPTABLE,
                                 LocalDate.parse("2023-01-25")),
-                                new Hamster("Füles",
+                        new Hamster("Füles",
                                 HamsterSpecies.DWARF,
                                 Gender.FEMALE,
                                 LocalDate.parse("2022-11-01"),
                                 HamsterStatus.ADOPTABLE,
-                                LocalDate.parse("2023-01-25")))));
+                                LocalDate.parse("2023-01-25"))));
+       HostDtoWithHamsters hostDto = new HostDtoWithHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE,
+               List.of(new HamsterDtoSimple("Bolyhos",
+                               HamsterSpecies.DWARF,
+                               Gender.FEMALE,
+                               LocalDate.parse("2022-11-01"),
+                               HamsterStatus.ADOPTABLE,
+                               LocalDate.parse("2023-01-25"),
+                               "short desc"),
+                       new HamsterDtoSimple("Füles",
+                               HamsterSpecies.DWARF,
+                               Gender.FEMALE,
+                               LocalDate.parse("2022-11-01"),
+                               HamsterStatus.ADOPTABLE,
+                               LocalDate.parse("2023-01-25"),
+                               "short desc")));
 
-        when(mapper.toDtoWithHam((Host) any()))
-                .thenReturn(new HostDtoWithHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE,
-                        List.of(
-                                new HamsterDtoSimple("Bolyhos",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25"),
-                                        "short desc"),
-                                new HamsterDtoSimple("Füles",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25"),
-                                        "short desc")
-                        )));
+        when(repository.findByIdWithAllHamster(anyLong())).thenReturn(host);
+        when(mapper.toDtoWithHam((Host) any())).thenReturn(hostDto);
 
-        HostDtoWithHamsters host = service.getListOfHostsHamsters(1L);
+        HostDtoWithHamsters wantedHost = service.getListOfHostsHamsters(1L);
 
-        assertThat(host.getHamsters())
+        assertThat(wantedHost.getHamsters())
                 .hasSize(2)
                 .extracting(HamsterDtoSimple::getName)
                 .containsExactly("Bolyhos", "Füles");
@@ -249,28 +247,25 @@ class HostServiceTest {
     void testGetListOfHostsWithHamstersByCity() {
         Host host1 = new Host(1L, "Kiss Klára", "1092 Budapest, Virág utca 7", HostStatus.ACTIVE, 1);
         Host host2 = new Host(2L, "Nagy Eszter", "1110 Budapest, Fő utca 18", HostStatus.ACTIVE, 2);
+        HostDtoWithHamsters hostDto1 = new HostDtoWithHamsters(1L, "Kiss Klára", "1092 Budapest, Virág utca 7", 1, HostStatus.ACTIVE,
+                List.of(new HamsterDtoSimple( "Bolyhos",
+                        HamsterSpecies.DWARF,
+                        Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"),
+                        HamsterStatus.ADOPTABLE,
+                        LocalDate.parse("2023-01-25"),
+                        "short desc")));
+        HostDtoWithHamsters hostDto2 = new HostDtoWithHamsters(2L, "Kiss Eszter", "1110 Székesfehérvár, Fő utca 18", 2, HostStatus.ACTIVE,
+                List.of(new HamsterDtoSimple("Füles",
+                        HamsterSpecies.DWARF,
+                        Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"),
+                        HamsterStatus.ADOPTABLE,
+                        LocalDate.parse("2023-01-25"),
+                        "short desc")));
+        when(repository.findByCityWithHamster("Budapest")).thenReturn(List.of(host1, host2));
+        when(mapper.toDtoWithHam(List.of(host1, host2))).thenReturn(List.of(hostDto1, hostDto2));
 
-        when(repository.findByCityWithHamster("Budapest"))
-                .thenReturn(List.of(host1, host2));
-
-        when(mapper.toDtoWithHam(List.of(host1, host2)))
-                .thenReturn(List.of(
-                        new HostDtoWithHamsters(1L, "Kiss Klára", "1092 Budapest, Virág utca 7", 1, HostStatus.ACTIVE,
-                                List.of(new HamsterDtoSimple( "Bolyhos",
-                                HamsterSpecies.DWARF,
-                                Gender.FEMALE,
-                                LocalDate.parse("2022-11-01"),
-                                HamsterStatus.ADOPTABLE,
-                                LocalDate.parse("2023-01-25"),
-                                        "short desc"))),
-                        new HostDtoWithHamsters(2L, "Kiss Eszter", "1110 Székesfehérvár, Fő utca 18", 2, HostStatus.ACTIVE,
-                                List.of(new HamsterDtoSimple("Füles",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25"),
-                                        "short desc")))));
 
         List<HostDtoWithHamsters> result = service.getListOfHostsWithHamstersByCity("Budapest");
 
@@ -307,71 +302,39 @@ class HostServiceTest {
         assertThat(4).isEqualTo(free2);
 
     }
-    @Disabled //NEED CHECK
+
     @Test
-    void testFreeCapacityCounter() {
-        when(repository.findOnlyActiveWithAllHamster())
-                .thenReturn(List.of(
-                new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 2,
-                        List.of(new Hamster( "Bolyhos",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25")),
-                                new Hamster("Füles",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25")))),
-                new Host(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 6,
-                        List.of(new Hamster( "Boci",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25")),
-                                new Hamster("Tarka",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25"))))));
-        List<Host> hosts = repository.findOnlyActiveWithAllHamster();
+    void testFreeCapacityCounter(){
+        Host host1 = new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 2,
+                Arrays.asList(new Hamster("Bolyhos", HamsterSpecies.DWARF, Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"))));
+        Host host2 = new Host(2L, "Nagy Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 6,
+                Arrays.asList(new Hamster("Boci", HamsterSpecies.DWARF, Gender.FEMALE,
+                                LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25")),
+                        new Hamster("Tarka", HamsterSpecies.DWARF, Gender.FEMALE,
+                                LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"))));
+        List<Host> hosts = Arrays.asList(host1, host2);
 
-        when(mapper.toDtoFreeCapacity(hosts))
-                .thenReturn(List.of(
-                        new HostDtoCountedCapacity( "Nagy Klára", "1092 Szeged, Őz utca 9", 6, 4, HostStatus.ACTIVE)));
-        List<HostDtoCountedCapacity> hostDtoCountedFreeCapacities = mapper.toDtoFreeCapacity(hosts);
+        HostDtoCountedCapacity hostDto1 = new HostDtoCountedCapacity("Kiss Klára", "1092 Szeged, Őz utca 9", 2, 1, HostStatus.ACTIVE);
+        HostDtoCountedCapacity hostDto2 = new HostDtoCountedCapacity("Nagy Klára", "1092 Szeged, Őz utca 9", 6, 4, HostStatus.ACTIVE);
 
-        when(repository.findByIdWithAllHamster(anyLong()))
-                .thenReturn(new Host(2L,"Nagy Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 6,
-                        List.of(new Hamster( "Boci",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25")),
-                                new Hamster("Tarka",
-                                        HamsterSpecies.DWARF,
-                                        Gender.FEMALE,
-                                        LocalDate.parse("2022-11-01"),
-                                        HamsterStatus.ADOPTABLE,
-                                        LocalDate.parse("2023-01-25")
-                                        ))));
+        List<HostDtoCountedCapacity> expectedHostDtoList = Arrays.asList(hostDto1, hostDto2);
 
-        System.out.println(hostDtoCountedFreeCapacities.size());
-        Host host = repository.findByIdWithAllHamster(2L);
-        System.out.println(host.getId());
-        when(service.getListOfHostWithCapacity())
-                .thenReturn(hostDtoCountedFreeCapacities);
+        when(repository.getListOfHostWithFreeCapacity()).thenReturn(hosts);
+        when(mapper.toDtoFreeCapacity(hosts)).thenReturn(expectedHostDtoList);
+        when(repository.findByIdWithAllHamster(1L)).thenReturn(host1);
+        when(repository.findByIdWithAllHamster(2L)).thenReturn(host2);
 
-        List<HostDtoCountedCapacity> hostsWithFreeCapacity = service.getListOfHostWithCapacity();
-        System.out.println(hostsWithFreeCapacity.size());
-        HostDtoCountedCapacity hostCap = hostsWithFreeCapacity.get(0);
-        assertThat(hostsWithFreeCapacity.size()).isEqualTo(1);
-        assertThat(hostCap.getFreeCapacity()).isEqualTo(4);
+        List<HostDtoCountedCapacity> actualHostDtoList = service.getListOfHostWithFreeCapacity();
+
+        assertThat(actualHostDtoList).isEqualTo(expectedHostDtoList);
+
+        verify(repository, times(1)).getListOfHostWithFreeCapacity();
+        verify(mapper, times(1)).toDtoFreeCapacity(hosts);
+        verify(repository, times(1)).findByIdWithAllHamster(1L);
+        verify(repository, times(1)).findByIdWithAllHamster(2L);
+
     }
+
 
 }

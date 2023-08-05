@@ -29,7 +29,7 @@ public interface HostRepository extends JpaRepository<Host, Long> {
     Host findByIdWithAllHamster(@Param("id") long id);
 
     @Query("select host from Host host where host.hostStatus = 'ACTIVE'" +
-            "AND ( SIZE(host.hamsters) < host.capacity OR host.hamsters = NULL)")
+            "AND  SIZE(host.hamsters) < host.capacity ")
     List<Host> getListOfHostWithFreeCapacity();
 
 

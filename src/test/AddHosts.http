@@ -77,7 +77,7 @@ POST http://localhost:8080/api/hosts
 Content-Type: application/json
 
 {
-  "name" : "Locsoló K. Anna",
+  "name" : "Locsoló K. AnnaManna",
   "address" : "9000 Győr, Zámoly utca 7.",
   "capacity" : 100,
   "hostStatus" : "active"
