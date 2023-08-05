@@ -88,12 +88,12 @@
             if (id == null || id == "") {
                 window.alert("ID cannot be empty!");
             } else {
-                $("#display-function-in-menu").load("/hosts/host_current_hamsters/" + id);
+                $("#display-function-in-menu").load("/hosts/host_current_hamsters/" + name);
 
             }
             document.getElementById("display-function-in-menu").innerHTML = text;
 
-            $("#display-function-in-menu").load("/hosts/host_current_hamsters" + id);
+            $("#display-function-in-menu").load("/hosts/host_current_hamsters/" + name);
 
         }
 

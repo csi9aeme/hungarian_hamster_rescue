@@ -95,7 +95,7 @@ public class HostThymeController {
     }
 
 
-    @GetMapping("/hosts_and_hamsters/{name}")
+    @GetMapping("/hosts_by_name_and_hamsters/{name}")
     public ModelAndView findHostsByName(@PathVariable("name") String name) {
         List<HostDtoWithHamsters> hosts = hostService.findHostsByName(name);
 
@@ -106,7 +106,7 @@ public class HostThymeController {
             );
         }
 
-        return new ModelAndView("/hosts/hosts_and_hamsters", model);
+        return new ModelAndView("hosts/hosts_by_name_and_hamsters", model);
     }
 
     @GetMapping("/hosts_by_name_and_hamsters/{name}")
