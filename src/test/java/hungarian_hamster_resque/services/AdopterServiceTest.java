@@ -110,7 +110,7 @@ class AdopterServiceTest {
         assertThatThrownBy(() ->
                 service.getAdopter(Optional.of("Kelemen")))
                 .isInstanceOf(AdopterWithNameNotExistException.class)
-                .hasMessage("A keresett névrészlettel (Kelemen) örökbefogadó nincs az adatbázisban.");
+                .hasMessage("The adopter with the given name (Kelemen) not exist.");
 
         verify(repository).findAdopterByNameContains(anyString());
 
@@ -141,7 +141,7 @@ class AdopterServiceTest {
         assertThatThrownBy(() ->
                 service.getAdoptersByCity("Budapest"))
                 .isInstanceOf(AdopterWithCityNotExistException.class)
-                .hasMessage("A keresett városban (Budapest) jelenleg nincs örökbefogadó.");
+                .hasMessage("There are currently no adopters in the specified city: (Budapest).");
         verify(repository).findAdopterByAddressContains(any());
     }
 
@@ -203,7 +203,7 @@ class AdopterServiceTest {
         assertThatThrownBy(() ->
                 service.findAdopteryId(1102))
                 .isInstanceOf(AdopterWithIdNotExistException.class)
-                .hasMessage("A keresett ID-val (1102) örökbefogadó nincs az adatbázisban.");
+                .hasMessage("The adopter with the given ID (1102) not exist.");
 
         verify(repository).findById(any());
     }
@@ -229,7 +229,7 @@ class AdopterServiceTest {
         assertThatThrownBy(() ->
                 service.deleteAdopter(1L))
                 .isInstanceOf(AdopterCantDeleteBecauseHamstersListNotEmptyException.class)
-                .hasMessage("A megadott ID-val (1) rendelkező örökbefogadó nem törölhető, merttartozik hozzá már örökbeadott hörcsög.");
+                .hasMessage("The adopter with the given ID (1) cannot be deleted because it already has an adopted hamster.");
 
 
         verify(repository).findById(any());

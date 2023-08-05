@@ -93,10 +93,10 @@ class HamsterServiceTest {
 
         HamsterDtoWithoutAdopter hamster = service.createHamster(
                 new CreateHamsterCommand("Bolyhos",
-                        "dzsungáriai törpehörcsög",
-                        "hím",
+                        "campbell's dwarf hamster",
+                        "male",
                         LocalDate.parse("2022-12-29"),
-                        "örökbefogadható",
+                        "adoptable",
                         1L,
                         LocalDate.parse("2023-01-02"),
                         "short desc"));
@@ -104,7 +104,6 @@ class HamsterServiceTest {
         assertThat(hamster.getId()).isNotNull();
         assertThat(hamster.getHost().getName()).isEqualTo("Kiss Klára");
 
-        System.out.println(hamster.getHost().getName());
         verify(hostRepository).findById(anyLong());
         verify(hamsterRepository).save(any());
     }
@@ -114,15 +113,15 @@ class HamsterServiceTest {
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
         assertThatThrownBy(() ->
                 service.createHamster(new CreateHamsterCommand("Mütyürke",
-                                "dzsungáriai törpehörcsög",
-                                "nőstény",
+                                "djungarian dwarf hamster",
+                                "female",
                                 LocalDate.parse("2022-11-01"),
-                                "örökbefog",
+                                "adoptab",
                                 host.getId(),
                                 LocalDate.parse("2023-01-25"),
                         "short desc")))
                 .isInstanceOf(HamsterStatusNotAcceptableException.class)
-                .hasMessage("A megadott örökbefogadhatósági állapot (örökbefog) nem megfelelő.");
+                .hasMessage("The given status (adoptab) is not acceptable.");
     }
 
     @Test
@@ -132,15 +131,15 @@ class HamsterServiceTest {
 
         HostCantTakeMoreHamstersException e = assertThrows(HostCantTakeMoreHamstersException.class,
                 () -> service.createHamster(new CreateHamsterCommand("Bolyhos",
-                        "campbell törpehörcsög",
-                        "nőstény",
+                        "campbell's dwarf hamster",
+                        "female",
                         LocalDate.parse("2022-12-29"),
-                        "örökbefogadható",
+                        "adoptable",
                         2L,
                         LocalDate.parse("2023-01-02"),
                         "short desc")));
 
-        assertThat(e.getMessage()).isEqualTo("Az ideiglenes befogadó a megadott ID-val (2) nem tud több hörcsögöt fogadni.");
+        assertThat(e.getMessage()).isEqualTo("The temporary host with the given ID (2) can't take more hamster.");
 
         verify(hostRepository).findById(anyLong());
         verify(hamsterRepository).findFosteringHamstersByHostId(anyLong());
@@ -175,10 +174,10 @@ class HamsterServiceTest {
         HamsterDtoWithoutAdopter updated = service.updateHamsterAllAttributes(1L,
                 new UpdateHamsterCommand(
                         "Bolyhos",
-                        "campbell törpehörcsög",
-                        "hím",
+                        "campbell's dwarf hamster",
+                        "male",
                         LocalDate.parse("2022-12-29"),
-                        "kezelés alatt áll",
+                        "under medical treatment",
                         1L,
                         LocalDate.parse("2023-01-02")
                 ));
@@ -224,7 +223,7 @@ class HamsterServiceTest {
         assertThatThrownBy(() ->
                 service.findAdoptableHamsterById(101L))
                 .isInstanceOf(HamsterWithIdNotExistException.class)
-                .hasMessage("A keresett ID-val (101) hörcsög nincs az adatbázisban.");
+                .hasMessage("The hamster with the given ID (101) is not exist.");
         verify(hamsterRepository).findById(any());
     }
 
@@ -311,7 +310,7 @@ class HamsterServiceTest {
         assertThatThrownBy(() ->
                 service.getListOfHamsters(Optional.of("Kacsa")))
                 .isInstanceOf(HamsterWithNameNotExist.class)
-                .hasMessage("A keresett névrészlettel (Kacsa) nincs hörcsög  az adatbázisban.");
+                .hasMessage("The hamster with the given name (Kacsa) is not exit.");
         verify(hamsterRepository).findHamsterByNameContains(anyString());
     }
 
