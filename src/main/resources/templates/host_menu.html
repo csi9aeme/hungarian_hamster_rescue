@@ -72,11 +72,11 @@
             if (name == null || name == "") {
                 window.alert("Field cannot be empty!");
             } else {
-                $("#display-function-in-menu").load("/hosts/hosts_and_hamsters/" + name);
+                $("#display-function-in-menu").load("/hosts/hosts_by_name_and_hamsters/" + name);
 
             }
             document.getElementById("display-function-in-menu").innerHTML = text;
-            $("#display-function-in-menu").load("/hosts/hosts_and_hamsters/" + name);
+            $("#display-function-in-menu").load("/hosts/hosts_by_name_and_hamsters/" + name);
 
         }
 

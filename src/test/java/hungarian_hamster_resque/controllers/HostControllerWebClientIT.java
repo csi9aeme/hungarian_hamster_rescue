@@ -5,6 +5,8 @@ import hungarian_hamster_resque.dtos.CreateHamsterCommand;
 import hungarian_hamster_resque.dtos.HamsterDtoSimple;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
+import hungarian_hamster_resque.models.Host;
+import hungarian_hamster_resque.repositories.HostRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,8 @@ public class HostControllerWebClientIT {
     CreateHostCommand klara;
     CreateHostCommand klaudia;
     CreateHostCommand erno;
+    @Autowired
+    private HostRepository hostRepository;
 
     @BeforeEach
     void init() {
@@ -341,4 +345,5 @@ public class HostControllerWebClientIT {
         assertThat(host.getHostStatus()).isEqualTo(HostStatus.INACTIVE);
 
     }
+
 }

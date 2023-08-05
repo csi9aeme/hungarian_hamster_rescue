@@ -65,22 +65,18 @@
                 <td th:text="${host.name}"></td>
                 <td th:text="${host.address}"></td>
                 <td th:text="${host.capacity}"></td>
-                <td th:text="${host.hostStatus.status}"></td>
+                <td th:text="${host.hostStatus.hostStatus}"></td>
                 <td >
                     <table>
                     
                         <tbody>
                             <tr id="table-header">
                                 <th>Hamster's name</th>
-                                <th>Species</th>
                                 <th>Hamster's status</th>
-                                <th>Beginning of the fostering</th>
                             </tr>
                             <tr th:each="hamster : ${host.hamsters}">
-                                <td th:text="${hamster.name}" onclick="openHamsterPage()"></a></td>
-                                <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
+                                <td th:text="${hamster.name}"></a></td>
                                 <td th:text="${hamster.hamsterStatus.status}"></td>
-                                <td th:text="${hamster.startOfFostering}"></td>
                             </tr>
                         </tbody>
                     </table>
