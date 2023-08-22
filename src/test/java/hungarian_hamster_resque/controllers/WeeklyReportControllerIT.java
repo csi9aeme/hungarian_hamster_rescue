@@ -87,9 +87,9 @@ public class WeeklyReportControllerIT {
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
-        createReportCommand1 = new CreateReportCommand(createHamster1.getName(), host.getName(), LocalDate.parse("2022-08-18"), 35.4, "Nothing has changed, everythingis ok.");
-        createReportCommand2 = new CreateReportCommand(createHamster2.getName(), host.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
-        createReportCommand3 = new CreateReportCommand(createHamster3.getName(), host.getName(), LocalDate.parse("2021-06-13"), 50, "Less weight.");
+        createReportCommand1 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2022-08-18"), 35.4, "Nothing has changed, everythingis ok.");
+        createReportCommand2 = new CreateReportCommand(createHamster2.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
+        createReportCommand3 = new CreateReportCommand(createHamster3.getName(), LocalDate.parse("2021-06-13"), 50, "Less weight.");
 
     }
 
@@ -163,9 +163,39 @@ public class WeeklyReportControllerIT {
     }
 
     @Test
+    void testGetWeeklyReportsByHostName(){
+        ReportDto dto1 = webClient.post().uri("/api/reports/create-report")
+                .bodyValue(createReportCommand1)
+                .exchange()
+                .expectStatus().isEqualTo(201)
+                .expectBody(ReportDto.class).returnResult().getResponseBody();
+        ReportDto dto2 = webClient.post().uri("/api/reports/create-report")
+                .bodyValue(createReportCommand2)
+                .exchange()
+                .expectStatus().isEqualTo(201)
+                .expectBody(ReportDto.class).returnResult().getResponseBody();
+
+        ReportDto dto3 = webClient.post().uri("/api/reports/create-report")
+                .bodyValue(createReportCommand3)
+                .exchange()
+                .expectStatus().isEqualTo(201)
+                .expectBody(ReportDto.class).returnResult().getResponseBody();
+
+
+        List<ReportDto> result = webClient.get()
+                .uri("/api/reports/reportsofhostbyname/{name}", host.getName())
+                .exchange()
+                .expectBodyList(ReportDto.class).returnResult().getResponseBody();
+
+        assertThat(result.size()).isEqualTo(3);
+        assertThat(result).map(ReportDto::getHamsterName).contains("Bolyhos");
+
+    }
+
+    @Test
     void testGetWeeklyReportsOfHamster(){
-       CreateReportCommand createReportCommand4 = new CreateReportCommand(createHamster1.getName(), host.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
-       CreateReportCommand createReportCommand5 = new CreateReportCommand(createHamster1.getName(), host.getName(), LocalDate.parse("2023-05-01"), 50, "Gain more weight.");
+       CreateReportCommand createReportCommand4 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
+       CreateReportCommand createReportCommand5 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-05-01"), 50, "Gain more weight.");
 
         webClient.post().uri("/api/reports/create-report")
                 .bodyValue(createReportCommand1)
@@ -182,6 +212,35 @@ public class WeeklyReportControllerIT {
 
         List<ReportDto> result = webClient.get()
                 .uri("/api/reports/reportsofhamsters/{hamsterid}", hamster.getId())
+                .exchange()
+                .expectBodyList(ReportDto.class).returnResult().getResponseBody();
+
+
+        assertThat(result.size()).isEqualTo(3);
+
+
+    }
+
+    @Test
+    void testGetWeeklyReportsOfHamsterByName(){
+        CreateReportCommand createReportCommand4 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
+        CreateReportCommand createReportCommand5 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-05-01"), 50, "Gain more weight.");
+
+        webClient.post().uri("/api/reports/create-report")
+                .bodyValue(createReportCommand1)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+        webClient.post().uri("/api/reports/create-report")
+                .bodyValue(createReportCommand1)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+        webClient.post().uri("/api/reports/create-report")
+                .bodyValue(createReportCommand1)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+
+        List<ReportDto> result = webClient.get()
+                .uri("/api/reports/reportsofhamsterbyname/{name}", hamster.getName())
                 .exchange()
                 .expectBodyList(ReportDto.class).returnResult().getResponseBody();
 

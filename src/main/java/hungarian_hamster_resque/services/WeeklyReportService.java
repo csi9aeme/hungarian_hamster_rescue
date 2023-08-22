@@ -4,6 +4,7 @@ import hungarian_hamster_resque.dtos.report.CreateReportCommand;
 import hungarian_hamster_resque.dtos.report.ReportDto;
 import hungarian_hamster_resque.mappers.ReportMapper;
 import hungarian_hamster_resque.models.Hamster;
+import hungarian_hamster_resque.models.Host;
 import hungarian_hamster_resque.models.WeeklyReport;
 import hungarian_hamster_resque.repositories.HamsterRepository;
 import hungarian_hamster_resque.repositories.HostRepository;
@@ -28,7 +29,7 @@ public class WeeklyReportService {
 
 
     public ReportDto createReport(CreateReportCommand command) {
-        Hamster hamster = hamsterRepository.findCurrentHamsterByName(command.getHamsterName(), command.getHostName());
+        Hamster hamster = hamsterRepository.findCurrentHamsterByName(command.getHamsterName());
         WeeklyReport weeklyReport = WeeklyReport.builder()
                 .hamster(hamster)
                 .host(hamster.getHost())
@@ -56,6 +57,13 @@ public class WeeklyReportService {
         List<ReportDto> reportDto = getReportDtos(weeklyReports);
         return reportDto;
     }
+    @Transactional
+    public List<ReportDto> getListOfReportsOfHostByName(String name) {
+        Host host = hostRepository.findByNameWithoutHamsters(name);
+        List<WeeklyReport> weeklyReports = reportRepository.findByHostId(host.getId());
+        List<ReportDto> reportDto = getReportDtos(weeklyReports);
+        return reportDto;
+    }
 
     public List<ReportDto> getListOfReportsOfHamster(long hamsterId) {
         List<WeeklyReport> weeklyReports = reportRepository.findByHamsterId(hamsterId);
@@ -76,5 +84,10 @@ public class WeeklyReportService {
     }
 
 
-
+    public List<ReportDto> getListOfReportsOfHamsterByName(String name) {
+        Hamster hamster = hamsterRepository.findCurrentHamsterByName(name);
+        List<WeeklyReport> weeklyReports = reportRepository.findByHamsterId(hamster.getId());
+        List<ReportDto> reportDto = getReportDtos(weeklyReports);
+        return reportDto;
+    }
 }

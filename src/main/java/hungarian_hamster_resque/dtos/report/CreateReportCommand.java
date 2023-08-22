@@ -18,8 +18,6 @@ public class CreateReportCommand {
 
     private String hamsterName;
 
-    private String hostName;
-
     private LocalDate dateOfMeasure;
 
     private double weight;

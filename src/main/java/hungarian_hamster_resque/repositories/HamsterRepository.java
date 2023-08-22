@@ -26,7 +26,8 @@ public interface HamsterRepository extends JpaRepository<Hamster, Long> {
 
 
     @Query("select hamster from Hamster hamster where hamster.name = :hamsterName AND " +
-            "hamster.hamsterStatus != 'ADOPTED' AND hamster.hamsterStatus != 'DECEASED'" +
-            "AND hamster.host.name = :hostName")
-    Hamster findCurrentHamsterByName(@Param("hamsterName") String hamsterName, @Param("hostName") String hostName);
+            "hamster.hamsterStatus != 'ADOPTED' AND hamster.hamsterStatus != 'DECEASED'")
+    Hamster findCurrentHamsterByName(@Param("hamsterName") String hamsterName);
+
+
 }

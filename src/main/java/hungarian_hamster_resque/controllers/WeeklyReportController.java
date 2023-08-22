@@ -35,11 +35,23 @@ public class WeeklyReportController {
         return reportService.getListOfReportsOfHost(hostId);
 
     }
+    @GetMapping("/reportsofhostbyname/{name}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<ReportDto> getListOfReportsOfHostByName(@PathVariable("name") String name){
+        return reportService.getListOfReportsOfHostByName(name);
 
-    @GetMapping("/reportsofhamsters/{hamsterid}")
+    }
+
+    @GetMapping("/reportsofhamster/{hamsterid}")
     @ResponseStatus(HttpStatus.FOUND)
     public List<ReportDto> getListOfReportsOfHamster(@PathVariable("hamsterid") long hamsterId){
         return reportService.getListOfReportsOfHamster(hamsterId);
+    }
+
+    @GetMapping("/reportsofhamsterbyname/{name}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<ReportDto> getListOfReportsOfHamsterByName(@PathVariable("name") String name){
+        return reportService.getListOfReportsOfHamsterByName(name);
     }
 
 

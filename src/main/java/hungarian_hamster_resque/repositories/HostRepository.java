@@ -33,6 +33,9 @@ public interface HostRepository extends JpaRepository<Host, Long> {
             "AND  SIZE(host.hamsters) < host.capacity ")
     List<Host> getListOfHostWithFreeCapacity();
 
+    @Query("select host from Host host where host.name = :name")
+    Host findByNameWithoutHamsters(@Param("name") String name);
+
 
 
 
