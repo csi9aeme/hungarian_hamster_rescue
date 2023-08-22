@@ -21,6 +21,10 @@
         <sqlFile path="create-hamsters-table.sql"
                  relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet id="create-reports-table" author="csi9aeme">
+        <sqlFile path="create-reports-table.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
 
 
 </databaseChangeLog>

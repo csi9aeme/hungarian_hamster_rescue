@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -53,6 +54,10 @@ public class Hamster {
 
         private String description;
 
+        @OneToMany(mappedBy = "hamster", cascade = CascadeType.ALL)
+        @Column(name = "weekly_reports")
+        private List<WeeklyReport> weeklyReports;
+
         public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering) {
                 this.id = id;
                 this.name = name;
@@ -62,6 +67,19 @@ public class Hamster {
                 this.hamsterStatus = hamsterStatus;
                 this.host = host;
                 this.startOfFostering = startOfFostering;
+        }
+        public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering, Adopter adopter, LocalDate dateOfAdoption, String description) {
+                this.id = id;
+                this.name = name;
+                this.hamsterSpecies = hamsterSpecies;
+                this.gender = gender;
+                this.dateOfBirth = dateOfBirth;
+                this.hamsterStatus = hamsterStatus;
+                this.startOfFostering = startOfFostering;
+                this.host = host;
+                this.adopter = adopter;
+                this.dateOfAdoption = dateOfAdoption;
+                this.description = description;
         }
 
         public Hamster(String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering) {

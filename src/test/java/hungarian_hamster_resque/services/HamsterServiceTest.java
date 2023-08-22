@@ -265,11 +265,11 @@ class HamsterServiceTest {
     @Test
     void testGetListOfHamstersByName() {
         Hamster ham1 = new Hamster(1L,"Bolyhos", HamsterSpecies.CAMPBELL, Gender.MALE, LocalDate.parse("2022-12-29"),
-                HamsterStatus.ADOPTED, LocalDate.parse("2023-01-02"),host,
-                adopter, LocalDate.parse("2023-01-02"), "short desc");
+                        HamsterStatus.ADOPTED, host, LocalDate.parse("2023-01-02"),
+                        adopter, LocalDate.parse("2023-01-02"), "short desc");
         Hamster ham2 = new Hamster(1L,"Boholyka", HamsterSpecies.DWARF, Gender.MALE, LocalDate.parse("2022-12-29"),
-                HamsterStatus.ADOPTED, LocalDate.parse("2023-01-02"),host,
-                adopter, LocalDate.parse("2023-01-02"), "short desc");
+                        HamsterStatus.ADOPTED, host, LocalDate.parse("2023-01-02"),
+                        adopter, LocalDate.parse("2023-01-02"), "short desc");
 
         when(hamsterRepository.findHamsterByNameContains(anyString()))
                 .thenReturn(List.of(ham1, ham2));

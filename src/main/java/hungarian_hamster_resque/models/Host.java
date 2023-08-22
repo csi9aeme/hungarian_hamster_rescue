@@ -35,6 +35,9 @@ public class Host {
     @OneToMany(mappedBy = "host", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE} )
     private List<Hamster> hamsters = new ArrayList<>();
 
+    @OneToMany(mappedBy = "host", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<WeeklyReport> weeklyReports;
+
     public Host(String name, String address, int capacity) {
         this.name = name;
         this.address = address;
@@ -69,6 +72,14 @@ public class Host {
         this.address = address;
         this.hostStatus = hostStatus;
         this.capacity = capacity;
+    }
+    public Host(Long id, String name, String address, HostStatus hostStatus, int capacity, List<Hamster> hamsters) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
+        this.hostStatus = hostStatus;
+        this.hamsters = hamsters;
     }
 
     public void addHamster(Hamster hamster) {

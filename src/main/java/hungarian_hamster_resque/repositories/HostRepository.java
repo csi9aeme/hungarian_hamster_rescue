@@ -1,13 +1,14 @@
 package hungarian_hamster_resque.repositories;
 
-import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface HostRepository extends JpaRepository<Host, Long> {
 
     @Query("select host from Host host left join fetch host.hamsters where host.name like concat('%',:name,'%')")
@@ -31,6 +32,7 @@ public interface HostRepository extends JpaRepository<Host, Long> {
     @Query("select host from Host host where host.hostStatus = 'ACTIVE'" +
             "AND  SIZE(host.hamsters) < host.capacity ")
     List<Host> getListOfHostWithFreeCapacity();
+
 
 
 

@@ -109,17 +109,17 @@ public class HostThymeController {
         return new ModelAndView("hosts/hosts_by_name_and_hamsters", model);
     }
 
-    @GetMapping("/hosts_by_name_and_hamsters/{name}")
-    public ModelAndView findHostsByNameAndHamsters(@PathVariable("name") String name) {
-        List<HostDtoWithHamsters> hosts = hostService.findHostsByName(name);
-
-        Map<String, Object> model = Map.of();
-        for (HostDtoWithHamsters h : hosts) {
-            model = Map.of(
-                    "hosts", hosts
-            );
-        }
-
-        return new ModelAndView("/hosts/hosts_by_name_and_hamsters", model);
-    }
+//    @GetMapping("/hosts_by_name_and_hamsters/{name}")
+//    public ModelAndView findHostsByNameAndHamsters(@PathVariable("name") String name) {
+//        List<HostDtoWithHamsters> hosts = hostService.findHostsByName(name);
+//
+//        Map<String, Object> model = Map.of();
+//        for (HostDtoWithHamsters h : hosts) {
+//            model = Map.of(
+//                    "hosts", hosts
+//            );
+//        }
+//
+//        return new ModelAndView("/hosts/hosts_by_name_and_hamsters", model);
+//    }
 }

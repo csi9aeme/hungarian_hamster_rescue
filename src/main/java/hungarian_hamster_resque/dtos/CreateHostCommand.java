@@ -1,7 +1,6 @@
 package hungarian_hamster_resque.dtos;
 
-import hungarian_hamster_resque.enums.HamsterStatus;
-import hungarian_hamster_resque.enums.HostStatus;
+import hungarian_hamster_resque.models.WeeklyReport;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
@@ -37,6 +36,8 @@ public class CreateHostCommand {
     @Schema(description = "List of hamsters in care (all time).")
     private List<HamsterDto> hamsters;
 
+    private List<WeeklyReport> weeklyReports;
+
 
     public CreateHostCommand(String name, String address, int capacity, String hostStatus) {
         this.name = name;
@@ -50,5 +51,13 @@ public class CreateHostCommand {
         this.name = name;
         this.address = address;
         this.capacity = capacity;
+    }
+
+    public CreateHostCommand(String name, String address, int capacity, String hostStatus,  List<WeeklyReport> weeklyReports) {
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
+        this.hostStatus = hostStatus;
+        this.weeklyReports = weeklyReports;
     }
 }
