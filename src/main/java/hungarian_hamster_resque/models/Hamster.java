@@ -58,6 +58,9 @@ public class Hamster {
         @Column(name = "weekly_reports")
         private List<WeeklyReport> weeklyReports;
 
+//        @OneToMany(mappedBy = "hamster")
+//        private Pictures pictures;
+
         public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering) {
                 this.id = id;
                 this.name = name;

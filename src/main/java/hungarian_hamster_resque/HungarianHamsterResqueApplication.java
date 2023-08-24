@@ -19,6 +19,6 @@ public class HungarianHamsterResqueApplication {
 				.info(new Info()
 						.title("Hungarian Hamster Resque API")
 						.version("1.0.0")
-						.description("Operations with hamsters, hosts and adoptives"));
+						.description("Operations with hamsters, hosts and adopters"));
 	}
 }
