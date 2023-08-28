@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+
 public class HamsterService {
 
     private final HamsterMapper hamsterMapper;
@@ -40,8 +41,12 @@ public class HamsterService {
 
     public List<HamsterDtoWithoutAdopter> getListOfCurrentHamsters() {
         List<Hamster> hamstersWithoutOwner = hamsterRepository.findFosteringHamsters();
+        List<HamsterDtoWithoutAdopter> hamsters = hamsterMapper.toDtoWithoutAdopter(hamstersWithoutOwner);
+        for (HamsterDtoWithoutAdopter h: hamsters) {
+            h.setLocation(findHamsterPlace(h.getId()));
+        }
 
-        return hamsterMapper.toDtoWithoutAdopter(hamstersWithoutOwner);
+        return hamsters;
 
     }
 

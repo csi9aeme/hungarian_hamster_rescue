@@ -3,6 +3,7 @@ package hungarian_hamster_resque.models;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HamsterSpecies;
+import hungarian_hamster_resque.services.HamsterService;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,8 +59,8 @@ public class Hamster {
         @Column(name = "weekly_reports")
         private List<WeeklyReport> weeklyReports;
 
-//        @OneToMany(mappedBy = "hamster")
-//        private Pictures pictures;
+        @OneToMany(mappedBy = "hamster")
+        private List<Picture>  pictures;
 
         public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering) {
                 this.id = id;
@@ -114,5 +115,6 @@ public class Hamster {
                 this.host = host;
                 this.description = description;
         }
+
 }
 

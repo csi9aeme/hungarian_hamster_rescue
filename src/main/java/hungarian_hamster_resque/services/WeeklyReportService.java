@@ -65,10 +65,11 @@ public class WeeklyReportService {
         return reportDto;
     }
 
+    @Transactional
     public List<ReportDto> getListOfReportsOfHamster(long hamsterId) {
         List<WeeklyReport> weeklyReports = reportRepository.findByHamsterId(hamsterId);
-        List<ReportDto> reportDto = getReportDtos(weeklyReports);
-        return reportDto;
+
+        return getReportDtos(weeklyReports);
     }
 
 

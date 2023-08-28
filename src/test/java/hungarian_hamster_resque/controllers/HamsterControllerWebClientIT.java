@@ -38,7 +38,7 @@ public class HamsterControllerWebClientIT {
     @BeforeEach
     void initHostAndAdopter() {
         host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5, "active"))
+                .bodyValue(new CreateHostCommand("Békési Klára", "8001 Szeged, Kis Pál utca 3.", 5, "active"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();

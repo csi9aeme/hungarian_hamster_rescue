@@ -32,9 +32,21 @@ public class HamsterDtoWithoutAdopter {
     private LocalDate startOfFostering;
 
    private HostDtoWithoutHamsters host;
+
+   private String location;
   //  private String hostName;
 
     private String description;
 
-
+    public HamsterDtoWithoutAdopter(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, HostDtoWithoutHamsters host, String description) {
+        this.id = id;
+        this.name = name;
+        this.hamsterSpecies = hamsterSpecies;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.hamsterStatus = hamsterStatus;
+        this.startOfFostering = startOfFostering;
+        this.host = host;
+        this.description = description;
+    }
 }
