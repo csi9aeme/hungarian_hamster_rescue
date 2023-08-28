@@ -46,7 +46,7 @@ public class WeeklyReportControllerIT {
 
         createHamster1 = new CreateHamsterCommand(
                 "Bolyhos",
-                "djungarian dwarf",
+                "djungarian dwarf hamster",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adoptable",
@@ -55,7 +55,7 @@ public class WeeklyReportControllerIT {
                 "short desc");
         createHamster2 = new CreateHamsterCommand(
                 "Mütyürke",
-                "djungarian dwarf",
+                "djungarian dwarf hamster",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adoptable",
@@ -65,7 +65,7 @@ public class WeeklyReportControllerIT {
 
         createHamster3 = new CreateHamsterCommand(
                 "Szotyi",
-                "djungarian dwarf",
+                "djungarian dwarf hamster",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adoptable",

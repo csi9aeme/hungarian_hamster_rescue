@@ -45,7 +45,7 @@ public class HamsterControllerWebClientIT {
 
         createHamster1 = new CreateHamsterCommand(
                 "Bolyhos",
-                "djungarian dwarf",
+                "djungarian dwarf hamster",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adoptable",
@@ -54,7 +54,7 @@ public class HamsterControllerWebClientIT {
                 "short desc");
         createHamster2 = new CreateHamsterCommand(
                 "Mütyürke",
-                "djungarian dwarf",
+                "djungarian dwarf hamster",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adoptable",
@@ -64,7 +64,7 @@ public class HamsterControllerWebClientIT {
 
         createHamster3 = new CreateHamsterCommand(
                 "Szotyi",
-                "djungarian dwarf",
+                "djungarian dwarf hamster",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adopted",
@@ -94,7 +94,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -139,7 +139,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "girl",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -161,7 +161,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "not adoptable",
@@ -183,7 +183,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -270,7 +270,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -285,7 +285,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "male",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -318,7 +318,7 @@ public class HamsterControllerWebClientIT {
                 .uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -403,7 +403,7 @@ public class HamsterControllerWebClientIT {
         HamsterDtoWithoutAdopter updated = webClient.put().uri("/api/hamsters/{id}", id)
                 .bodyValue(new UpdateHamsterCommand(
                         "Bolyhos",
-                        "djungarian dwarf",
+                        "djungarian dwarf hamster",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "under medical treatment",
