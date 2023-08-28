@@ -245,7 +245,7 @@ public class AdopterControllerWebClientIT {
         HamsterDtoWithoutAdopter hamster = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "golden hamster",
+                        "golden",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -286,7 +286,7 @@ public class AdopterControllerWebClientIT {
        HamsterDtoWithoutAdopter hamster = webClient.post().uri("/api/hamsters")
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
-                        "golden hamster",
+                        "golden",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",

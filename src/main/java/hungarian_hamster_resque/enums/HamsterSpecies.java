@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public enum HamsterSpecies {
-    GOLDEN("golden hamster"),
-    HYBRID_DWARF("hybrid djungarian dwarf hamster"),
-    DWARF("djungarian dwarf hamster"),
-    CAMPBELL("campbell's dwarf hamster"),
-    ROBOROVSKI("roborovski dwarf hamster"),
-    CHINESE("chinese hamster");
+    GOLDEN("golden"),
+    HYBRID_DWARF("hybrid djungarian dwarf"),
+    DWARF("djungarian dwarf"),
+    CAMPBELL("campbell's dwarf"),
+    ROBOROVSKI("roborovski dwarf"),
+    CHINESE("chinese");
 
     private String nameOfSpecies;
 

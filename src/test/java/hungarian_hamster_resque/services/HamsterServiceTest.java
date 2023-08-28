@@ -93,7 +93,7 @@ class HamsterServiceTest {
 
         HamsterDtoWithoutAdopter hamster = service.createHamster(
                 new CreateHamsterCommand("Bolyhos",
-                        "campbell's dwarf hamster",
+                        "campbell's dwarf",
                         "male",
                         LocalDate.parse("2022-12-29"),
                         "adoptable",
@@ -113,7 +113,7 @@ class HamsterServiceTest {
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
         assertThatThrownBy(() ->
                 service.createHamster(new CreateHamsterCommand("Mütyürke",
-                                "djungarian dwarf hamster",
+                                "djungarian dwarf",
                                 "female",
                                 LocalDate.parse("2022-11-01"),
                                 "adoptab",
@@ -174,7 +174,7 @@ class HamsterServiceTest {
         HamsterDtoWithoutAdopter updated = service.updateHamsterAllAttributes(1L,
                 new UpdateHamsterCommand(
                         "Bolyhos",
-                        "campbell's dwarf hamster",
+                        "campbell's dwarf",
                         "male",
                         LocalDate.parse("2022-12-29"),
                         "under medical treatment",
