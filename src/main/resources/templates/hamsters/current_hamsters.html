@@ -1,88 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Current hamsters in care</title>
-    
+    <title>Current hamsters in care - Hungarian Hamster Resque</title>
+
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
-    <link th:href="@{/css/main.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    
-   <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
 
-        thead, td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        #hamsterHeader, #tableHeader, #hamsterHeader {
-            background-color: #9ba8e8;
-            text-align: center;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #b6bcde;
-        }
-
-        tr:nth-child(odd) {
-            background-color: #e6eaff;
-        }
-
-        table.table-fit {
-    width: auto !important;
-    table-layout: auto !important;
-}
-table.table-fit thead th, table.table-fit tfoot th {
-    width: auto !important;
-}
-table.table-fit tbody td, table.table-fit tfoot td {
-    width: auto !important;
-}
-
-    </style>
 
 </head>
+
 <body>
-<table>
-    <thead>
-    <tr>
-        <th id="hamsterHeader" colspan="6">List of current hamsters in care</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr id="tableHeader">
-        <th>Hamster's name:</th>
-        <th>Species:</th>
-        <th>Gender:</th>
-        <th>Date of admission:</th>
-        <th>Host:</th>
-        <th>Hamster's status:</th>
-    </tr>
-    <tr th:each="hamster : ${hamsters}">
-        <td th:text="${hamster.name}"></td>
-        <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
-        <td th:text="${hamster.gender.gender}"></td>
-        <td th:text="${hamster.startOfFostering}"></td>
-        <td th:text="${hamster.host.name}"></td>
-        <td th:text="${hamster.hamsterStatus.status}"></td>
-    </tr>
-    </tbody>
-</table>
+
+    <div class="container">
+        
+        <div class="row">
+            <div class="col mb-4">
+                <div class="p-3 mt-4 border border-info mt-4 rounded">
+                    <h4 class="fs-2 fw-light text-info">Current hamsters in care</h3>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div th:each="hamster : ${hamsters}" class="col-4">
+                <div class="card m-2 border-info">
+                    <a th:href="@{/hamsters/hamster_page/{id}(id=${hamster.id})}"><img th:src="@{/img/card3.jpg}"
+                            class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <a th:href="@{/hamsters/hamster_page/{id}(id=${hamster.id})}">
+                            <h5 class="h5 text-info card-title lh-base fs-4 fw-light" th:text="${hamster.name}"></h5>
+                        </a>
+                        <p class="card-text fs-6 lh-base mb-3">
+                            <span>Species:</span> <span th:text="${hamster.hamsterSpecies.nameOfSpecies}"></span><br>
+                            <span>Color:</span> <span th:text="${hamster.color}"></span><br>
+                            <span>Gender:</span> <span th:text="${hamster.gender}"></span><br>
+                            <span>Birth:</span> <span th:text="${hamster.dateOfBirth}"></span><br>
+                            <span>Start of fostering:</span> <span th:text="${hamster.startOfFostering}"></span><br>
+                            <span>Location:</span> <span th:text="${hamster.location}"></span><br>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        <div class="row align-items-center">
+                            <div class="col">
+
+                                <a th:href="@{/hamsters/hamster_page/{id}(id=${hamster.id})}"
+                                    class="btn btn-outline-warning">
+                                    Read description
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="btn btn-outline-success">
+                                    I want to adopt!
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="..." class="btn btn-outline-secondary">
+                                    Edit hamster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
-  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+            crossorigin="anonymous"></script>
 </body>
+
 </html>

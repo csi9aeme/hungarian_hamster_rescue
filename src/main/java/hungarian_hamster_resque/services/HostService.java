@@ -31,6 +31,7 @@ public class HostService {
                 .capacity(command.getCapacity())
                 .hostStatus(findHostStatus(command.getHostStatus()))
                 .hamsters(new ArrayList<>())
+                .weeklyReports(new ArrayList<>())
                 .build();
 
         hostRepository.save(host);

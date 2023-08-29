@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,18 +62,23 @@ public class HamsterService {
         Hamster hamster = Hamster.builder()
                 .name(command.getName())
                 .hamsterSpecies(findHamsterSpecies(command.getHamsterSpecies()))
+                .color(command.getColor())
                 .gender(findGender(command.getGender()))
                 .dateOfBirth(command.getDateOfBirth())
                 .hamsterStatus(findHamsterStatus(command.getHamsterStatus()))
                 .host(host)
                 .startOfFostering(command.getStartOfFoster())
                 .description(command.getDescription())
+                .pictures(new ArrayList<>())
                 .build();
         host.addHamster(hamster);
-
         hamsterRepository.save(hamster);
 
-        return hamsterMapper.toDtoWithoutAdopter(hamster);
+        HamsterDtoWithoutAdopter newHamster = hamsterMapper.toDtoWithoutAdopter(hamster);
+        newHamster.setLocation(hamsterRepository.findHamsterPlace(newHamster.getId()));
+
+
+        return newHamster;
     }
 
 

@@ -30,6 +30,10 @@ public class CreateHamsterCommand {
     private String hamsterSpecies;
 
     @NotNull
+    @Schema(description = "Color of the hamster", example = "agouti")
+    private String color;
+
+    @NotNull
     @Schema(description = "Gender of the hamster.", example = "male")
     private String gender;
 

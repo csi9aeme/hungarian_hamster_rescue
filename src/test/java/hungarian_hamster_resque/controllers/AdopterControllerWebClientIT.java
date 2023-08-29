@@ -246,6 +246,7 @@ public class AdopterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "golden hamster",
+                        "gold",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -287,6 +288,7 @@ public class AdopterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "golden hamster",
+                        "gold",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",

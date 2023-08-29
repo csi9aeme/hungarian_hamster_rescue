@@ -30,6 +30,8 @@ public class Hamster {
         @Column(name = "hamster_species")
         private HamsterSpecies hamsterSpecies;
 
+        private String color;
+
         @Enumerated(EnumType.STRING)
         private Gender gender;
 
@@ -39,7 +41,6 @@ public class Hamster {
         @Enumerated(EnumType.STRING)
         @Column(name = "hamster_status")
         private HamsterStatus hamsterStatus;
-
 
         @Column(name ="start_of_fostering")
         private LocalDate startOfFostering;
@@ -116,5 +117,17 @@ public class Hamster {
                 this.description = description;
         }
 
+        public Hamster(String name, HamsterSpecies hamsterSpecies, String color, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, Host host, String description, List<Picture> pictures) {
+                this.name = name;
+                this.hamsterSpecies = hamsterSpecies;
+                this.color = color;
+                this.gender = gender;
+                this.dateOfBirth = dateOfBirth;
+                this.hamsterStatus = hamsterStatus;
+                this.startOfFostering = startOfFostering;
+                this.host = host;
+                this.description = description;
+                this.pictures = pictures;
+        }
 }
 

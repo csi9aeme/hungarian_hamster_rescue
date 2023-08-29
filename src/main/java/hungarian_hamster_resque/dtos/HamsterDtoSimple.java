@@ -20,6 +20,8 @@ public class HamsterDtoSimple {
 
     private HamsterSpecies hamsterSpecies;
 
+    private String color;
+
     private Gender gender;
 
     private LocalDate dateOfBirth;

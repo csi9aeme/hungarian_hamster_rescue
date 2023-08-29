@@ -46,6 +46,7 @@ public class HamsterControllerWebClientIT {
         createHamster1 = new CreateHamsterCommand(
                 "Bolyhos",
                 "djungarian dwarf hamster",
+                "dawn",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adoptable",
@@ -55,6 +56,7 @@ public class HamsterControllerWebClientIT {
         createHamster2 = new CreateHamsterCommand(
                 "Mütyürke",
                 "djungarian dwarf hamster",
+                "dawn",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adoptable",
@@ -65,6 +67,7 @@ public class HamsterControllerWebClientIT {
         createHamster3 = new CreateHamsterCommand(
                 "Szotyi",
                 "djungarian dwarf hamster",
+                "dawn",
                 "female",
                 LocalDate.parse("2022-11-01"),
                 "adopted",
@@ -95,6 +98,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "",
                         "djungarian dwarf hamster",
+                        "dawn",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -118,6 +122,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "djungarian ham",
+                        "dawn",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -140,6 +145,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "djungarian dwarf hamster",
+                        "dawn",
                         "girl",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -162,6 +168,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "djungarian dwarf hamster",
+                        "dawn",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "not adoptable",
@@ -184,6 +191,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "djungarian dwarf hamster",
+                        "blue",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -271,6 +279,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "djungarian dwarf hamster",
+                        "blue",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -286,6 +295,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Mütyürke",
                         "djungarian dwarf hamster",
+                        "blue",
                         "male",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",
@@ -319,6 +329,7 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new CreateHamsterCommand(
                         "Bolyhos",
                         "djungarian dwarf hamster",
+                        "blue",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "adoptable",

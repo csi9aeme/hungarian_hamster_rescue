@@ -14,7 +14,7 @@ POST http://localhost:8080/api/hosts
 Content-Type: application/json
 
 {
-  "name" : "Csin CSilla",
+  "name" : "Csin Csilla",
   "address" : "1190 Budapest, Petőfi utca 12.",
   "capacity" : 3,
   "hostStatus" : "active"

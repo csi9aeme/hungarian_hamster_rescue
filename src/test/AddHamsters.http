@@ -7,15 +7,13 @@ Accept: application/json
 {
   "name": "Gülüke",
   "hamsterSpecies": "golden hamster",
+  "color" : "black banded"
   "gender": "male",
   "dateOfBirth": "2022-09-01",
   "hamsterStatus": "adoptable",
   "hostId": 1,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
 
 }
 
@@ -135,10 +133,6 @@ Accept: application/json
   "hostId": 4,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -158,9 +152,6 @@ Accept: application/json
   "startOfFoster": "2023-03-06",
   "description" : "short story"
 
-
-
-
 }
 
 
@@ -179,10 +170,6 @@ Accept: application/json
   "hostId": 3,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -201,10 +188,6 @@ Accept: application/json
   "hostId": 3,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -223,10 +206,6 @@ Accept: application/json
   "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -245,10 +224,6 @@ Accept: application/json
   "hostId": 5,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -267,10 +242,6 @@ Accept: application/json
   "hostId": 5,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -289,12 +260,6 @@ Accept: application/json
   "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
-
-
 }
 
 
@@ -313,10 +278,6 @@ Accept: application/json
   "hostId": 5,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -335,10 +296,6 @@ Accept: application/json
   "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -357,10 +314,6 @@ Accept: application/json
   "hostId": 6,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -379,10 +332,6 @@ Accept: application/json
   "hostId": 7,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -401,10 +350,6 @@ Accept: application/json
   "hostId": 7,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 
 
@@ -423,10 +368,6 @@ Accept: application/json
   "hostId": 7,
   "startOfFoster": "2023-03-06",
   "description" : "short story"
-
-
-
-
 }
 ###//////////////////
 ###POST new hamster (21)
