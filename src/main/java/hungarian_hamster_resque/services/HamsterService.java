@@ -1,6 +1,10 @@
 package hungarian_hamster_resque.services;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.adopter.AdoptHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.hamster.UpdateHamsterCommand;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
@@ -75,8 +79,7 @@ public class HamsterService {
         hamsterRepository.save(hamster);
 
         HamsterDtoWithoutAdopter newHamster = hamsterMapper.toDtoWithoutAdopter(hamster);
-        newHamster.setLocation(hamsterRepository.findHamsterPlace(newHamster.getId()));
-
+        newHamster.setLocation(findHamsterPlace(newHamster.getId()));
 
         return newHamster;
     }
@@ -128,9 +131,9 @@ public class HamsterService {
         if (hamster.getAdopter() != null) {
             return "Already adopted, not in our care.";
         }
-        String address = hamsterRepository.findHamsterPlace(id);
 
-        return sliceHostAddress(address);
+
+        return hamster.getHost().getAddress().getTown();
     }
 
 
@@ -189,11 +192,7 @@ public class HamsterService {
         throw new HamsterStatusNotAcceptableException(status);
     }
 
-    private String sliceHostAddress(String address){
-        String[] temp = address.split(" ");
-        String place = temp[1].substring(0,temp[1].length()-1);
-        return place;
-    }
+
 
 
 }

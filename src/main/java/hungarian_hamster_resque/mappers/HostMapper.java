@@ -1,8 +1,8 @@
 package hungarian_hamster_resque.mappers;
 
-import hungarian_hamster_resque.dtos.HostDtoCountedCapacity;
-import hungarian_hamster_resque.dtos.HostDtoWithHamsters;
-import hungarian_hamster_resque.dtos.HostDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.host.HostDtoCountedCapacity;
+import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.models.Host;
 import org.mapstruct.Mapper;
 

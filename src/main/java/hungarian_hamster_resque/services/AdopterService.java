@@ -1,9 +1,9 @@
 package hungarian_hamster_resque.services;
 
-import hungarian_hamster_resque.dtos.AdopterDtoWithHamsters;
-import hungarian_hamster_resque.dtos.AdopterDtoWithoutHamsters;
-import hungarian_hamster_resque.dtos.CreateAdopterCommand;
-import hungarian_hamster_resque.dtos.UpdateAdopterCommand;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithHamsters;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.adopter.CreateAdopterCommand;
+import hungarian_hamster_resque.dtos.adopter.UpdateAdopterCommand;
 import hungarian_hamster_resque.exceptions.AdopterCantDeleteBecauseHamstersListNotEmptyException;
 import hungarian_hamster_resque.exceptions.AdopterWithCityNotExistException;
 import hungarian_hamster_resque.exceptions.AdopterWithIdNotExistException;

@@ -1,5 +1,7 @@
-package hungarian_hamster_resque.dtos;
+package hungarian_hamster_resque.dtos.host;
 
+import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoSimple;
 import hungarian_hamster_resque.enums.HostStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +21,7 @@ public class HostDtoWithHamsters {
 
     private String name;
 
-    private String address;
+    private AddressDto addressDto;
 
     private int capacity;
 

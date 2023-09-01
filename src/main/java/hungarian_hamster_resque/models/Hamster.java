@@ -129,5 +129,20 @@ public class Hamster {
                 this.description = description;
                 this.pictures = pictures;
         }
+
+        public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, String color, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, Host host, String description, List<WeeklyReport> weeklyReports, List<Picture> pictures) {
+                this.id = id;
+                this.name = name;
+                this.hamsterSpecies = hamsterSpecies;
+                this.color = color;
+                this.gender = gender;
+                this.dateOfBirth = dateOfBirth;
+                this.hamsterStatus = hamsterStatus;
+                this.startOfFostering = startOfFostering;
+                this.host = host;
+                this.description = description;
+                this.weeklyReports = weeklyReports;
+                this.pictures = pictures;
+        }
 }
 

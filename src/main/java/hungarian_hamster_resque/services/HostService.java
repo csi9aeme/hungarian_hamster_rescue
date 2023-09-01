@@ -1,9 +1,12 @@
 package hungarian_hamster_resque.services;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.host.*;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.exceptions.*;
+import hungarian_hamster_resque.mappers.AddressMapper;
 import hungarian_hamster_resque.mappers.HostMapper;
+import hungarian_hamster_resque.models.Address;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import hungarian_hamster_resque.repositories.HostRepository;
@@ -23,11 +26,13 @@ public class HostService {
 
     private final HostMapper hostMapper;
 
+    private final AddressMapper addressMapper;
+
     @Transactional
     public HostDtoWithoutHamsters createHost(CreateHostCommand command) {
         Host host = Host.builder()
                 .name(command.getName())
-                .address(command.getAddress())
+                .address(getAddress(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther()))
                 .capacity(command.getCapacity())
                 .hostStatus(findHostStatus(command.getHostStatus()))
                 .hamsters(new ArrayList<>())
@@ -41,31 +46,39 @@ public class HostService {
 
     @Transactional
     public HostDtoWithoutHamsters updateHost(long id, UpdateHostCommand command) {
+        Address newAddress = new Address(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther())
+;
         Host host = findHostEntityById(id);
         host.setName(command.getName());
-        host.setAddress(command.getAddress());
+        host.setAddress(getAddress(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther()));
         host.setCapacity(command.getCapacity());
         host.setHostStatus(command.getHostStatus());
 
         hostRepository.save(host);
-        return hostMapper.toDtoWithoutHam(host);
+        HostDtoWithoutHamsters hostDtoWithoutHamsters = hostMapper.toDtoWithoutHam(host);
+        hostDtoWithoutHamsters.setAddressDto(addressMapper.toAddressDto(newAddress));
+
+        return hostDtoWithoutHamsters;
     }
 
     @Transactional
     public List<HostDtoWithoutHamsters> getListOfHosts(Optional<String> hostNamePart) {
         if (hostNamePart.isPresent()) {
-
             List<Host> result = findHostEntityByName(hostNamePart);
 
-            return hostMapper.toDtoWithoutHam(result);
+            return getHostDtoWithoutHamsters(result);
         }
 
-        return hostMapper.toDtoWithoutHam(hostRepository.findAll());
+        List<Host> result = hostRepository.findAll();
+        return getHostDtoWithoutHamsters(result);
     }
+
+
 
 
     @Transactional
     public HostDtoWithoutHamsters findHostById(long id) {
+
         return hostMapper.toDtoWithoutHam(findHostEntityById(id));
     }
 
@@ -76,6 +89,7 @@ public class HostService {
         if (host.getHamsters().isEmpty()) {
             throw new HostHasNotHamsterYetException(id);
         }
+
         return hostMapper.toDtoWithHam(host);
     }
 
@@ -136,6 +150,7 @@ public class HostService {
             throw new HostWithCityNotFoundException(city);
         }
 
+
         return hostMapper.toDtoWithHam(result);
     }
 
@@ -179,5 +194,18 @@ public class HostService {
         for (int i = 0; i< hosts.size(); i++) {
             hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));
         }
+    }
+
+    private Address getAddress(String zip, String town, String street, String houseNumber, String other ) {
+        return new Address(zip, town, street, houseNumber, other);
+    }
+
+
+    private List<HostDtoWithoutHamsters> getHostDtoWithoutHamsters(List<Host> result) {
+        List<HostDtoWithoutHamsters> hostDtoWithoutHamsters = hostMapper.toDtoWithoutHam(result);
+        for(int i = 0; i < result.size(); i++) {
+            hostDtoWithoutHamsters.get(i).setAddressDto(addressMapper.toAddressDto(result.get(i).getAddress()));
+        }
+        return hostDtoWithoutHamsters;
     }
 }

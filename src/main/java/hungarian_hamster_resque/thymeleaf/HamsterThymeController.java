@@ -1,8 +1,8 @@
 package hungarian_hamster_resque.thymeleaf;
 
-import hungarian_hamster_resque.dtos.CreateHamsterCommand;
-import hungarian_hamster_resque.dtos.HamsterDto;
-import hungarian_hamster_resque.dtos.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;

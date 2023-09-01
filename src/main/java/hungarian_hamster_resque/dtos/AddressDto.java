@@ -7,15 +7,18 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class AdopterDtoWithoutHamsters {
+@NoArgsConstructor
+public class AddressDto {
 
-    private long id;
+    private String zip;
 
-    private String name;
+    private String town;
 
-    private String address;
+    private String street;
 
+    private String houseNumber;
+
+    private String other;
 
 }

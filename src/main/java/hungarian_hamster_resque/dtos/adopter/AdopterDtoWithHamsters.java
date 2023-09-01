@@ -1,5 +1,6 @@
-package hungarian_hamster_resque.dtos;
+package hungarian_hamster_resque.dtos.adopter;
 
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

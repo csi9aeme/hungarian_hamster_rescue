@@ -1,7 +1,7 @@
 package hungarian_hamster_resque.mappers;
 
-import hungarian_hamster_resque.dtos.HamsterDto;
-import hungarian_hamster_resque.dtos.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
 import hungarian_hamster_resque.models.Hamster;
 import org.mapstruct.Mapper;
 

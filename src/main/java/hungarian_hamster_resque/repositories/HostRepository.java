@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface HostRepository extends JpaRepository<Host, Long> {
 
-    @Query("select host from Host host left join fetch host.hamsters where host.name like concat('%',:name,'%')")
+    @Query("select host from Host host left join fetch host.hamsters left join fetch host.address where host.name like concat('%',:name,'%')")
     List<Host> findByNameWithAllHamster(@Param("name") String name);
 
     @Query("select host from Host host left join fetch host.hamsters where host.hostStatus = 'ACTIVE'")
@@ -20,10 +20,10 @@ public interface HostRepository extends JpaRepository<Host, Long> {
     @Query("select host from Host host left join fetch host.hamsters where host.hostStatus = 'ACTIVE' and host.address like concat('%',:city,'%')")
     List<Host> findOnlyActiveWithAllHamsterByCity(@Param("city") String city);
 
-    @Query("select host from Host host where host.name like concat('%',:namepart,'%')")
-    List<Host> findByNameWithoutHamster(@Param("namepart") String namePart);
+    @Query("select host from Host host left join fetch host.address where host.name like concat('%',:namePart,'%')")
+    List<Host> findByNameWithoutHamster(@Param("namePart") String namePart);
 
-    @Query("select  host from Host host left join fetch host.hamsters where host.address like concat('%',:city,'%') ")
+    @Query("select host from Host host left join fetch host.hamsters where host.address.town like concat('%',:city,'%') ")
     List<Host> findByCityWithHamster(@Param("city") String city);
 
     @Query("select host from Host host left join fetch host.hamsters where host.id = :id")

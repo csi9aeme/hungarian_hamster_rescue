@@ -1,6 +1,10 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.adopter.AdoptHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.hamster.UpdateHamsterCommand;
 import hungarian_hamster_resque.services.HamsterService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

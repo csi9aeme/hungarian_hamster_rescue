@@ -1,11 +1,13 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.*;
-import hungarian_hamster_resque.dtos.CreateHamsterCommand;
-import hungarian_hamster_resque.dtos.HamsterDtoSimple;
-import hungarian_hamster_resque.enums.HamsterStatus;
+import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoSimple;
+import hungarian_hamster_resque.dtos.host.CreateHostCommand;
+import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.host.UpdateHostCommand;
 import hungarian_hamster_resque.enums.HostStatus;
-import hungarian_hamster_resque.models.Host;
 import hungarian_hamster_resque.repositories.HostRepository;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,9 +44,9 @@ public class HostControllerWebClientIT {
 
     @BeforeEach
     void init() {
-        klara = new CreateHostCommand("Békési Klára", "Szeged", 5, "active");
-        klaudia = new CreateHostCommand("Bogdán Klaudia", "Budapest", 2, "active");
-        erno = new CreateHostCommand("Nagy Ernő", "Budapest", 4, "active");
+        klara = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Ősz utca" ,"7.","", 5, "active");
+        klaudia = new CreateHostCommand("Bogdán Klaudia", "1018", "Budapest", "Kiss Béla utca", "13.","B", 2, "active");
+        erno = new CreateHostCommand("Nagy Ernő", "1191", "Budapest", "Újegyi út", "70.","2/7", 4, "active");
     }
 
     @Test
@@ -67,7 +69,7 @@ public class HostControllerWebClientIT {
     void testCreateHostWithNoName() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hosts")
-                .bodyValue(new CreateHostCommand("", "Budapest", 3 ))
+                .bodyValue(new CreateHostCommand("", "1191", "Budapest", "Újegyi út", "70.","2/7", 3 ))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -81,7 +83,7 @@ public class HostControllerWebClientIT {
     void testCreateHostWithoutCapacity() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hosts")
-                .bodyValue(new CreateHostCommand("Kis Boglárka", "Budapest", 0))
+                .bodyValue(new CreateHostCommand("Kis Boglárka", "1191", "Budapest", "Újegyi út", "70.","2/7", 0))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -131,7 +133,15 @@ public class HostControllerWebClientIT {
                 .bodyValue(erno)
                 .exchange()
                 .expectStatus().isEqualTo(201);
+        ////
+        List<HostDtoWithoutHamsters> resultALL = webClient.get()
+                .uri("/api/hosts")
+                .exchange()
+                .expectBodyList(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
+        System.out.println(resultALL.size());
+        System.out.println(resultALL.get(0).getAddressDto().getTown());
+        ////
         List<HostDtoWithoutHamsters> result = webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/api/hosts").queryParam("namePart", "Klára").build())
                 .exchange()
@@ -139,8 +149,9 @@ public class HostControllerWebClientIT {
 
         assertThat(result)
                 .hasSize(1)
-                .extracting(HostDtoWithoutHamsters::getAddress)
-                .containsExactly("Szeged");
+                .extracting(HostDtoWithoutHamsters::getAddressDto)
+                .extracting(AddressDto::getTown)
+                .contains("Szeged");
     }
 
     @Test
@@ -260,12 +271,12 @@ public class HostControllerWebClientIT {
         long id = host.getId();
 
         HostDtoWithoutHamsters updated = webClient.put().uri("api/hosts/{id}", id)
-                .bodyValue(new UpdateHostCommand("Békési Klára", "Budapest", 4))
+                .bodyValue(new UpdateHostCommand("Békési Klára", "1191", "Budapest", "Újhegyi út", "70.","2/7", 4))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-        assertThat(updated.getAddress()).isEqualTo("Budapest");
+        assertThat(updated.getAddressDto().getTown()).isEqualTo("Budapest");
     }
 
     @Test

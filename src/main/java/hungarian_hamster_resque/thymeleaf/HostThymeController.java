@@ -1,6 +1,8 @@
 package hungarian_hamster_resque.thymeleaf;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.host.CreateHostCommand;
+import hungarian_hamster_resque.dtos.host.HostDtoCountedCapacity;
+import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.services.HostService;
 import lombok.AllArgsConstructor;

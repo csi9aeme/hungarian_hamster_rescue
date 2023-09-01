@@ -1,6 +1,9 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.host.CreateHostCommand;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.dtos.report.CreateReportCommand;
 import hungarian_hamster_resque.dtos.report.ReportDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +26,7 @@ public class WeeklyReportControllerIT {
     @Autowired
     WebTestClient webClient;
 
+    CreateHostCommand createHostCommand1;
     HostDtoWithoutHamsters host;
 
     HamsterDto hamster;
@@ -37,9 +41,9 @@ public class WeeklyReportControllerIT {
 
     @BeforeEach
     void init() {
-
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", 5, "active", new ArrayList<>());
         host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "8003 Szeged, Fő utca 7.", 5, "active", new ArrayList<>()))
+                .bodyValue(createHostCommand1)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();

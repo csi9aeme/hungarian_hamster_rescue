@@ -1,4 +1,4 @@
-package hungarian_hamster_resque.dtos;
+package hungarian_hamster_resque.dtos.hamster;
 
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
@@ -56,6 +56,7 @@ public class CreateHamsterCommand {
 
     @Schema(description = "Description of the hamster.")
     private String description;
+
 
 
 

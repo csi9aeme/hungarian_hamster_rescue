@@ -1,6 +1,9 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.host.CreateHostCommand;
+import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.host.UpdateHostCommand;
 import hungarian_hamster_resque.services.HostService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

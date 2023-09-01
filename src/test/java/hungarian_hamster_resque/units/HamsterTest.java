@@ -4,6 +4,7 @@ import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
+import hungarian_hamster_resque.models.Address;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,8 @@ class HamsterTest {
 
     @BeforeEach
     void init() {
-         host = new Host("Békési Klára", "Szeged", HostStatus.ACTIVE,  5);
+        host = new Host("Kiss Rozália", new Address("6700", "Szeged", "Ősz utca" ,"7.",""), HostStatus.ACTIVE, 3);
+
 
     }
     @Test

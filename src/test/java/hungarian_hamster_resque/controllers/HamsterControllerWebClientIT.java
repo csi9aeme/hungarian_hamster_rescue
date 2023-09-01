@@ -1,6 +1,14 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.adopter.AdoptHamsterCommand;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.adopter.CreateAdopterCommand;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.hamster.UpdateHamsterCommand;
+import hungarian_hamster_resque.dtos.host.CreateHostCommand;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,14 +39,21 @@ public class HamsterControllerWebClientIT {
 
     HostDtoWithoutHamsters host;
 
+    CreateHostCommand createHostCommand1;
+    CreateHostCommand createHostCommand2;
+
     CreateHamsterCommand createHamster1;
     CreateHamsterCommand createHamster2;
     CreateHamsterCommand createHamster3;
 
     @BeforeEach
     void initHostAndAdopter() {
+
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Kis Pál utca", "3.","", 5, "active");
+        createHostCommand2 = new CreateHostCommand("Nagy Béla", "6700", "Szeged", "Kis Pál utca", "3.","", 1, "active");
+
         host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "8001 Szeged, Kis Pál utca 3.", 5, "active"))
+                .bodyValue(createHostCommand1)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -269,7 +284,7 @@ public class HamsterControllerWebClientIT {
     @Description("Exception: host can't take more hamster")
     void testHostCantTakeMoreHamster() {
         HostDtoWithoutHamsters newHost = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 1, "active"))
+                .bodyValue(createHostCommand2)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -314,7 +329,7 @@ public class HamsterControllerWebClientIT {
     @Description("Exception: host status is inactive")
     void testHostIsInactive() {
         HostDtoWithoutHamsters newHost = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 10, "active"))
+                .bodyValue(createHostCommand1)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();

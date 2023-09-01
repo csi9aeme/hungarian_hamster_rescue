@@ -1,7 +1,15 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.*;
-import hungarian_hamster_resque.models.Host;
+import hungarian_hamster_resque.dtos.adopter.AdoptHamsterCommand;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithHamsters;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.adopter.CreateAdopterCommand;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.host.CreateHostCommand;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.adopter.UpdateAdopterCommand;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +21,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -33,12 +42,17 @@ public class AdopterControllerWebClientIT {
     CreateAdopterCommand klaudiaKiss;
     CreateAdopterCommand klaudiaNagy;
 
+    CreateHostCommand createHostCommand1;
+
     @BeforeEach
     void init() {
         odon = new CreateAdopterCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32");
         klara = new CreateAdopterCommand("Békési Klára", "Szeged");
         klaudiaKiss = new CreateAdopterCommand("Kiss Klaudia", "Budapest");
         klaudiaNagy = new CreateAdopterCommand("Nagy Klaudia", "Szeged");
+
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", 5, "active", new ArrayList<>());
+
 
     }
 
@@ -231,7 +245,7 @@ public class AdopterControllerWebClientIT {
     @Description("Find adopter by ID and hamsters")
     void testFindAdopterByIdWithHamsters(){
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5, "active"))
+                .bodyValue(createHostCommand1)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -280,7 +294,7 @@ public class AdopterControllerWebClientIT {
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         HostDtoWithoutHamsters host = webClient.post().uri("api/hosts")
-                .bodyValue(new CreateHostCommand("Békési Klára", "Szeged", 5, "active"))
+                .bodyValue(createHostCommand1)
                 .exchange()
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 

@@ -1,4 +1,4 @@
-package hungarian_hamster_resque.dtos;
+package hungarian_hamster_resque.dtos.hamster;
 
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;

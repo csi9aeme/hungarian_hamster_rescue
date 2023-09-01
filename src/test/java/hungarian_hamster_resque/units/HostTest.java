@@ -4,6 +4,7 @@ import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
+import hungarian_hamster_resque.models.Address;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class HostTest {
 
     @Test
     void testCreate() {
-        Host host = new Host("Kiss Rozália", "1092 Budapest, Fő utca 7.", HostStatus.ACTIVE, 3);
+        Host host = new Host("Kiss Rozália", new Address("6700", "Szeged", "Ősz utca" ,"7.",""), HostStatus.ACTIVE, 3);
         String name = host.getName();
 
         assertThat(name).isEqualTo("Kiss Rozália");
@@ -24,7 +25,7 @@ public class HostTest {
 
     @Test
     void addHamster() {
-        Host host = new Host("Kiss Rozália", "1092 Budapest, Fő utca 7.", HostStatus.ACTIVE, 3);
+        Host host = new Host("Kiss Rozália", new Address("6700", "Szeged", "Ősz utca" ,"7.",""), HostStatus.ACTIVE, 3);
         host.addHamster(new Hamster("Bolyhos",
                 HamsterSpecies.DWARF,
                 Gender.FEMALE,

@@ -1,6 +1,15 @@
 package hungarian_hamster_resque.services;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.adopter.AdoptHamsterCommand;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithHamsters;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.hamster.UpdateHamsterCommand;
+import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
@@ -10,6 +19,7 @@ import hungarian_hamster_resque.exceptions.HamsterWithIdNotExistException;
 import hungarian_hamster_resque.exceptions.HamsterWithNameNotExist;
 import hungarian_hamster_resque.exceptions.HostCantTakeMoreHamstersException;
 import hungarian_hamster_resque.mappers.HamsterMapper;
+import hungarian_hamster_resque.models.Address;
 import hungarian_hamster_resque.models.Adopter;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
@@ -30,10 +40,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -61,23 +71,43 @@ class HamsterServiceTest {
     Adopter adopter;
     AdopterDtoWithoutHamsters adopterDtoWithoutHamsters;
     AdopterDtoWithHamsters adopterDtoWithHamsters;
-
+    AddressDto addressDto1;
+    AddressDto addressDto2;
+    AddressDto addressDto3;
 
     @BeforeEach
     void init() {
-        host = new Host(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", HostStatus.ACTIVE, 1);
-        hostDtoWithoutHamsters = new HostDtoWithoutHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE);
-        hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", "1092 Szeged, Őz utca 9", 1, HostStatus.ACTIVE, new ArrayList<>());
+        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
+        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.","B");
+        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
+
+        host = new Host(1L, "Kiss Klára", new Address("6700", "Szeged", "Őz utca", "9","2/15"), HostStatus.ACTIVE, 3);
+        hostDtoWithoutHamsters = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE);
+        hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE, new ArrayList<>());
 
         adopter = new Adopter(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
         adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
         adopterDtoWithHamsters = new AdopterDtoWithHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.", new ArrayList<>());
+
 
     }
 
     @Test
     void testCreateHamster() {
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
+        when(hamsterRepository.findById(any())).thenReturn(Optional.of(new Hamster(
+                1L,
+                "Bolyhos",
+                HamsterSpecies.CAMPBELL,
+                "dawn",
+                Gender.MALE,
+                LocalDate.parse("2022-12-29"),
+                HamsterStatus.ADOPTABLE,
+                LocalDate.parse("2023-01-02"),
+                host,
+                "short desc",
+                new ArrayList<>(),
+                new ArrayList<>())));
 
         when(mapper.toDtoWithoutAdopter((Hamster) any()))
                 .thenReturn(new HamsterDtoWithoutAdopter(
@@ -100,7 +130,7 @@ class HamsterServiceTest {
                         "male",
                         LocalDate.parse("2022-12-29"),
                         "adoptable",
-                        1L,
+                        host.getId(),
                         LocalDate.parse("2023-01-02"),
                         "short desc"));
 
@@ -131,7 +161,7 @@ class HamsterServiceTest {
     @Test
     void testHostIsFull() {
         when(hostRepository.findById(any())).thenReturn(Optional.of(
-                new Host(2L, "Nagy Béla", "1092 Budapest, Őz utca 9", HostStatus.ACTIVE, 0)));
+                new Host(2L, "Nagy Béla", new Address("1092", "Budapest", "Őz utca", "9", "2.em"), HostStatus.ACTIVE, 0)));
 
         HostCantTakeMoreHamstersException e = assertThrows(HostCantTakeMoreHamstersException.class,
                 () -> service.createHamster(new CreateHamsterCommand("Bolyhos",

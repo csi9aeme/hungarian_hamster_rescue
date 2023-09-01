@@ -1,6 +1,10 @@
 package hungarian_hamster_resque.services;
 
-import hungarian_hamster_resque.dtos.*;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithHamsters;
+import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithoutHamsters;
+import hungarian_hamster_resque.dtos.adopter.CreateAdopterCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.dtos.adopter.UpdateAdopterCommand;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;

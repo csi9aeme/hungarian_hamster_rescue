@@ -1,20 +1,14 @@
 package hungarian_hamster_resque.thymeleaf;
 
-import hungarian_hamster_resque.dtos.CreateHostCommand;
-import hungarian_hamster_resque.dtos.HostDtoCountedCapacity;
-import hungarian_hamster_resque.dtos.HostDtoWithHamsters;
 import hungarian_hamster_resque.dtos.report.CreateReportCommand;
 import hungarian_hamster_resque.dtos.report.ReportDto;
-import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.services.WeeklyReportService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
