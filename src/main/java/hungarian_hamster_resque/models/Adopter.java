@@ -25,12 +25,16 @@ public class Adopter {
     @Embedded
     private Address address;
 
+    @Embedded
+    private Contacts contacts;
+
     @OneToMany(mappedBy = "adopter", cascade = {CascadeType.PERSIST})
     private List<Hamster> hamsters = new ArrayList<>();
 
-    public Adopter(String name, Address address) {
+    public Adopter(String name, Address address, Contacts contacts) {
         this.name = name;
         this.address = address;
+        this.contacts = contacts;
     }
 
     public Adopter(Long id, String name, Address address) {

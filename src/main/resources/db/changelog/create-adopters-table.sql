@@ -10,3 +10,4 @@ CREATE TABLE adopters
     PRIMARY KEY (adopter_id)
 
 );
+

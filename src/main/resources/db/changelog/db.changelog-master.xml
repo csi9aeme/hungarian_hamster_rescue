@@ -25,6 +25,25 @@
         <sqlFile path="create-reports-table.sql"
                  relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="csi9aeme" id="add_mobile-phone_column">
+        <addColumn tableName="adopters">
+            <column name="phone_number" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="csi9aeme" id="add_email_column">
+        <addColumn tableName="adopters">
+            <column name="email" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="csi9aeme" id="add_other-contact-info_column">
+        <addColumn tableName="adopters">
+            <column name="other_contact_info" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
+
+
+
+
 
 
 
