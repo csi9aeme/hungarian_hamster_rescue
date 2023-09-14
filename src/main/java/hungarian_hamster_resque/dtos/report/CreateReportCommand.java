@@ -1,8 +1,6 @@
 package hungarian_hamster_resque.dtos.report;
 
 
-import hungarian_hamster_resque.models.Hamster;
-import hungarian_hamster_resque.models.Host;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

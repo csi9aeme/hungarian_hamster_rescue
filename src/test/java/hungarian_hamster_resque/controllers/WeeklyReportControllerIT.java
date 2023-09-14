@@ -41,7 +41,7 @@ public class WeeklyReportControllerIT {
 
     @BeforeEach
     void init() {
-        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", 5, "active", new ArrayList<>());
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.", "", 5, "active", new ArrayList<>());
         host = webClient.post().uri("api/hosts")
                 .bodyValue(createHostCommand1)
                 .exchange()
@@ -101,20 +101,20 @@ public class WeeklyReportControllerIT {
     }
 
     @Test
-    void testCreateReport(){
-          ReportDto result = webClient.post().uri("/api/reports/create-report")
+    void testCreateReport() {
+        ReportDto result = webClient.post().uri("/api/reports/create-report")
                 .bodyValue(createReportCommand1)
-                  .exchange()
-                  .expectStatus().isEqualTo(201)
-                  .expectBody(ReportDto.class).returnResult().getResponseBody();
+                .exchange()
+                .expectStatus().isEqualTo(201)
+                .expectBody(ReportDto.class).returnResult().getResponseBody();
 
-          assertThat(result.getIdOfReport()).isNotNull();
-          assertThat(result.getHamsterName()).isEqualTo("Bolyhos");
+        assertThat(result.getIdOfReport()).isNotNull();
+        assertThat(result.getHamsterName()).isEqualTo("Bolyhos");
 
     }
 
     @Test
-    void testGetALlOrderByDate(){
+    void testGetALlOrderByDate() {
         webClient.post().uri("/api/reports/create-report")
                 .bodyValue(createReportCommand1)
                 .exchange()
@@ -140,7 +140,7 @@ public class WeeklyReportControllerIT {
     }
 
     @Test
-    void testGetWeeklyReportsByHostId(){
+    void testGetWeeklyReportsByHostId() {
         ReportDto dto1 = webClient.post().uri("/api/reports/create-report")
                 .bodyValue(createReportCommand1)
                 .exchange()
@@ -170,7 +170,7 @@ public class WeeklyReportControllerIT {
     }
 
     @Test
-    void testGetWeeklyReportsByHostName(){
+    void testGetWeeklyReportsByHostName() {
         ReportDto dto1 = webClient.post().uri("/api/reports/create-report")
                 .bodyValue(createReportCommand1)
                 .exchange()
@@ -200,9 +200,9 @@ public class WeeklyReportControllerIT {
     }
 
     @Test
-    void testGetWeeklyReportsOfHamster(){
-       CreateReportCommand createReportCommand4 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
-       CreateReportCommand createReportCommand5 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-05-01"), 50, "Gain more weight.");
+    void testGetWeeklyReportsOfHamster() {
+        CreateReportCommand createReportCommand4 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
+        CreateReportCommand createReportCommand5 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-05-01"), 50, "Gain more weight.");
 
         ReportDto reportDto1 = webClient.post().uri("/api/reports/create-report")
                 .bodyValue(createReportCommand1)
@@ -229,11 +229,10 @@ public class WeeklyReportControllerIT {
         assertThat(result.size()).isEqualTo(3);
 
 
-
     }
 
     @Test
-    void testGetWeeklyReportsOfHamsterByName(){
+    void testGetWeeklyReportsOfHamsterByName() {
         CreateReportCommand createReportCommand4 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-04-19"), 43, "Gain weight.");
         CreateReportCommand createReportCommand5 = new CreateReportCommand(createHamster1.getName(), LocalDate.parse("2023-05-01"), 50, "Gain more weight.");
 

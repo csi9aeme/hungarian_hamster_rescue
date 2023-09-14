@@ -10,6 +10,7 @@ import hungarian_hamster_resque.dtos.hamster.UpdateHamsterCommand;
 import hungarian_hamster_resque.dtos.host.CreateHostCommand;
 import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.enums.HamsterStatus;
+import hungarian_hamster_resque.models.Address;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(statements = {"delete from weekly_reports","delete from hamsters"})
+@Sql(statements = {"delete from weekly_reports", "delete from hamsters"})
 public class HamsterControllerWebClientIT {
 
     @Autowired
@@ -49,8 +50,8 @@ public class HamsterControllerWebClientIT {
     @BeforeEach
     void initHostAndAdopter() {
 
-        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Kis Pál utca", "3.","", 5, "active");
-        createHostCommand2 = new CreateHostCommand("Nagy Béla", "6700", "Szeged", "Kis Pál utca", "3.","", 1, "active");
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Kis Pál utca", "3.", "", 5, "active");
+        createHostCommand2 = new CreateHostCommand("Nagy Béla", "6700", "Szeged", "Kis Pál utca", "3.", "", 1, "active");
 
         host = webClient.post().uri("api/hosts")
                 .bodyValue(createHostCommand1)
@@ -322,7 +323,7 @@ public class HamsterControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/not-enough-capacity"));
-        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given ID ("+ newHost.getId() +") can't take more hamster.");
+        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given ID (" + newHost.getId() + ") can't take more hamster.");
     }
 
     @Test
@@ -356,7 +357,7 @@ public class HamsterControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/inactive-host"));
-        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given ID ("+ newHost.getId() + ") currently cannot take a hamster.");
+        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given ID (" + newHost.getId() + ") currently cannot take a hamster.");
 
     }
 
@@ -444,9 +445,10 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Adopt a hamster (change status and add an owner)")
     void testAdoptHamster() {
+        CreateAdopterCommand adopterCommand = new CreateAdopterCommand("Zsíros B. Ödön", "7054", "Tengelic", "Alkotmány u.", "32", "");
         AdopterDtoWithoutHamsters adopter = webClient.post()
                 .uri("/api/adopters")
-                .bodyValue(new CreateAdopterCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32"))
+                .bodyValue(adopterCommand)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();

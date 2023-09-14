@@ -22,17 +22,18 @@ public class Adopter {
 
     private String name;
 
-    private String address;
+    @Embedded
+    private Address address;
 
     @OneToMany(mappedBy = "adopter", cascade = {CascadeType.PERSIST})
     private List<Hamster> hamsters = new ArrayList<>();
 
-    public Adopter(String name, String address) {
+    public Adopter(String name, Address address) {
         this.name = name;
         this.address = address;
     }
 
-    public Adopter(Long id, String name, String address) {
+    public Adopter(Long id, String name, Address address) {
         this.id = id;
         this.name = name;
         this.address = address;

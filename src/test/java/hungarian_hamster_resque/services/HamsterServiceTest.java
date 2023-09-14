@@ -40,7 +40,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -85,10 +84,9 @@ class HamsterServiceTest {
         hostDtoWithoutHamsters = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE);
         hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE, new ArrayList<>());
 
-        adopter = new Adopter(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
-        adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.");
-        adopterDtoWithHamsters = new AdopterDtoWithHamsters(1L, "Megyek Elemér", "1180 Budapest Havanna utca 8.", new ArrayList<>());
-
+        adopter = new Adopter(1L, "Megyek Elemér", new Address("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."));
+        adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", new AddressDto("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."));
+        adopterDtoWithHamsters = new AdopterDtoWithHamsters(1L, "Megyek Elemér", new AddressDto("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."), new ArrayList<>());
 
     }
 

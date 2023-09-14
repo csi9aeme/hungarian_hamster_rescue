@@ -49,12 +49,6 @@ public class UpdateHostCommand {
     private HostStatus hostStatus;
 
 
-//    public UpdateHostCommand(String name, String address, int capacity) {
-//        this.name = name;
-//        this.address = address;
-//        this.capacity = capacity;
-//    }
-
     public UpdateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity) {
         this.name = name;
         this.zip = zip;

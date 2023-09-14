@@ -17,7 +17,24 @@ public class CreateAdopterCommand {
     @Schema(description = "name", example = "Kovács Angéla")
     private String name;
 
-    @NotEmpty(message = "Address cannot be empty!")
-    @Schema(description = "address", example = "1023 Budapest, Fő utca 28.")
-    private String address;
+    @NotEmpty(message = "ZIP cannot be empty!")
+    @Schema(description = "ZIP code of the address", example = "1023")
+    private String zip;
+
+    @NotEmpty(message = "Town cannot be empty!")
+    @Schema(description = "Town of the address.", example = "Budapest")
+    private String town;
+
+    @NotEmpty(message = "Street cannot be empty!")
+    @Schema(description = "Street of the address", example = "Fő utca")
+    private String street;
+
+    @NotEmpty(message = "House number cannot be empty!")
+    @Schema(description = "Number of the house", example = "Fő utca 28.")
+    private String houseNumber;
+
+
+    @Schema(description = "Other info (level, etc)", example = "1. floor B door")
+    private String other;
+
 }

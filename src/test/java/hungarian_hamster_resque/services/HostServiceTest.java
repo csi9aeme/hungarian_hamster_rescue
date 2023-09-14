@@ -18,7 +18,6 @@ import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
 import hungarian_hamster_resque.repositories.HostRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,14 +25,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.InstanceOfAssertFactories.map;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -101,22 +99,27 @@ class HostServiceTest {
     @Test
     void testUpdateHost() {
         Host host = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1);
+        UpdateHostCommand updateHost = new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca" ,"7.","", 1, HostStatus.ACTIVE);
+        AddressDto addressDto = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
 
-        UpdateHostCommand updateHostCommand = new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca" ,"7.","", 1, HostStatus.ACTIVE);
-        when(repository.findById(anyLong())).thenReturn(Optional.of(host));
+        // Mockoljuk a hostRepository findById metódusát
+        when(repository.findById(1L)).thenReturn(Optional.of(host));
 
-        when(addressMapper.toAddressDto((Address) any())).thenReturn(new AddressDto("6700", "Szeged", "Ősz utca" ,"7.",""));
-        HostDtoWithoutHamsters newHost = new HostDtoWithoutHamsters( "Kiss Klára", new AddressDto("6700", "Szeged", "Ősz utca" ,"7.",""), 1, HostStatus.ACTIVE);
-        
-        when(service.updateHost(anyLong(), updateHostCommand)).thenReturn(newHost);
+        // Mockoljuk az addressMapper toAddressDto metódusát
+        when(addressMapper.toAddressDto((Address) any())).thenReturn(addressDto);
 
-        HostDtoWithoutHamsters updated = service.updateHost(1L, updateHostCommand);
+        // Teszteljük a metódust
+        HostDtoWithoutHamsters result = service.updateHost(1L, updateHost);
 
-        assertThat(updated.getAddressDto().getTown()).contains("Szeged");
+        // Ellenőrizzük az eredményt és a műveleteket
+        assertEquals("Kiss Klára", result.getName());
+        assertEquals(addressDto, result.getAddressDto());
+        assertEquals(1, result.getCapacity());
+        assertEquals(HostStatus.ACTIVE, result.getHostStatus());
 
-        verify(repository, times(2)).findById(any());
-        //verify(repository, times(2)).save(any());
-
+        // Ellenőrizzük, hogy a hostRepository save metódusa meghívódott
+        verify(repository).save(host);
+//
     }
 
     @Test
@@ -135,33 +138,30 @@ class HostServiceTest {
         List<Host> hostEntities = Arrays.asList(
                 new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1),
                 new Host(2L, "Nagy Eszter", address2, HostStatus.ACTIVE, 2),
-                new Host(3L, "Megyek Elemér", address3, HostStatus.ACTIVE, 3));
+                new Host(3L, "Megyek Elemér", address3, HostStatus.ACTIVE, 3)
+        );
 
-        Optional<String> emptyParam = Optional.empty();
+
+        List<HostDtoWithoutHamsters> hostDtos = Arrays.asList(
+                new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE),
+                new HostDtoWithoutHamsters(2L, "Nagy Eszter", addressDto2,2,  HostStatus.ACTIVE),
+                new HostDtoWithoutHamsters(3L, "Megyek Elemér", addressDto3, 3, HostStatus.ACTIVE)
+        );
 
         when(repository.findAll()).thenReturn(hostEntities);
-        System.out.println(repository.findAll().size());
-        List<HostDtoWithoutHamsters> hosts = new ArrayList<>();
-        hosts.add(hostDto1);
-        hosts.add(hostDto2);
-        hosts.add(hostDto3);
+        when(addressMapper.toAddressDto((Address) any())).thenReturn(addressDto1); // Bármely Address-re ugyanazt az AddressDTO-t használjuk
+        when(service.getListOfHosts(Optional.empty())).thenReturn(hostDtos);
 
+        List<HostDtoWithoutHamsters> result = service.getListOfHosts(Optional.empty());
 
-        when(mapper.toDtoWithoutHam(hostEntities)).thenReturn(hosts);
-        when(service);
-        System.out.println(mapper.toDtoWithoutHam(hostEntities).size());
+        assertEquals(3, result.size());
+        assertEquals("Kiss Klára", result.get(0).getName());
+        assertEquals("Nagy Eszter", result.get(1).getName());
+        assertEquals("Megyek Elemér", result.get(2).getName());
 
-        when(service.getListOfHosts(emptyParam)).thenReturn(hosts);
-        System.out.println(hosts.size());
+        // Ellenőrizzük, hogy a hostRepository findByNameWithoutHamster metódusa nem lett meghívva
+        verify(repository, never()).findByNameWithoutHamster(any());
 
-        List<HostDtoWithoutHamsters> result = service.getListOfHosts(emptyParam);
-
-        assertThat(result)
-                .hasSize(3)
-                .extracting(HostDtoWithoutHamsters::getName)
-                .contains("Kiss Klára");
-
-        verify(repository).findAll();
     }
 
     @Test

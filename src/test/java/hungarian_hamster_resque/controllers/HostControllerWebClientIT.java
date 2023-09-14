@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(statements = {"delete from weekly_reports","delete from hamsters", "delete from hosts"})
+@Sql(statements = {"delete from weekly_reports", "delete from hamsters", "delete from hosts"})
 public class HostControllerWebClientIT {
 
     @Autowired
@@ -44,9 +44,9 @@ public class HostControllerWebClientIT {
 
     @BeforeEach
     void init() {
-        klara = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Ősz utca" ,"7.","", 5, "active");
-        klaudia = new CreateHostCommand("Bogdán Klaudia", "1018", "Budapest", "Kiss Béla utca", "13.","B", 2, "active");
-        erno = new CreateHostCommand("Nagy Ernő", "1191", "Budapest", "Újegyi út", "70.","2/7", 4, "active");
+        klara = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Ősz utca", "7.", "", 5, "active");
+        klaudia = new CreateHostCommand("Bogdán Klaudia", "1018", "Budapest", "Kiss Béla utca", "13.", "B", 2, "active");
+        erno = new CreateHostCommand("Nagy Ernő", "1191", "Budapest", "Újegyi út", "70.", "2/7", 4, "active");
     }
 
     @Test
@@ -69,7 +69,7 @@ public class HostControllerWebClientIT {
     void testCreateHostWithNoName() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hosts")
-                .bodyValue(new CreateHostCommand("", "1191", "Budapest", "Újegyi út", "70.","2/7", 3 ))
+                .bodyValue(new CreateHostCommand("", "1191", "Budapest", "Újegyi út", "70.", "2/7", 3))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -83,7 +83,7 @@ public class HostControllerWebClientIT {
     void testCreateHostWithoutCapacity() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hosts")
-                .bodyValue(new CreateHostCommand("Kis Boglárka", "1191", "Budapest", "Újegyi út", "70.","2/7", 0))
+                .bodyValue(new CreateHostCommand("Kis Boglárka", "1191", "Budapest", "Újegyi út", "70.", "2/7", 0))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -198,7 +198,7 @@ public class HostControllerWebClientIT {
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
         assertEquals(URI.create("hamsterresque/host-not-found"), detail.getType());
-        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given ID ("+ id + ") is not exist.");
+        assertThat(detail.getDetail()).isEqualTo("The temporary host with the given ID (" + id + ") is not exist.");
 
     }
 
@@ -257,7 +257,7 @@ public class HostControllerWebClientIT {
 
         assertEquals(URI.create("hamsterresque/hamsters-not-found"), detail.getType());
         assertThat(detail.getDetail()).isEqualTo("The temporary host with the requested ID ("
-                + host.getId() +") does not currently have a hamster.");
+                + host.getId() + ") does not currently have a hamster.");
     }
 
     @Test
@@ -271,7 +271,7 @@ public class HostControllerWebClientIT {
         long id = host.getId();
 
         HostDtoWithoutHamsters updated = webClient.put().uri("api/hosts/{id}", id)
-                .bodyValue(new UpdateHostCommand("Békési Klára", "1191", "Budapest", "Újhegyi út", "70.","2/7", 4))
+                .bodyValue(new UpdateHostCommand("Békési Klára", "1191", "Budapest", "Újhegyi út", "70.", "2/7", 4))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();

@@ -16,11 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class AdopterTest {
 
-
-
     @Test
     void testCreate() {
-        Adopter adopter = new Adopter("Kiss Virág", "1092 Budapest, Fő utca 7.");
+        Adopter adopter = new Adopter("Kiss Virág", new Address("1092", "Budapest", "Fő utca", "7.", ""));
         String name = adopter.getName();
 
         assertThat(name).isEqualTo("Kiss Virág");
@@ -31,7 +29,7 @@ class AdopterTest {
         Host host = new Host("Kiss Rozália", new Address("6700", "Szeged", "Ősz utca" ,"7.",""), HostStatus.ACTIVE, 3);
 
 
-        Adopter adopter = new Adopter("Kiss Virág", "1092 Budapest, Fő utca 7.");
+        Adopter adopter = new Adopter("Kiss Virág", new Address("1092", "Budapest", "Fő utca", "7.", ""));
         adopter.addHamster(new Hamster(
                 "Bolyhos",
                 HamsterSpecies.DWARF,

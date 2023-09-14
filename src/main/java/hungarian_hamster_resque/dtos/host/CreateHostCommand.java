@@ -23,7 +23,7 @@ public class CreateHostCommand {
     @Schema(description = "Name of the temporary host.", example = "Kovács Angéla")
     private String name;
 
-
+    @NotEmpty(message = "ZIP cannot be empty!")
     @Schema(description = "ZIP code of the address", example = "1023")
     private String zip;
 

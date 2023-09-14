@@ -16,5 +16,4 @@ public interface HamsterMapper {
     List<HamsterDtoWithoutAdopter> toDtoWithoutAdopter(List<Hamster> hamsters);
     HamsterDtoWithoutAdopter toDtoWithoutAdopter(Hamster hamster);
 
-    List<HamsterDto> hamsterConverter(List<HamsterDtoWithoutAdopter> hamsters);
 }

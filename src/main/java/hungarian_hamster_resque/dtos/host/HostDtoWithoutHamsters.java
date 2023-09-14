@@ -3,17 +3,14 @@ package hungarian_hamster_resque.dtos.host;
 
 import hungarian_hamster_resque.dtos.AddressDto;
 import hungarian_hamster_resque.enums.HostStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class HostDtoWithoutHamsters {
 
     private Long id;

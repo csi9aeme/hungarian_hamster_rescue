@@ -3,7 +3,6 @@ package hungarian_hamster_resque.models;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HamsterSpecies;
-import hungarian_hamster_resque.services.HamsterService;
 import jakarta.persistence.*;
 import lombok.*;
 

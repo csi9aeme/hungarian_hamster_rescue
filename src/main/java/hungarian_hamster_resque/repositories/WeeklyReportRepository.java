@@ -1,7 +1,6 @@
 package hungarian_hamster_resque.repositories;
 
 
-import hungarian_hamster_resque.models.Host;
 import hungarian_hamster_resque.models.WeeklyReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,8 +1,5 @@
 package hungarian_hamster_resque.dtos.hamster;
 
-import hungarian_hamster_resque.enums.Gender;
-import hungarian_hamster_resque.enums.HamsterSpecies;
-import hungarian_hamster_resque.enums.HamsterStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

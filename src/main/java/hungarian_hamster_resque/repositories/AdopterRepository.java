@@ -13,7 +13,8 @@ public interface AdopterRepository extends JpaRepository<Adopter, Long> {
 
     List<Adopter> findAdopterByNameContains(String s);
 
-    List<Adopter> findAdopterByAddressContains(String s);
+    @Query("select a from Adopter a where a.address.town = :city")
+    List<Adopter> findAdopterByCity(@Param("city") String s);
 
     @Query("select adopter from Adopter adopter left join fetch adopter.hamsters where adopter.id = :id")
     Adopter findAdopterByIdWithHamsters(@Param("id") long id);

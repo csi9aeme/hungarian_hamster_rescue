@@ -137,7 +137,6 @@ public class HamsterService {
     }
 
 
-
     private List<Hamster> findHamsterWithNamePart(String hamsterName) {
         List<Hamster> result = hamsterRepository.findHamsterByNameContains(hamsterName);
         if (result.isEmpty()) {

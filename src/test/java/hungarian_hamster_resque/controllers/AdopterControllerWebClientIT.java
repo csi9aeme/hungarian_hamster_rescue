@@ -1,5 +1,6 @@
 package hungarian_hamster_resque.controllers;
 
+import hungarian_hamster_resque.dtos.AddressDto;
 import hungarian_hamster_resque.dtos.adopter.AdoptHamsterCommand;
 import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithHamsters;
 import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithoutHamsters;
@@ -10,6 +11,7 @@ import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
 import hungarian_hamster_resque.dtos.host.CreateHostCommand;
 import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.dtos.adopter.UpdateAdopterCommand;
+import hungarian_hamster_resque.models.Address;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,12 +46,28 @@ public class AdopterControllerWebClientIT {
 
     CreateHostCommand createHostCommand1;
 
+    Address address1;
+    Address address2 ;
+    Address address3;
+
+    AddressDto addressDto1;
+    AddressDto addressDto2;
+    AddressDto addressDto3;
+
     @BeforeEach
     void init() {
-        odon = new CreateAdopterCommand("Zsíros B. Ödön", "7054 Tengelic, Alkotmány u. 32");
-        klara = new CreateAdopterCommand("Békési Klára", "Szeged");
-        klaudiaKiss = new CreateAdopterCommand("Kiss Klaudia", "Budapest");
-        klaudiaNagy = new CreateAdopterCommand("Nagy Klaudia", "Szeged");
+        odon = new CreateAdopterCommand("Zsíros B. Ödön", "7054", "Tengelic", "Alkotmány u.", "32","");
+        klara = new CreateAdopterCommand("Békési Klára", "7000", "Szeged", "Ősz utca" ,"7.","");
+        klaudiaKiss = new CreateAdopterCommand("Kiss Klaudia", "1100", "Budapest", "Virág utca" ,"7", "2nd floor");
+        klaudiaNagy = new CreateAdopterCommand("Nagy Klaudia", "7600", "Szeged", "Kiss Kakas utca" ,"7.","");
+
+        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
+        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.","B");
+        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
+
+        address1 = new Address("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
+        address2 = new Address("1018", "Budapest", "Kiss Béla utca", "13.","B");
+        address3 = new Address("6700", "Szeged", "Ősz utca" ,"7.","");
 
         createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", 5, "active", new ArrayList<>());
 
@@ -74,7 +92,7 @@ public class AdopterControllerWebClientIT {
     void createAdopterWithEmptyName() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/adopters")
-                .bodyValue(new CreateAdopterCommand("", "7054 Tengelic, Alkotmány u. 32"))
+                .bodyValue(new CreateAdopterCommand("", "7054", "Tengelic", "Alkotmány u.", "32", ""))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -96,13 +114,13 @@ public class AdopterControllerWebClientIT {
 
         AdopterDtoWithoutHamsters updated = webClient.put()
                 .uri("/api/adopters/{id}", id)
-                .bodyValue(new UpdateAdopterCommand("Zsíros B. Ödön", "6000 Kecskemét, Fő tér 6."))
+                .bodyValue(new UpdateAdopterCommand("Zsíros B. Ödön", "6000", "Kecskemét", "Fő tér", "6.", ""))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
 
-        assertThat(updated.getAddress()).isEqualTo("6000 Kecskemét, Fő tér 6.");
+        assertThat(updated.getAddress().getTown()).isEqualTo("Kecskemét");
     }
 
     @Test
@@ -214,7 +232,7 @@ public class AdopterControllerWebClientIT {
     @Description("Find adopter by id")
     void testFindAdopterById() {
         AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
-                .bodyValue(new CreateAdopterCommand("Békési Klára", "Szeged"))
+                .bodyValue(klara)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -333,7 +351,7 @@ public class AdopterControllerWebClientIT {
     @Description("Delete adopter by ID without hamsters")
     void testDeleteAdopterWithoutHamsters() {
         AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
-                .bodyValue(new CreateAdopterCommand("Kiss Ernő", "Szeged"))
+                .bodyValue(new CreateAdopterCommand("Kiss Ernő", "6000", "Kecskemét", "Fő tér", "7", "C épület"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();

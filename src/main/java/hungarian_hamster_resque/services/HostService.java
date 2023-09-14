@@ -1,6 +1,5 @@
 package hungarian_hamster_resque.services;
 
-import hungarian_hamster_resque.dtos.AddressDto;
 import hungarian_hamster_resque.dtos.host.*;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.exceptions.*;
@@ -46,17 +45,23 @@ public class HostService {
 
     @Transactional
     public HostDtoWithoutHamsters updateHost(long id, UpdateHostCommand command) {
-        Address newAddress = new Address(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther())
-;
-        Host host = findHostEntityById(id);
+        Address newAddress = new Address(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther());
+
+        Host host = hostRepository.findById(id).orElseThrow(() -> new HostWithIdNotExistException(id));
+
         host.setName(command.getName());
-        host.setAddress(getAddress(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther()));
+        host.setAddress(newAddress);
         host.setCapacity(command.getCapacity());
         host.setHostStatus(command.getHostStatus());
 
         hostRepository.save(host);
-        HostDtoWithoutHamsters hostDtoWithoutHamsters = hostMapper.toDtoWithoutHam(host);
-        hostDtoWithoutHamsters.setAddressDto(addressMapper.toAddressDto(newAddress));
+
+        HostDtoWithoutHamsters hostDtoWithoutHamsters = HostDtoWithoutHamsters.builder()
+                .name(host.getName())
+                .addressDto(addressMapper.toAddressDto(newAddress))
+                .capacity(host.getCapacity())
+                .hostStatus(host.getHostStatus())
+                .build();
 
         return hostDtoWithoutHamsters;
     }
@@ -72,9 +77,6 @@ public class HostService {
         List<Host> result = hostRepository.findAll();
         return getHostDtoWithoutHamsters(result);
     }
-
-
-
 
     @Transactional
     public HostDtoWithoutHamsters findHostById(long id) {
@@ -117,8 +119,6 @@ public class HostService {
 
         return hostDto;
     }
-
-
 
     public List<HostDtoCountedCapacity> getListOfHostWithFreeCapacityByCity(String city) {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamsterByCity(city);
@@ -200,12 +200,12 @@ public class HostService {
         return new Address(zip, town, street, houseNumber, other);
     }
 
-
     private List<HostDtoWithoutHamsters> getHostDtoWithoutHamsters(List<Host> result) {
         List<HostDtoWithoutHamsters> hostDtoWithoutHamsters = hostMapper.toDtoWithoutHam(result);
-        for(int i = 0; i < result.size(); i++) {
+        for(int i = 0; i < Math.min(result.size(), hostDtoWithoutHamsters.size()); i++) {
             hostDtoWithoutHamsters.get(i).setAddressDto(addressMapper.toAddressDto(result.get(i).getAddress()));
         }
         return hostDtoWithoutHamsters;
     }
+
 }
