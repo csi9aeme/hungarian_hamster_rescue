@@ -40,7 +40,16 @@
             <column name="other_contact_info" type="VARCHAR(50)"/>
         </addColumn>
     </changeSet>
-
+    <changeSet id="alter-host" author="csi9aeme">
+        <sqlFile path="alter-host.sql"
+                  relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="csi9aeme" id="add_contact-info_column">
+        <addColumn tableName="hosts">
+            <column name="other_contact_info" type="VARCHAR(50)"/>
+            <column name="email" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
 
 
 
