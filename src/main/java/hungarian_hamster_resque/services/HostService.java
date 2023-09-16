@@ -5,10 +5,8 @@ import hungarian_hamster_resque.dtos.ContactsDto;
 import hungarian_hamster_resque.dtos.host.*;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.exceptions.*;
-import hungarian_hamster_resque.mappers.AddressMapper;
 import hungarian_hamster_resque.mappers.HostMapper;
 import hungarian_hamster_resque.models.*;
-import hungarian_hamster_resque.repositories.ContactsMapper;
 import hungarian_hamster_resque.repositories.HostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +23,6 @@ public class HostService {
     private final HostRepository hostRepository;
 
     private final HostMapper hostMapper;
-
-    private final AddressMapper addressMapper;
-
-    private final ContactsMapper contactsMapper;
 
 
     @Transactional
@@ -72,10 +66,10 @@ public class HostService {
             List<Host> hosts = findHostEntitiesByName(hostNamePart.get());
 
             List<HostDtoWithoutHamsters> result = new ArrayList<>();
-            for(Host h : hosts) {
+            for (Host h : hosts) {
                 result.add(getHostDtoWithoutHamstersWithSetAddressAndContacts(h));
             }
-            
+
             return result;
         }
 
@@ -105,11 +99,12 @@ public class HostService {
     public List<HostDtoWithHamsters> findHostsByName(String name) {
         List<Host> hosts = hostRepository.findByNameWithAllHamster(name);
         if (hosts.size() == 0) {
-            throw  new HostWithNamePartNotExistException(name);
+            throw new HostWithNamePartNotExistException(name);
         }
 
         return hostMapper.toDtoWithHam(hosts);
     }
+
     public List<HostDtoCountedCapacity> getListOfHostWithCapacity() {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamster();
         List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
@@ -191,28 +186,31 @@ public class HostService {
         }
         throw new HostStatusNotAcceptableException(hostStatus);
     }
+
     private int countFreeCapacityOfAHost(long id) {
         Host host = hostRepository.findByIdWithAllHamster(id);
         int freeCapacity = host.getCapacity() - host.getHamsters().size();
         return freeCapacity;
     }
+
     private void setFreeCapacity(List<Host> hosts, List<HostDtoCountedCapacity> hostDto) {
-        for (int i = 0; i< hosts.size(); i++) {
+        for (int i = 0; i < hosts.size(); i++) {
             hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));
         }
     }
 
-    private Address getAddressFromOther(String...address) {
-        return new Address(address[0],address[1],address[2],address[3],address[4]);
+    private Address getAddressFromOther(String... address) {
+        return new Address(address[0], address[1], address[2], address[3], address[4]);
     }
 
-    private Contacts getContactsFromOther(String...contacts) {
+    private Contacts getContactsFromOther(String... contacts) {
         return new Contacts(contacts[0], contacts[1], contacts[2]);
     }
 
     private void setContactsDto(HostDtoWithoutHamsters hostDto, Host host) {
         hostDto.setContactsDto(new ContactsDto(host.getContacts().getPhoneNumber(), host.getContacts().getEmail(), host.getContacts().getOtherContact()));
     }
+
     private void setAddressDto(HostDtoWithoutHamsters hostDto, Host host) {
         hostDto.setAddressDto(new AddressDto(host.getAddress().getZip(), host.getAddress().getTown(), host.getAddress().getStreet(), host.getAddress().getHouseNumber(), host.getAddress().getOther()));
     }

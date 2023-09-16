@@ -436,11 +436,12 @@ public class HamsterControllerWebClientIT {
                 .bodyValue(new UpdateHamsterCommand(
                         "Bolyhos",
                         "djungarian dwarf hamster",
+                        "blue pearl",
                         "female",
                         LocalDate.parse("2022-11-01"),
                         "under medical treatment",
                         host.getId(),
-                        LocalDate.parse("2023-01-25")))
+                        "blabla"))
                 .exchange()
                 .expectBody(HamsterDtoWithoutAdopter.class).returnResult().getResponseBody();
 

@@ -58,7 +58,7 @@ class HostServiceTest {
     HostService service;
 
     Address address1;
-    Address address2 ;
+    Address address2;
     Address address3;
 
     AddressDto addressDto1;
@@ -74,56 +74,47 @@ class HostServiceTest {
     Contacts contacts;
 
     @BeforeEach
-    void init(){
-        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
-        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.","B");
-        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
+    void init() {
+        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca", "7", "2nd floor");
+        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.", "B");
+        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca", "7.", "");
 
-        address1 = new Address("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
-        address2 = new Address("1018", "Budapest", "Kiss Béla utca", "13.","B");
-        address3 = new Address("6700", "Szeged", "Ősz utca" ,"7.","");
+        address1 = new Address("1092", "Budapest", "Virág utca", "7", "2nd floor");
+        address2 = new Address("1018", "Budapest", "Kiss Béla utca", "13.", "B");
+        address3 = new Address("6700", "Szeged", "Ősz utca", "7.", "");
 
         contacts = new Contacts("+360307775758", "valami@gmail.com", "");
         contactsDto = new ContactsDto("+360307775758", "valami@gmail.com", "");
 
-        hostDto1 = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE);
-        hostDto2 = new HostDtoWithoutHamsters(2L, "Nagy Eszter", addressDto2, 2, HostStatus.ACTIVE);
+        hostDto1 = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, contactsDto, 1, HostStatus.ACTIVE);
+        hostDto2 = new HostDtoWithoutHamsters(2L, "Nagy Eszter", addressDto2, contactsDto, 2, HostStatus.ACTIVE);
         hostDto3 = new HostDtoWithoutHamsters(3L, "Megyek Elemér", addressDto3, 3, HostStatus.ACTIVE);
-        hostDtoWithContacts = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, contactsDto, 1, HostStatus.ACTIVE);
+        hostDtoWithContacts = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto3, contactsDto, 1, HostStatus.ACTIVE);
 
     }
 
     @Test
     void testCreateHostDtoWithoutHamWithValidData() {
 
-        // Arrange
         CreateHostCommand createHost = new CreateHostCommand("Kiss Klára", "6700", "Szeged",
                 "Ősz utca", "7.", "", "+360307775758", "valami@gmail.com", "",
                 1, "active");
 
-        // Mockolt objektumok létrehozása
         Host host = new Host(1L, "Kiss Klára", new Address("6700", "Szeged",
                 "Ősz utca", "7.", ""),
-                new Contacts("+360307775758", "valami@gmail.com", ""),1, HostStatus.ACTIVE ); // Itt a Host objektum mockolásához használhatod a @Mock annotációt is
+                new Contacts("+360307775758", "valami@gmail.com", ""), 1, HostStatus.ACTIVE); // Itt a Host objektum mockolásához használhatod a @Mock annotációt is
 
         when(mapper.toDtoWithoutHam((Host) any())).thenReturn(hostDtoWithContacts);
 
-
-        // Act
         HostDtoWithoutHamsters hostDto = service.createHost(createHost);
 
-        // Assert
         assertThat(hostDto).isNotNull();
         assertThat(hostDto.getId()).isNotNull();
         assertThat(hostDto.getName()).isEqualTo("Kiss Klára");
 
-        // Ellenőrizzük, hogy a save metódus meghívódott-e pontosan egyszer
         verify(repository, times(1)).save(any());
 
-        // Ellenőrizzük, hogy a toDtoWithoutHam metódus meghívódott-e pontosan egyszer
         verify(mapper, times(1)).toDtoWithoutHam((Host) any());
-
-
 
     }
 
@@ -131,34 +122,28 @@ class HostServiceTest {
     void testUpdateHost() {
         Host host = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>());
 
-        UpdateHostCommand updateHost = new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca" ,"7.","", "+36201113333", "valami@gmail.com", "spzx", 1, HostStatus.ACTIVE);
-        AddressDto addressDto = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
+        UpdateHostCommand updateHost = new UpdateHostCommand("Kiss Klára", "6700", "Szeged",
+                "Ősz utca", "7.", "", "+36201113333", "valami@gmail.com",
+                "spzx", 1, HostStatus.ACTIVE);
 
-        // Mockoljuk a hostRepository findById metódusát
         when(repository.findById(1L)).thenReturn(Optional.of(host));
+        when(mapper.toDtoWithoutHam((Host) any())).thenReturn(hostDtoWithContacts);
 
-        // Mockoljuk az addressMapper toAddressDto metódusát
-        when(addressMapper.toAddressDto(any())).thenReturn(addressDto);
-        when(contactsMapper.toContactsDto(any())).thenReturn(contactsDto);
-
-        // Teszteljük a metódust
         HostDtoWithoutHamsters result = service.updateHost(1L, updateHost);
 
-        // Ellenőrizzük az eredményt és a műveleteket
         assertEquals("Kiss Klára", result.getName());
-        assertEquals(addressDto, result.getAddressDto());
+        assertEquals(addressDto3.getTown(), result.getAddressDto().getTown());
         assertEquals(1, result.getCapacity());
         assertEquals(HostStatus.ACTIVE, result.getHostStatus());
 
-        // Ellenőrizzük, hogy a hostRepository save metódusa meghívódott
         verify(repository).save(host);
-//
+
     }
 
     @Test
     void testUpdateButWrongId() {
         assertThatThrownBy(() ->
-                service.updateHost(101L, new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca" ,"7.","", 1, HostStatus.ACTIVE)))
+                service.updateHost(101L, new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca", "7.", "", 1, HostStatus.ACTIVE)))
                 .isInstanceOf(HostWithIdNotExistException.class)
                 .hasMessage("The temporary host with the given ID (101) is not exist.");
         verify(repository).findById(any());
@@ -177,7 +162,7 @@ class HostServiceTest {
 
         List<HostDtoWithoutHamsters> hostDtos = Arrays.asList(
                 new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE),
-                new HostDtoWithoutHamsters(2L, "Nagy Eszter", addressDto2,2,  HostStatus.ACTIVE),
+                new HostDtoWithoutHamsters(2L, "Nagy Eszter", addressDto2, 2, HostStatus.ACTIVE),
                 new HostDtoWithoutHamsters(3L, "Megyek Elemér", addressDto3, 3, HostStatus.ACTIVE)
         );
 
@@ -198,14 +183,14 @@ class HostServiceTest {
 
     @Test
     void testGetListOfHostByName() {
-        Host host1 = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1);
-        Host host2 = new Host(2L, "Kiss Eszter", address2, HostStatus.ACTIVE, 2);
+        Host host1 = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>());
+        Host host2 = new Host(2L, "Kiss Eszter", address2, contacts, HostStatus.ACTIVE, 2, new ArrayList<>());
 
-        when(repository.findByNameWithoutHamster("Kiss"))
+        when(repository.findAHostByNameContains(anyString()))
                 .thenReturn(List.of(host1, host2));
 
-        when(mapper.toDtoWithoutHam(List.of(host1, host2)))
-                .thenReturn(List.of(hostDto1, hostDto2));
+        when(mapper.toDtoWithoutHam(any(Host.class)))
+                .thenReturn(hostDto1);
 
         List<HostDtoWithoutHamsters> result = service.getListOfHosts(Optional.of("Kiss"));
 
@@ -214,17 +199,17 @@ class HostServiceTest {
                 .extracting(HostDtoWithoutHamsters::getName)
                 .contains("Kiss Klára");
 
-        verify(repository).findByNameWithoutHamster(anyString());
+        verify(repository).findAHostByNameContains(anyString());
     }
 
     @Test
     void testGetHostListByNotExistingName() {
         assertThatThrownBy(() ->
-                service.getListOfHosts(Optional.of("Kelemen")))
+                service.getListOfHosts(Optional.of("Kerekes")))
                 .isInstanceOf(HostWithNamePartNotExistException.class)
-                .hasMessage("The temporary host with the given name (Kelemen) is not exit.");
+                .hasMessage("The temporary host with the given name (Kerekes) is not exit.");
 
-        verify(repository).findByNameWithoutHamster(anyString());
+        verify(repository).findAHostByNameContains(anyString());
 
     }
 
@@ -254,7 +239,7 @@ class HostServiceTest {
     @Test
     void testGetListOfHostsHamsters() {
         Host host = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1,
-                List.of(new Hamster( "Bolyhos",
+                List.of(new Hamster("Bolyhos",
                                 HamsterSpecies.DWARF,
                                 Gender.FEMALE,
                                 LocalDate.parse("2022-11-01"),
@@ -266,23 +251,23 @@ class HostServiceTest {
                                 LocalDate.parse("2022-11-01"),
                                 HamsterStatus.ADOPTABLE,
                                 LocalDate.parse("2023-01-25"))));
-       HostDtoWithHamsters hostDto = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE,
-               List.of(new HamsterDtoSimple("Bolyhos",
-                               HamsterSpecies.DWARF,
-                               "dawn",
-                               Gender.FEMALE,
-                               LocalDate.parse("2022-11-01"),
-                               HamsterStatus.ADOPTABLE,
-                               LocalDate.parse("2023-01-25"),
-                               "short desc"),
-                       new HamsterDtoSimple("Füles",
-                               HamsterSpecies.DWARF,
-                               "dawn",
-                               Gender.FEMALE,
-                               LocalDate.parse("2022-11-01"),
-                               HamsterStatus.ADOPTABLE,
-                               LocalDate.parse("2023-01-25"),
-                               "short desc")));
+        HostDtoWithHamsters hostDto = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE,
+                List.of(new HamsterDtoSimple("Bolyhos",
+                                HamsterSpecies.DWARF,
+                                "dawn",
+                                Gender.FEMALE,
+                                LocalDate.parse("2022-11-01"),
+                                HamsterStatus.ADOPTABLE,
+                                LocalDate.parse("2023-01-25"),
+                                "short desc"),
+                        new HamsterDtoSimple("Füles",
+                                HamsterSpecies.DWARF,
+                                "dawn",
+                                Gender.FEMALE,
+                                LocalDate.parse("2022-11-01"),
+                                HamsterStatus.ADOPTABLE,
+                                LocalDate.parse("2023-01-25"),
+                                "short desc")));
 
         when(repository.findByIdWithAllHamster(anyLong())).thenReturn(host);
         when(mapper.toDtoWithHam((Host) any())).thenReturn(hostDto);
@@ -331,7 +316,7 @@ class HostServiceTest {
         Host host1 = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1);
         Host host2 = new Host(2L, "Nagy Eszter", address2, HostStatus.ACTIVE, 2);
         HostDtoWithHamsters hostDto1 = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE,
-                List.of(new HamsterDtoSimple( "Bolyhos",
+                List.of(new HamsterDtoSimple("Bolyhos",
                         HamsterSpecies.DWARF,
                         "dawn",
                         Gender.FEMALE,
@@ -374,11 +359,11 @@ class HostServiceTest {
 
     @Test
     void testCountFreeCapacity() {
-       when(mapper.toDtoFreeCapacity((List<Host>) any()))
+        when(mapper.toDtoFreeCapacity((List<Host>) any()))
                 .thenReturn(List.of(
                         new HostDtoCountedCapacity(1L, "Kiss Klára", addressDto1, 4, 2, HostStatus.ACTIVE),
                         new HostDtoCountedCapacity(2L, "Nagy Klára", addressDto2, 6, 4, HostStatus.ACTIVE)
-                        ));
+                ));
         List<HostDtoCountedCapacity> hostFreeCap = service.getListOfHostWithCapacity();
 
         int free = hostFreeCap.get(0).getFreeCapacity();
@@ -389,7 +374,7 @@ class HostServiceTest {
     }
 
     @Test
-    void testFreeCapacityCounter(){
+    void testFreeCapacityCounter() {
         Host host1 = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 2,
                 Arrays.asList(new Hamster("Bolyhos", HamsterSpecies.DWARF, Gender.FEMALE,
                         LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"))));
@@ -420,6 +405,5 @@ class HostServiceTest {
         verify(repository, times(1)).findByIdWithAllHamster(2L);
 
     }
-
 
 }

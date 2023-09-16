@@ -4,10 +4,7 @@ import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -16,6 +13,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class HamsterDtoWithoutAdopter {
 
     private Long id;
@@ -39,6 +37,19 @@ public class HamsterDtoWithoutAdopter {
    private String location;
 
     private String description;
+
+    public HamsterDtoWithoutAdopter(Long id, String name, HamsterSpecies hamsterSpecies, String color, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, HostDtoWithoutHamsters host, String description) {
+        this.id = id;
+        this.name = name;
+        this.hamsterSpecies = hamsterSpecies;
+        this.color = color;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.hamsterStatus = hamsterStatus;
+        this.startOfFostering = startOfFostering;
+        this.host = host;
+        this.description = description;
+    }
 
     public HamsterDtoWithoutAdopter(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, HostDtoWithoutHamsters host, String description) {
         this.id = id;

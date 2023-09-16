@@ -18,6 +18,9 @@ public class UpdateHamsterCommand {
     @Schema(description = "Species.", example = "golden hamster")
     private String hamsterSpecies;
 
+    @Schema(description = "Color.", example = "blue pearl")
+    private String color;
+
     @Schema(description = "Gender.", example = "male")
     private String gender;
 
@@ -30,25 +33,24 @@ public class UpdateHamsterCommand {
     @Schema(description = "ID of the temporary host.", example = "1")
     private Long hostId;
 
-    @Schema(description = "Date of admission.", example = "1")
-    private LocalDate startOfFoster;
-
-
     @Schema(description = "ID of the new owner.", example = "123")
     private Long adoptiveId;
 
     @Schema(description = "Date of adoption.", example = "2023-02-21")
     private LocalDate dateOfAdoption;
 
+    private String shortDesc;
 
 
-    public UpdateHamsterCommand(String name, String hamsterSpecies, String gender, LocalDate dateOfBirth, String hamsterStatus, Long hostId, LocalDate startOfFoster) {
+
+    public UpdateHamsterCommand(String name, String hamsterSpecies, String color, String gender, LocalDate dateOfBirth, String hamsterStatus, Long hostId, String shortDesc) {
         this.name = name;
         this.hamsterSpecies = hamsterSpecies;
+        this.color = color;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.hamsterStatus = hamsterStatus;
         this.hostId = hostId;
-        this.startOfFoster = startOfFoster;
+        this.shortDesc = shortDesc;
     }
 }

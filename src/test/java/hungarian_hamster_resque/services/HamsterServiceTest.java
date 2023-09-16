@@ -68,6 +68,8 @@ class HamsterServiceTest {
     Adopter adopter;
     AdopterDtoWithoutHamsters adopterDtoWithoutHamsters;
     AdopterDtoWithHamsters adopterDtoWithHamsters;
+
+    Address address;
     AddressDto addressDto1;
     AddressDto addressDto2;
     AddressDto addressDto3;
@@ -81,27 +83,30 @@ class HamsterServiceTest {
 
     @BeforeEach
     void init() {
-        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
-        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.","B");
-        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
+        address = new Address("6700", "Szeged", "Őz utca", "9", "2/15");
+        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca", "7", "2nd floor");
+        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.", "B");
+        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca", "7.", "");
 
         contacts1 = new Contacts("+36201112222", "egyik@gmail.com", "skype");
         contactsDto1 = new ContactsDto("+36201112222", "egyik@gmail.com", "skype");
 
-        host = new Host(1L, "Kiss Klára", new Address("6700", "Szeged", "Őz utca", "9","2/15"), HostStatus.ACTIVE, 3);
+        host = new Host(1L, "Kiss Klára", address, contacts1, HostStatus.ACTIVE, 3, new ArrayList<>());
         hostDtoWithoutHamsters = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE);
         hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE, new ArrayList<>());
 
         adopter = new Adopter(1L, "Megyek Elemér", new Address("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."));
-        adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", addressDto2, contactsDto1 );
+        adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", addressDto2, contactsDto1);
         adopterDtoWithHamsters = new AdopterDtoWithHamsters("Megyek Elemér", addressDto3, contactsDto1, new ArrayList<>());
 
         hamsterBolyhos = new Hamster(1L, "Bolyhos", HamsterSpecies.CAMPBELL, "dawn", Gender.MALE,
                 LocalDate.parse("2022-12-29"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-02"), host,
                 "short desc", new ArrayList<>(), new ArrayList<>());
+
         hamsterDtoWithoutAdopterBolyhos = new HamsterDtoWithoutAdopter(1L, "Bolyhos", HamsterSpecies.CAMPBELL,
                 "dawn", Gender.MALE, LocalDate.parse("2022-12-29"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-02"),
                 hostDtoWithoutHamsters, "Szeged", "short desc");
+
         createBolyhos = new CreateHamsterCommand("Bolyhos", "campbell's dwarf hamster", "dawn",
                 "male", LocalDate.parse("2022-12-29"), "adoptable", host.getId(),
                 LocalDate.parse("2023-01-02"), "short desc");
@@ -129,13 +134,13 @@ class HamsterServiceTest {
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
         assertThatThrownBy(() ->
                 service.createHamster(new CreateHamsterCommand("Mütyürke",
-                                "djungarian dwarf hamster",
-                                "dawn",
-                                "female",
-                                LocalDate.parse("2022-11-01"),
-                                "adoptab",
-                                host.getId(),
-                                LocalDate.parse("2023-01-25"),
+                        "djungarian dwarf hamster",
+                        "dawn",
+                        "female",
+                        LocalDate.parse("2022-11-01"),
+                        "adoptab",
+                        host.getId(),
+                        LocalDate.parse("2023-01-25"),
                         "short desc")))
                 .isInstanceOf(HamsterStatusNotAcceptableException.class)
                 .hasMessage("The given status (adoptab) is not acceptable.");
@@ -157,26 +162,28 @@ class HamsterServiceTest {
 
     @Test
     void testUpdateHamsterAllAttributes() {
+        UpdateHamsterCommand updatedBolyhos = new UpdateHamsterCommand(
+                "Bolyhos",
+                "campbell's dwarf hamster",
+                "blue pearl",
+                "male",
+                LocalDate.parse("2022-12-29"),
+                "under medical treatment",
+                1L,
+                "short desc");
+
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
-        when(hamsterRepository.findById(any()))
-                .thenReturn(Optional.of(hamsterBolyhos));
+        when(hamsterRepository.findById(any())).thenReturn(Optional.of(hamsterBolyhos));
 
         when(mapper.toDtoWithoutAdopter((Hamster) any()))
                 .thenReturn(hamsterDtoWithoutAdopterBolyhos);
 
         HamsterDtoWithoutAdopter updated = service.updateHamsterAllAttributes(1L,
-                new UpdateHamsterCommand(
-                        "Bolyhos",
-                        "campbell's dwarf hamster",
-                        "male",
-                        LocalDate.parse("2022-12-29"),
-                        "under medical treatment",
-                        1L,
-                        LocalDate.parse("2023-01-02")
-                ));
+                updatedBolyhos);
 
         assertThat(updated.getHamsterStatus()).isEqualTo(HamsterStatus.UNDER_MEDICAL_TREATMENT);
 
+        verify(hamsterRepository).save(any());
     }
 
     @Test
@@ -197,6 +204,7 @@ class HamsterServiceTest {
                         1L,
                         "Bolyhos",
                         HamsterSpecies.CAMPBELL,
+                        "blue pearl",
                         Gender.MALE,
                         LocalDate.parse("2022-12-29"),
                         HamsterStatus.UNDER_MEDICAL_TREATMENT,
@@ -259,12 +267,12 @@ class HamsterServiceTest {
 
     @Test
     void testGetListOfHamstersByName() {
-        Hamster ham1 = new Hamster(1L,"Bolyhos", HamsterSpecies.CAMPBELL, Gender.MALE, LocalDate.parse("2022-12-29"),
-                        HamsterStatus.ADOPTED, host, LocalDate.parse("2023-01-02"),
-                        adopter, LocalDate.parse("2023-01-02"), "short desc");
-        Hamster ham2 = new Hamster(1L,"Boholyka", HamsterSpecies.DWARF, Gender.MALE, LocalDate.parse("2022-12-29"),
-                        HamsterStatus.ADOPTED, host, LocalDate.parse("2023-01-02"),
-                        adopter, LocalDate.parse("2023-01-02"), "short desc");
+        Hamster ham1 = new Hamster(1L, "Bolyhos", HamsterSpecies.CAMPBELL, Gender.MALE, LocalDate.parse("2022-12-29"),
+                HamsterStatus.ADOPTED, host, LocalDate.parse("2023-01-02"),
+                adopter, LocalDate.parse("2023-01-02"), "short desc");
+        Hamster ham2 = new Hamster(1L, "Boholyka", HamsterSpecies.DWARF, Gender.MALE, LocalDate.parse("2022-12-29"),
+                HamsterStatus.ADOPTED, host, LocalDate.parse("2023-01-02"),
+                adopter, LocalDate.parse("2023-01-02"), "short desc");
 
         when(hamsterRepository.findHamsterByNameContains(anyString()))
                 .thenReturn(List.of(ham1, ham2));
@@ -281,7 +289,7 @@ class HamsterServiceTest {
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
                                 adopterDtoWithoutHamsters,
-                                LocalDate.parse("2023-01-02"),"short desc"),
+                                LocalDate.parse("2023-01-02"), "short desc"),
                         new HamsterDto(
                                 1L,
                                 "Boholyka",
@@ -354,9 +362,6 @@ class HamsterServiceTest {
         verify(hamsterRepository).save(any());
     }
 
-    @Test
-    void testGetListActualFosteringHamsters() {
 
-    }
 
 }

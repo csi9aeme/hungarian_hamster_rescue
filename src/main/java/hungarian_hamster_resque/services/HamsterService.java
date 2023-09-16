@@ -88,17 +88,16 @@ public class HamsterService {
     @Transactional
     public HamsterDtoWithoutAdopter updateHamsterAllAttributes(long id, UpdateHamsterCommand command) {
         Hamster hamsterForUpdate = findHamsterEntityById(id);
+        Host host = hostRepository.findById(command.getHostId())
+                .orElseThrow(() -> new HostWithIdNotExistException(command.getHostId()));
 
         hamsterForUpdate.setName(command.getName());
         hamsterForUpdate.setHamsterSpecies(findHamsterSpecies(command.getHamsterSpecies()));
+        hamsterForUpdate.setColor(command.getColor());
         hamsterForUpdate.setGender(findGender(command.getGender()));
         hamsterForUpdate.setDateOfBirth(command.getDateOfBirth());
         hamsterForUpdate.setHamsterStatus(findHamsterStatus(command.getHamsterStatus()));
-
-        Host host = hostRepository.findById(command.getHostId())
-                .orElseThrow(() -> new HostWithIdNotExistException(command.getHostId()));
         hamsterForUpdate.setHost(host);
-        hamsterForUpdate.setStartOfFostering(command.getStartOfFoster());
 
         hamsterRepository.save(hamsterForUpdate);
 

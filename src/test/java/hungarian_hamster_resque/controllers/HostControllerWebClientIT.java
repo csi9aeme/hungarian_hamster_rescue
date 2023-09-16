@@ -148,6 +148,8 @@ public class HostControllerWebClientIT {
                 .extracting(HostDtoWithoutHamsters::getAddressDto)
                 .extracting(AddressDto::getTown)
                 .contains("Szeged");
+
+        assertThat(result.get(0).getName()).isEqualTo("Békési Klára");
     }
 
     @Test
