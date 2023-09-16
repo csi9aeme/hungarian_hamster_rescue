@@ -36,73 +36,21 @@ public class Host {
     @Column(name = "holding_capacity")
     private int capacity;
 
-    @OneToMany(mappedBy = "host", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE} )
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL )
     private List<Hamster> hamsters = new ArrayList<>();
 
-    @OneToMany(mappedBy = "host", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
     private List<WeeklyReport> weeklyReports;
 
-    public Host(String name, Address address, int capacity) {
-        this.name = name;
-        this.address = address;
-        this.capacity = capacity;
-    }
 
-    public Host(String name, Address address, int capacity, List<Hamster> hamsters) {
-        this.name = name;
-        this.address = address;
-        this.capacity = capacity;
-        this.hamsters = hamsters;
-    }
-
-    public Host(Long id, String name, Address address, HostStatus hostStatus, int capacity) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.capacity = capacity;
-        this.hostStatus = hostStatus;
-    }
-
-    public Host(String name, Address address, HostStatus hostStatus, int capacity, List<Hamster> hamsters) {
-        this.name = name;
-        this.address = address;
-        this.hostStatus = hostStatus;
-        this.capacity = capacity;
-        this.hamsters = hamsters;
-    }
-
-    public Host(String name, Address address, HostStatus hostStatus, int capacity) {
-        this.name = name;
-        this.address = address;
-        this.hostStatus = hostStatus;
-        this.capacity = capacity;
-    }
-    public Host(Long id, String name, Address address, HostStatus hostStatus, int capacity, List<Hamster> hamsters) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.capacity = capacity;
-        this.hostStatus = hostStatus;
-        this.hamsters = hamsters;
-    }
-
-    public Host(Long id, String name, Address address, Contacts contacts, HostStatus hostStatus, int capacity, List<Hamster> hamsters) {
-        this.id = id;
+    public Host(String name, Address address, Contacts contacts, HostStatus hostStatus, int capacity, List<Hamster> hamsters, List<WeeklyReport> weeklyReports) {
         this.name = name;
         this.address = address;
         this.contacts = contacts;
         this.hostStatus = hostStatus;
         this.capacity = capacity;
         this.hamsters = hamsters;
-    }
-
-    public Host(Long id, String name, Address address, Contacts contacts, int capacity, HostStatus hostStatus ) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.contacts = contacts;
-        this.hostStatus = hostStatus;
-        this.capacity = capacity;
+        this.weeklyReports = weeklyReports;
     }
 
     public void addHamster(Hamster hamster) {

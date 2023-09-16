@@ -70,11 +70,13 @@ class HamsterServiceTest {
     AdopterDtoWithHamsters adopterDtoWithHamsters;
 
     Address address;
+    Address adopterAddress;
     AddressDto addressDto1;
     AddressDto addressDto2;
     AddressDto addressDto3;
 
     Contacts contacts1;
+    Contacts adopterContact;
     ContactsDto contactsDto1;
 
     Hamster hamsterBolyhos;
@@ -84,18 +86,20 @@ class HamsterServiceTest {
     @BeforeEach
     void init() {
         address = new Address("6700", "Szeged", "Őz utca", "9", "2/15");
+        adopterAddress = new Address("1180", "Budapest", "Havanna utca", "8.", "Fsz.7.");
         addressDto1 = new AddressDto("1092", "Budapest", "Virág utca", "7", "2nd floor");
         addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.", "B");
         addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca", "7.", "");
 
         contacts1 = new Contacts("+36201112222", "egyik@gmail.com", "skype");
+        adopterContact = new Contacts("+36201112222", "masik@gmail.com", "skype");
         contactsDto1 = new ContactsDto("+36201112222", "egyik@gmail.com", "skype");
 
-        host = new Host(1L, "Kiss Klára", address, contacts1, HostStatus.ACTIVE, 3, new ArrayList<>());
+        host = new Host(1L, "Kiss Klára", address, contacts1, HostStatus.ACTIVE, 3, new ArrayList<>(), new ArrayList<>());
         hostDtoWithoutHamsters = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE);
         hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE, new ArrayList<>());
 
-        adopter = new Adopter(1L, "Megyek Elemér", new Address("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."));
+        adopter = new Adopter(1L, "Megyek Elemér", adopterAddress, adopterContact, new ArrayList<>());
         adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", addressDto2, contactsDto1);
         adopterDtoWithHamsters = new AdopterDtoWithHamsters("Megyek Elemér", addressDto3, contactsDto1, new ArrayList<>());
 
@@ -149,7 +153,10 @@ class HamsterServiceTest {
     @Test
     void testHostIsFull() {
         when(hostRepository.findById(any())).thenReturn(Optional.of(
-                new Host(2L, "Nagy Béla", new Address("1092", "Budapest", "Őz utca", "9", "2.em"), HostStatus.ACTIVE, 0)));
+                new Host(2L, "Nagy Béla",
+                        new Address("1092", "Budapest", "Őz utca", "9", "2.em"),
+                        new Contacts("+36201234567", "valami@email.com", ""), HostStatus.ACTIVE, 0,
+                        new ArrayList<>(), new ArrayList<>())));
 
         HostCantTakeMoreHamstersException e = assertThrows(HostCantTakeMoreHamstersException.class,
                 () -> service.createHamster(createBolyhos));
@@ -189,15 +196,17 @@ class HamsterServiceTest {
     @Test
     void testFindAdoptableHamster() {
         when(hamsterRepository.findById(any()))
-                .thenReturn(Optional.of(new Hamster(
-                        1L,
-                        "Bolyhos",
-                        HamsterSpecies.CAMPBELL,
-                        Gender.MALE,
-                        LocalDate.parse("2022-12-29"),
+                .thenReturn(Optional.of(new Hamster(2L, "Füles",
+                        HamsterSpecies.DWARF,
+                        "white",
+                        Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
+                        LocalDate.parse("2023-01-25"),
                         host,
-                        LocalDate.parse("2023-01-02"))));
+                        "short description",
+                        new ArrayList<>(),
+                        new ArrayList<>())));
 
         when(mapper.toDtoWithoutAdopter((Hamster) any()))
                 .thenReturn(new HamsterDtoWithoutAdopter(
@@ -322,15 +331,17 @@ class HamsterServiceTest {
     @Test
     void testAdoptHamster() {
         when(hamsterRepository.findById(anyLong()))
-                .thenReturn(Optional.of(new Hamster(
-                        1L,
-                        "Bolyhos",
-                        HamsterSpecies.CAMPBELL,
-                        Gender.MALE,
-                        LocalDate.parse("2022-12-29"),
+                .thenReturn(Optional.of(new Hamster(2L, "Füles",
+                        HamsterSpecies.DWARF,
+                        "white",
+                        Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
+                        LocalDate.parse("2023-01-25"),
                         host,
-                        LocalDate.parse("2023-01-02"))));
+                        "short description",
+                        new ArrayList<>(),
+                        new ArrayList<>())));
 
         when(adopterRepository.findAdopterByIdWithHamsters(anyLong())).thenReturn(adopter);
 

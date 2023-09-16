@@ -8,14 +8,20 @@ import hungarian_hamster_resque.models.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AdopterTest {
 
+
     @Test
     void testCreate() {
-        Adopter adopter = new Adopter("Kiss Virág", new Address("1092", "Budapest", "Fő utca", "7.", ""), new Contacts("+36302221111", "virag@gmail.com", ""));
+        Adopter adopter = new Adopter("Kiss Virág",
+                new Address("1092", "Budapest", "Fő utca", "7.", ""),
+                new Contacts("+36302221111", "virag@gmail.com", ""));
+
         String name = adopter.getName();
 
         assertThat(name).isEqualTo("Kiss Virág");
@@ -23,18 +29,26 @@ class AdopterTest {
 
     @Test
     void testAddHamster() {
-        Host host = new Host("Kiss Rozália", new Address("6700", "Szeged", "Ősz utca" ,"7.",""), HostStatus.ACTIVE, 3);
+        Host host = new Host(1L, "Kiss Rozália",
+                new Address("6700", "Szeged", "Ősz utca" ,"7.",""),
+                new Contacts("+36302221111", "virag@gmail.com", ""),
+                HostStatus.ACTIVE,3, new ArrayList<>(), new ArrayList<>());
 
+        Adopter adopter = new Adopter("Kiss Virág",
+                new Address("1092", "Budapest", "Fő utca", "7.", ""),
+                new Contacts("+36302221111", "virag@gmail.com", ""), new ArrayList<>());
 
-        Adopter adopter = new Adopter("Kiss Virág", new Address("1092", "Budapest", "Fő utca", "7.", ""));
         adopter.addHamster(new Hamster(
-                "Bolyhos",
+                1L, "Bolyhos",
                 HamsterSpecies.DWARF,
+                "blue pearl",
                 Gender.FEMALE,
                 LocalDate.parse("2022-11-01"),
                 HamsterStatus.ADOPTABLE,
+                LocalDate.parse("2023-01-25"),
                 host,
-                LocalDate.parse("2023-01-25")));
+                "short descreption of ham",
+                new ArrayList<>(), new ArrayList<>()));
 
         assertThat(adopter.getHamsters())
                 .hasSize(1)

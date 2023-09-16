@@ -62,16 +62,6 @@ public class Hamster {
         @OneToMany(mappedBy = "hamster")
         private List<Picture>  pictures;
 
-        public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering) {
-                this.id = id;
-                this.name = name;
-                this.hamsterSpecies = hamsterSpecies;
-                this.gender = gender;
-                this.dateOfBirth = dateOfBirth;
-                this.hamsterStatus = hamsterStatus;
-                this.host = host;
-                this.startOfFostering = startOfFostering;
-        }
         public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering, Adopter adopter, LocalDate dateOfAdoption, String description) {
                 this.id = id;
                 this.name = name;
@@ -84,49 +74,6 @@ public class Hamster {
                 this.adopter = adopter;
                 this.dateOfAdoption = dateOfAdoption;
                 this.description = description;
-        }
-
-        public Hamster(String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, Host host, LocalDate startOfFostering) {
-                this.name = name;
-                this.hamsterSpecies = hamsterSpecies;
-                this.gender = gender;
-                this.dateOfBirth = dateOfBirth;
-                this.hamsterStatus = hamsterStatus;
-                this.host = host;
-                this.startOfFostering = startOfFostering;
-        }
-
-        public Hamster(String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering) {
-                this.name = name;
-                this.hamsterSpecies = hamsterSpecies;
-                this.gender = gender;
-                this.dateOfBirth = dateOfBirth;
-                this.hamsterStatus = hamsterStatus;
-                this.startOfFostering = startOfFostering;
-        }
-
-        public Hamster(String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, Host host, String description) {
-                this.name = name;
-                this.hamsterSpecies = hamsterSpecies;
-                this.gender = gender;
-                this.dateOfBirth = dateOfBirth;
-                this.hamsterStatus = hamsterStatus;
-                this.startOfFostering = startOfFostering;
-                this.host = host;
-                this.description = description;
-        }
-
-        public Hamster(String name, HamsterSpecies hamsterSpecies, String color, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, Host host, String description, List<Picture> pictures) {
-                this.name = name;
-                this.hamsterSpecies = hamsterSpecies;
-                this.color = color;
-                this.gender = gender;
-                this.dateOfBirth = dateOfBirth;
-                this.hamsterStatus = hamsterStatus;
-                this.startOfFostering = startOfFostering;
-                this.host = host;
-                this.description = description;
-                this.pictures = pictures;
         }
 
         public Hamster(Long id, String name, HamsterSpecies hamsterSpecies, String color, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, LocalDate startOfFostering, Host host, String description, List<WeeklyReport> weeklyReports, List<Picture> pictures) {

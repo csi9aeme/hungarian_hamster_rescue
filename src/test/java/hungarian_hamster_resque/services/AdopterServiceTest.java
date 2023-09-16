@@ -10,12 +10,10 @@ import hungarian_hamster_resque.dtos.adopter.UpdateAdopterCommand;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
+import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.exceptions.*;
 import hungarian_hamster_resque.mappers.AdopterMapper;
-import hungarian_hamster_resque.models.Address;
-import hungarian_hamster_resque.models.Adopter;
-import hungarian_hamster_resque.models.Contacts;
-import hungarian_hamster_resque.models.Hamster;
+import hungarian_hamster_resque.models.*;
 import hungarian_hamster_resque.repositories.AdopterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,6 +51,8 @@ class AdopterServiceTest {
     Adopter megyekElemerModel;
     Adopter erikaModel;
     Adopter kissElemerModel;
+
+    Host host;
 
 
     AdopterDtoWithoutHamsters megyekElemerDto;
@@ -98,6 +98,8 @@ class AdopterServiceTest {
 
         contactsDto1 = new ContactsDto("+36201112222", "egyik@gmail.com", "skype");
         contactsDto2 = new ContactsDto("+36201113333", "masik@gmail.com", "skype");
+
+        host = new Host(1L, "Kiss Klára", addressBudapest1, contacts1, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>());
 
         megyekElemerModel = new Adopter(1L, "Megyek Elemér", addressBudapest1, contacts1, new ArrayList<>());
         megyekElemerDto = new AdopterDtoWithoutHamsters( "Megyek Elemér", addressDtoBudapest1, contactsDto1);
@@ -159,8 +161,12 @@ class AdopterServiceTest {
 
     @Test
     void testGetAdoptersByName() {
-        Adopter adopter1 = new Adopter(1L, "Kiss Elemér", new Address("1181", "Budapest", "Havanna utca", "7.", ""));
-        Adopter adopter2 = new Adopter(1L, "Kiss Erika", new Address("1181", "Budapest", "Havanna utca", "67.", "10/57"));
+//        Adopter adopter1 = new Adopter(1L, "Kiss Elemér",
+//                new Address("1181", "Budapest", "Havanna utca", "7.", "")
+//                new Contacts("+36302221111", "virag@gmail.com", ""), new ArrayList<>());
+//        Adopter adopter2 = new Adopter(1L, "Kiss Erika",
+//                new Address("1181", "Budapest", "Havanna utca", "67.", "10/57"),
+//                new Contacts("+36302221111", "virag@gmail.com", ""), new ArrayList<>());
 
         when(repository.findAdopterByNameContains(anyString()))
                 .thenReturn(List.of(megyekElemerModel, kissElemerModel));
@@ -210,14 +216,31 @@ class AdopterServiceTest {
 
     @Test
     void testFindAdopterByIdWithHamsters() {
-        Hamster ham1 = new Hamster( "Bolyhos", HamsterSpecies.DWARF, Gender.FEMALE, LocalDate.parse("2022-11-01"),
-                HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"));
-        Hamster ham2 = new Hamster("Füles", HamsterSpecies.DWARF, Gender.FEMALE, LocalDate.parse("2022-11-01"),
-                HamsterStatus.ADOPTABLE,  LocalDate.parse("2023-01-25"));
+        Hamster ham1 = new Hamster(1L, "Füles",
+                HamsterSpecies.DWARF,
+                "white",
+                Gender.FEMALE,
+                LocalDate.parse("2022-11-01"),
+                HamsterStatus.ADOPTABLE,
+                LocalDate.parse("2023-01-25"),
+                host,
+                "short description",
+                new ArrayList<>(),
+                new ArrayList<>());
+        Hamster ham2 = new Hamster(2L, "Bolyhos",
+                HamsterSpecies.DWARF,
+                "black",
+                Gender.MALE,
+                LocalDate.parse("2022-11-01"),
+                HamsterStatus.ADOPTABLE,
+                LocalDate.parse("2023-01-25"),
+                host,
+                "short description",
+                new ArrayList<>(),
+                new ArrayList<>());
 
         when(repository.findAdopterByIdWithHamsters(anyLong()))
-                .thenReturn(new Adopter(1L, "Megyek Elemér", new Address("1181", "Budapest", "Havanna utca", "7.", ""),
-                        List.of(ham1, ham2)));
+                .thenReturn(new Adopter(1L, "Megyek Elemér", addressBudapest2, contacts2, List.of(ham1, ham2)));
 
         when(adopterMapper.toDtoWithHamster((Adopter) any()))
                 .thenReturn(new AdopterDtoWithHamsters(
@@ -285,9 +308,18 @@ class AdopterServiceTest {
     @Test
     void testCantDeleteAdopter() {
         when(repository.findById(anyLong()))
-                .thenReturn(Optional.of(new Adopter(1L, "Megyek Elemér", new Address("1181", "Budapest", "Havanna utca", "7.", ""),
-                        List.of(new Hamster("Füles", HamsterSpecies.DWARF, Gender.FEMALE, LocalDate.parse("2022-11-01"),
-                                HamsterStatus.ADOPTABLE,  LocalDate.parse("2023-01-25"))))));
+                .thenReturn(Optional.of(new Adopter(1L, "Megyek Elemér", addressBudapest2, contacts2,
+                        List.of(new Hamster(1L, "Füles",
+                                HamsterSpecies.DWARF,
+                                "white",
+                                Gender.FEMALE,
+                                LocalDate.parse("2022-11-01"),
+                                HamsterStatus.ADOPTABLE,
+                                LocalDate.parse("2023-01-25"),
+                                host,
+                                "short description",
+                                new ArrayList<>(),
+                                new ArrayList<>())))));
 
         assertThatThrownBy(() ->
                 service.deleteAdopter(1L))

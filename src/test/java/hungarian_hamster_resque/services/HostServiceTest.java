@@ -100,9 +100,10 @@ class HostServiceTest {
                 "Ősz utca", "7.", "", "+360307775758", "valami@gmail.com", "",
                 1, "active");
 
-        Host host = new Host(1L, "Kiss Klára", new Address("6700", "Szeged",
-                "Ősz utca", "7.", ""),
-                new Contacts("+360307775758", "valami@gmail.com", ""), 1, HostStatus.ACTIVE); // Itt a Host objektum mockolásához használhatod a @Mock annotációt is
+        Host host = new Host(1L, "Kiss Klára",
+                new Address("6700", "Szeged","Ősz utca", "7.", ""),
+                new Contacts("+360307775758", "valami@gmail.com", ""),  HostStatus.ACTIVE, 1,
+                new ArrayList<>(), new ArrayList<>());
 
         when(mapper.toDtoWithoutHam((Host) any())).thenReturn(hostDtoWithContacts);
 
@@ -120,7 +121,8 @@ class HostServiceTest {
 
     @Test
     void testUpdateHost() {
-        Host host = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>());
+        Host host = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1,
+                new ArrayList<>(), new ArrayList<>());
 
         UpdateHostCommand updateHost = new UpdateHostCommand("Kiss Klára", "6700", "Szeged",
                 "Ősz utca", "7.", "", "+36201113333", "valami@gmail.com",
@@ -154,9 +156,9 @@ class HostServiceTest {
     @Test
     void testGetListOfHosts() {
         List<Host> hostEntities = Arrays.asList(
-                new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1),
-                new Host(2L, "Nagy Eszter", address2, HostStatus.ACTIVE, 2),
-                new Host(3L, "Megyek Elemér", address3, HostStatus.ACTIVE, 3)
+                new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>()),
+                new Host(2L, "Nagy Eszter", address2, contacts, HostStatus.ACTIVE, 2, new ArrayList<>(), new ArrayList<>()),
+                new Host(3L, "Megyek Elemér", address3, contacts, HostStatus.ACTIVE, 3, new ArrayList<>(), new ArrayList<>())
         );
 
 
@@ -183,8 +185,8 @@ class HostServiceTest {
 
     @Test
     void testGetListOfHostByName() {
-        Host host1 = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>());
-        Host host2 = new Host(2L, "Kiss Eszter", address2, contacts, HostStatus.ACTIVE, 2, new ArrayList<>());
+        Host host1 = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>());
+        Host host2 = new Host(2L, "Kiss Eszter", address2, contacts, HostStatus.ACTIVE, 2, new ArrayList<>(), new ArrayList<>());
 
         when(repository.findAHostByNameContains(anyString()))
                 .thenReturn(List.of(host1, host2));
@@ -215,7 +217,7 @@ class HostServiceTest {
 
     @Test
     void testFindHostById() {
-        Host host = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1);
+        Host host = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>());
 
         when(repository.findById(any())).thenReturn(Optional.of(host));
         when(mapper.toDtoWithoutHam((Host) any())).thenReturn(hostDto1);
@@ -238,19 +240,30 @@ class HostServiceTest {
 
     @Test
     void testGetListOfHostsHamsters() {
-        Host host = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1,
-                List.of(new Hamster("Bolyhos",
-                                HamsterSpecies.DWARF,
-                                Gender.FEMALE,
-                                LocalDate.parse("2022-11-01"),
-                                HamsterStatus.ADOPTABLE,
-                                LocalDate.parse("2023-01-25")),
-                        new Hamster("Füles",
-                                HamsterSpecies.DWARF,
-                                Gender.FEMALE,
-                                LocalDate.parse("2022-11-01"),
-                                HamsterStatus.ADOPTABLE,
-                                LocalDate.parse("2023-01-25"))));
+        Host host = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>());
+        host.addHamster(new Hamster(1L, "Bolyhos",
+                HamsterSpecies.DWARF,
+                "black",
+                Gender.FEMALE,
+                LocalDate.parse("2022-11-01"),
+                HamsterStatus.ADOPTABLE,
+                LocalDate.parse("2023-01-25"),
+                host,
+                "short description",
+                new ArrayList<>(),
+                new ArrayList<>()));
+        host.addHamster(new Hamster(2L, "Füles",
+                HamsterSpecies.DWARF,
+                "white",
+                Gender.FEMALE,
+                LocalDate.parse("2022-11-01"),
+                HamsterStatus.ADOPTABLE,
+                LocalDate.parse("2023-01-25"),
+                host,
+                "short description",
+                new ArrayList<>(),
+                new ArrayList<>()));
+
         HostDtoWithHamsters hostDto = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE,
                 List.of(new HamsterDtoSimple("Bolyhos",
                                 HamsterSpecies.DWARF,
@@ -286,7 +299,7 @@ class HostServiceTest {
     @Test
     void testHostHasNotHamster() {
         when(repository.findByIdWithAllHamster(anyLong()))
-                .thenReturn(new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1));
+                .thenReturn(new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>()));
 
         assertThatThrownBy(() ->
                 service.getListOfHostsHamsters(1L))
@@ -299,7 +312,7 @@ class HostServiceTest {
     @Test
     void testSetHostInactive() {
         when(repository.findById(any()))
-                .thenReturn(Optional.of(new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1)));
+                .thenReturn(Optional.of(new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>())));
 
         when(mapper.toDtoWithoutHam((Host) any()))
                 .thenReturn(new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.INACTIVE));
@@ -313,8 +326,8 @@ class HostServiceTest {
 
     @Test
     void testGetListOfHostsWithHamstersByCity() {
-        Host host1 = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1);
-        Host host2 = new Host(2L, "Nagy Eszter", address2, HostStatus.ACTIVE, 2);
+        Host host1 = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>());
+        Host host2 = new Host(2L, "Nagy Eszter", address2, contacts, HostStatus.ACTIVE, 2, new ArrayList<>(), new ArrayList<>());
         HostDtoWithHamsters hostDto1 = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE,
                 List.of(new HamsterDtoSimple("Bolyhos",
                         HamsterSpecies.DWARF,
@@ -375,14 +388,19 @@ class HostServiceTest {
 
     @Test
     void testFreeCapacityCounter() {
-        Host host1 = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 2,
-                Arrays.asList(new Hamster("Bolyhos", HamsterSpecies.DWARF, Gender.FEMALE,
-                        LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"))));
-        Host host2 = new Host(2L, "Nagy Klára", address2, HostStatus.ACTIVE, 6,
-                Arrays.asList(new Hamster("Boci", HamsterSpecies.DWARF, Gender.FEMALE,
-                                LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25")),
-                        new Hamster("Tarka", HamsterSpecies.DWARF, Gender.FEMALE,
-                                LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"))));
+        Host host1 = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 2, new ArrayList<>(), new ArrayList<>());
+        host1.addHamster(new Hamster(1L, "Bolyhos", HamsterSpecies.DWARF, "black", Gender.FEMALE,
+                LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"),
+                host1, "short description of the hamster", new ArrayList<>(), new ArrayList<>()));
+
+        Host host2 = new Host(2L, "Nagy Klára", address2, contacts, HostStatus.ACTIVE, 6, new ArrayList<>(), new ArrayList<>());
+        host2.addHamster(new Hamster(3L, "Boci", HamsterSpecies.DWARF, "white", Gender.FEMALE,
+                LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"), host2,
+                "short description of the hamster", new ArrayList<>(), new ArrayList<>()));
+        host2.addHamster(new Hamster(4L, "Tarka", HamsterSpecies.DWARF, "black banded", Gender.FEMALE,
+                LocalDate.parse("2022-11-01"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-25"), host2,
+                "short description of the hamster", new ArrayList<>(), new ArrayList<>()));
+
         List<Host> hosts = Arrays.asList(host1, host2);
 
         HostDtoCountedCapacity hostDto1 = new HostDtoCountedCapacity("Kiss Klára", addressDto1, 2, 1, HostStatus.ACTIVE);

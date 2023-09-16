@@ -74,6 +74,7 @@ public class HamsterService {
                 .startOfFostering(command.getStartOfFoster())
                 .description(command.getDescription())
                 .pictures(new ArrayList<>())
+                .weeklyReports(new ArrayList<>())
                 .build();
         host.addHamster(hamster);
         hamsterRepository.save(hamster);

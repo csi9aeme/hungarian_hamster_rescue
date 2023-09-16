@@ -28,7 +28,7 @@ public class Adopter {
     @Embedded
     private Contacts contacts;
 
-    @OneToMany(mappedBy = "adopter", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "adopter", cascade = {CascadeType.ALL})
     private List<Hamster> hamsters = new ArrayList<>();
 
     public Adopter(String name, Address address, Contacts contacts) {
@@ -36,21 +36,10 @@ public class Adopter {
         this.address = address;
         this.contacts = contacts;
     }
-    public Adopter(String name, Address address) {
+    public Adopter(String name, Address address, Contacts contacts, List<Hamster> hamsters) {
         this.name = name;
         this.address = address;
-    }
-
-    public Adopter(Long id, String name, Address address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-    }
-
-    public Adopter(Long id, String name, Address address, List<Hamster> hamsters) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
+        this.contacts = contacts;
         this.hamsters = hamsters;
     }
 
