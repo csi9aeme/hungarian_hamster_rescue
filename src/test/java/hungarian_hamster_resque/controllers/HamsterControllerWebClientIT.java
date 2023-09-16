@@ -10,7 +10,6 @@ import hungarian_hamster_resque.dtos.hamster.UpdateHamsterCommand;
 import hungarian_hamster_resque.dtos.host.CreateHostCommand;
 import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.enums.HamsterStatus;
-import hungarian_hamster_resque.models.Address;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -281,7 +279,7 @@ public class HamsterControllerWebClientIT {
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/hamsters-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/hamsters-with-name-not-found"));
         assertThat(detail.getDetail()).isEqualTo("The hamster with the given name (Mü) is not exit.");
 
     }
@@ -417,7 +415,7 @@ public class HamsterControllerWebClientIT {
                 .exchange()
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/hamster-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/hamster-with-id-not-found"));
         assertThat(detail.getDetail()).isEqualTo("The hamster with the given ID (22222) is not exist.");
 
     }

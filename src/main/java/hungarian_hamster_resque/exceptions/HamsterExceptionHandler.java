@@ -12,7 +12,7 @@ public class HamsterExceptionHandler {
     @ExceptionHandler(HamsterWithIdNotExistException.class)
     public ProblemDetail handleIllegalArgumentException(HamsterWithIdNotExistException e) {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        detail.setType(URI.create("hamsterresque/hamster-not-found"));
+        detail.setType(URI.create("hamsterresque/hamster-with-id-not-found"));
 
         return detail;
     }
@@ -20,7 +20,7 @@ public class HamsterExceptionHandler {
     @ExceptionHandler(HamsterWithNameNotExist.class)
     public ProblemDetail handleHamsterWithNameNotExistException(HamsterWithNameNotExist e) {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        detail.setType(URI.create("hamsterresque/hamsters-not-found"));
+        detail.setType(URI.create("hamsterresque/hamsters-with-name-not-found"));
 
         return detail;
     }

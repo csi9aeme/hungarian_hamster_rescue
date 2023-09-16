@@ -185,7 +185,7 @@ public class AdopterControllerWebClientIT {
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertEquals(URI.create("hamsterresque/adopter-not-found"), detail.getType());
+        assertEquals(URI.create("hamsterresque/adopter-with-name-not-found"), detail.getType());
     }
 
     @Test
@@ -225,7 +225,7 @@ public class AdopterControllerWebClientIT {
                 .expectStatus().isEqualTo(404)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-in-city-not-found"));
     }
 
     @Test
@@ -256,7 +256,7 @@ public class AdopterControllerWebClientIT {
                 .expectBody(ProblemDetail.class)
                 .returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-with-id-not-found"));
     }
 
     @Test
@@ -341,7 +341,7 @@ public class AdopterControllerWebClientIT {
                 .exchange()
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-cant-delete"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-cannot-delete"));
         assertThat(detail.getDetail()).isEqualTo("The adopter with the given ID (" +adopter.getId() +
                         ") cannot be deleted because it already has an adopted hamster.");
 
@@ -367,7 +367,7 @@ public class AdopterControllerWebClientIT {
                 .expectBody(ProblemDetail.class)
                 .returnResult().getResponseBody();
 
-        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-not-found"));
+        assertThat(detail.getType()).isEqualTo(URI.create("hamsterresque/adopter-with-id-not-found"));
 
     }
 }

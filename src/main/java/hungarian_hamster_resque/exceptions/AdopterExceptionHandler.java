@@ -13,7 +13,7 @@ public class AdopterExceptionHandler {
     @ExceptionHandler(AdopterWithNameNotExistException.class)
     public ProblemDetail handleAdopterWithNameNotExistException(AdopterWithNameNotExistException e) {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        detail.setType(URI.create("hamsterresque/adopter-not-found"));
+        detail.setType(URI.create("hamsterresque/adopter-with-name-not-found"));
 
         return detail;
     }
@@ -21,14 +21,14 @@ public class AdopterExceptionHandler {
     @ExceptionHandler(AdopterWithIdNotExistException.class)
     public ProblemDetail handleAdopterWithIdNotExistException(AdopterWithIdNotExistException e) {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        detail.setType(URI.create("hamsterresque/adopter-not-found"));
+        detail.setType(URI.create("hamsterresque/adopter-with-id-not-found"));
 
         return detail;
     }
     @ExceptionHandler(AdopterWithCityNotExistException.class)
     public ProblemDetail handleAdopterWithCityNotExistException(AdopterWithCityNotExistException e) {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        detail.setType(URI.create("hamsterresque/adopter-not-found"));
+        detail.setType(URI.create("hamsterresque/adopter-in-city-not-found"));
 
         return detail;
     }
@@ -36,7 +36,7 @@ public class AdopterExceptionHandler {
     @ExceptionHandler(AdopterCantDeleteBecauseHamstersListNotEmptyException.class)
     public ProblemDetail handleAdopterCantDeleteException(AdopterCantDeleteBecauseHamstersListNotEmptyException e) {
         ProblemDetail detail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        detail.setType(URI.create("hamsterresque/adopter-cant-delete"));
+        detail.setType(URI.create("hamsterresque/adopter-cannot-delete"));
 
         return detail;
     }
