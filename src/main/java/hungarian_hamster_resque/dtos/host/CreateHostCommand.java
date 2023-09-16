@@ -1,6 +1,7 @@
 package hungarian_hamster_resque.dtos.host;
 
 import hungarian_hamster_resque.dtos.hamster.HamsterDto;
+import hungarian_hamster_resque.models.Contacts;
 import hungarian_hamster_resque.models.WeeklyReport;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
@@ -55,15 +56,26 @@ public class CreateHostCommand {
 
     private List<WeeklyReport> weeklyReports;
 
+    private String phoneNumber;
+
+    private String email;
+
+    private String otherContactInfo;
 
 
-
-//    public CreateHostCommand(String name, String address, int capacity, String hostStatus) {
-//        this.name = name;
-//        this.address = address;
-//        this.capacity = capacity;
-//        this.hostStatus = hostStatus;
-//    }
+    public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, String phoneNumber, String email, String otherContactInfo, int capacity, String hostStatus) {
+        this.name = name;
+        this.zip = zip;
+        this.town = town;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.other = other;
+        this.capacity = capacity;
+        this.hostStatus = hostStatus;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.otherContactInfo = otherContactInfo;
+    }
 
     public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity, String hostStatus) {
         this.name = name;
@@ -76,11 +88,6 @@ public class CreateHostCommand {
         this.hostStatus = hostStatus;
     }
 
-//    public CreateHostCommand(String name, String address, int capacity) {
-//        this.name = name;
-//        this.address = address;
-//        this.capacity = capacity;
-//    }
 
     public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity) {
         this.name = name;
@@ -92,13 +99,6 @@ public class CreateHostCommand {
         this.capacity = capacity;
     }
 
-//    public CreateHostCommand(String name, String address, int capacity, String hostStatus, List<WeeklyReport> weeklyReports) {
-//        this.name = name;
-//        this.address = address;
-//        this.capacity = capacity;
-//        this.hostStatus = hostStatus;
-//        this.weeklyReports = weeklyReports;
-//    }
 
     public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity, String hostStatus, List<WeeklyReport> weeklyReports) {
         this.name = name;

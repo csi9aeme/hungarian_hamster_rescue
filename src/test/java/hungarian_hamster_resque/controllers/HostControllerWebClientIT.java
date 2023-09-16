@@ -39,14 +39,15 @@ public class HostControllerWebClientIT {
     CreateHostCommand klara;
     CreateHostCommand klaudia;
     CreateHostCommand erno;
+
     @Autowired
     private HostRepository hostRepository;
 
     @BeforeEach
     void init() {
-        klara = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Ősz utca", "7.", "", 5, "active");
-        klaudia = new CreateHostCommand("Bogdán Klaudia", "1018", "Budapest", "Kiss Béla utca", "13.", "B", 2, "active");
-        erno = new CreateHostCommand("Nagy Ernő", "1191", "Budapest", "Újegyi út", "70.", "2/7", 4, "active");
+        klara = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Ősz utca", "7.", "", "+36201113333", "valami@gmail.com", "spzx", 5, "active");
+        klaudia = new CreateHostCommand("Bogdán Klaudia", "1018", "Budapest", "Kiss Béla utca", "13.", "B", "+36201113333", "valami@gmail.com", "spzx", 2, "active");
+        erno = new CreateHostCommand("Nagy Ernő", "1191", "Budapest", "Újhegyi út", "70.", "2/7", "+36201113333", "valami@gmail.com", "spzx", 4, "active");
     }
 
     @Test
@@ -61,6 +62,9 @@ public class HostControllerWebClientIT {
 
         assertThat(result.getId()).isNotNull();
         assertThat(result.getName()).isEqualTo("Békési Klára");
+        assertThat(result.getAddressDto().getTown()).isEqualTo("Szeged");
+        assertThat(result.getContactsDto().getPhoneNumber()).isEqualTo("+36201113333");
+        assertThat(result.getContactsDto().getEmail()).isEqualTo("valami@gmail.com");
 
     }
 
@@ -133,15 +137,7 @@ public class HostControllerWebClientIT {
                 .bodyValue(erno)
                 .exchange()
                 .expectStatus().isEqualTo(201);
-        ////
-        List<HostDtoWithoutHamsters> resultALL = webClient.get()
-                .uri("/api/hosts")
-                .exchange()
-                .expectBodyList(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-        System.out.println(resultALL.size());
-        System.out.println(resultALL.get(0).getAddressDto().getTown());
-        ////
         List<HostDtoWithoutHamsters> result = webClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/api/hosts").queryParam("namePart", "Klára").build())
                 .exchange()
@@ -247,7 +243,6 @@ public class HostControllerWebClientIT {
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
         long id = host.getId();
-
 
         ProblemDetail detail = webClient.get()
                 .uri("/api/hosts/{id}/hamsters", id)

@@ -39,10 +39,10 @@ public class AdopterControllerWebClientIT {
     @Autowired
     AdopterController controller;
 
-    CreateAdopterCommand odon;
-    CreateAdopterCommand klara;
-    CreateAdopterCommand klaudiaKiss;
-    CreateAdopterCommand klaudiaNagy;
+    CreateAdopterCommand odonCreate;
+    CreateAdopterCommand klaraCreate;
+    CreateAdopterCommand klaudiaKissCreate;
+    CreateAdopterCommand klaudiaNagyCreate;
 
     CreateHostCommand createHostCommand1;
 
@@ -56,21 +56,20 @@ public class AdopterControllerWebClientIT {
 
     @BeforeEach
     void init() {
-        odon = new CreateAdopterCommand("Zsíros B. Ödön", "7054", "Tengelic", "Alkotmány u.", "32","");
-        klara = new CreateAdopterCommand("Békési Klára", "7000", "Szeged", "Ősz utca" ,"7.","");
-        klaudiaKiss = new CreateAdopterCommand("Kiss Klaudia", "1100", "Budapest", "Virág utca" ,"7", "2nd floor");
-        klaudiaNagy = new CreateAdopterCommand("Nagy Klaudia", "7600", "Szeged", "Kiss Kakas utca" ,"7.","");
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", 5, "active", new ArrayList<>());
 
-        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
-        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.","B");
-        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
+        odonCreate = new CreateAdopterCommand("Zsíros B. Ödön", "7054", "Tengelic", "Alkotmány u.", "32","", "+36201112222", "egyik@gmail.com", "skype");
+        klaraCreate = new CreateAdopterCommand("Békési Klára", "7000", "Szeged", "Ősz utca" ,"7.","", "+36201112222", "egyik@gmail.com", "skype");
+        klaudiaKissCreate = new CreateAdopterCommand("Kiss Klaudia", "1100", "Budapest", "Virág utca" ,"7", "2nd floor", "+36201112222", "egyik@gmail.com", "skype");
+        klaudiaNagyCreate = new CreateAdopterCommand("Nagy Klaudia", "7600", "Szeged", "Kiss Kakas utca" ,"7.","", "+36201112222", "egyik@gmail.com", "skype");
 
         address1 = new Address("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
         address2 = new Address("1018", "Budapest", "Kiss Béla utca", "13.","B");
         address3 = new Address("6700", "Szeged", "Ősz utca" ,"7.","");
 
-        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", 5, "active", new ArrayList<>());
-
+        addressDto1 = new AddressDto("1092", "Budapest", "Virág utca" ,"7", "2nd floor");
+        addressDto2 = new AddressDto("1018", "Budapest", "Kiss Béla utca", "13.","B");
+        addressDto3 = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
 
     }
 
@@ -79,12 +78,13 @@ public class AdopterControllerWebClientIT {
     void testCreateAdopter() {
         AdopterDtoWithoutHamsters adopter = webClient.post()
                 .uri("/api/adopters")
-                .bodyValue(odon)
+                .bodyValue(odonCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         assertThat(adopter.getId()).isNotNull();
+        assertThat(adopter.getAddress().getTown()).isEqualTo("Tengelic"); //ÚJ
     }
 
     @Test
@@ -92,7 +92,7 @@ public class AdopterControllerWebClientIT {
     void createAdopterWithEmptyName() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/adopters")
-                .bodyValue(new CreateAdopterCommand("", "7054", "Tengelic", "Alkotmány u.", "32", ""))
+                .bodyValue(new CreateAdopterCommand("", "7054", "Tengelic", "Alkotmány u.", "32", "", "+36201112222", "egyik@gmail.com", "skype"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -103,10 +103,10 @@ public class AdopterControllerWebClientIT {
 
     @Test
     @Description("Update adopter's address")
-    void updateAdopter() {
+    void testUpdateAdopter() {
         AdopterDtoWithoutHamsters adopter = webClient.post()
                 .uri("/api/adopters")
-                .bodyValue(odon)
+                .bodyValue(odonCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -114,7 +114,7 @@ public class AdopterControllerWebClientIT {
 
         AdopterDtoWithoutHamsters updated = webClient.put()
                 .uri("/api/adopters/{id}", id)
-                .bodyValue(new UpdateAdopterCommand("Zsíros B. Ödön", "6000", "Kecskemét", "Fő tér", "6.", ""))
+                .bodyValue(new UpdateAdopterCommand("Zsíros B. Ödön", "6000", "Kecskemét", "Fő tér", "6.", "", "+36212113333", "odon@gmail.com", "skype"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -127,15 +127,15 @@ public class AdopterControllerWebClientIT {
     @Description("Get adopters' list")
     void testGetAllAdopters() {
         webClient.post().uri("api/adopters")
-                .bodyValue(klara)
+                .bodyValue(klaraCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/adopters")
-                .bodyValue(klaudiaKiss)
+                .bodyValue(klaudiaKissCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/adopters")
-                .bodyValue(odon)
+                .bodyValue(odonCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -153,15 +153,15 @@ public class AdopterControllerWebClientIT {
     @Description("Get adopters' list by name")
     void testGetAdoptersListWithNamePart() {
         webClient.post().uri("api/adopters")
-                .bodyValue(klara)
+                .bodyValue(klaraCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/adopters")
-                .bodyValue(klaudiaKiss)
+                .bodyValue(klaudiaKissCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/adopters")
-                .bodyValue(klaudiaNagy)
+                .bodyValue(klaudiaNagyCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -192,15 +192,15 @@ public class AdopterControllerWebClientIT {
     @Description("Get adopters' list by city")
     void testGetAdoptersListByCity() {
         webClient.post().uri("api/adopters")
-                .bodyValue(klara)
+                .bodyValue(klaraCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/adopters")
-                .bodyValue(klaudiaKiss)
+                .bodyValue(klaudiaKissCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
         webClient.post().uri("api/adopters")
-                .bodyValue(klaudiaNagy)
+                .bodyValue(klaudiaNagyCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201);
 
@@ -232,7 +232,7 @@ public class AdopterControllerWebClientIT {
     @Description("Find adopter by id")
     void testFindAdopterById() {
         AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
-                .bodyValue(klara)
+                .bodyValue(klaraCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -269,7 +269,7 @@ public class AdopterControllerWebClientIT {
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
-                .bodyValue(odon)
+                .bodyValue(odonCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -306,7 +306,7 @@ public class AdopterControllerWebClientIT {
     @Description("Exception: Delete adopter by ID with hamsters")
     void testTryDeleteAdopterWithHamsters() {
         AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
-                .bodyValue(odon)
+                .bodyValue(odonCreate)
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();
@@ -351,7 +351,7 @@ public class AdopterControllerWebClientIT {
     @Description("Delete adopter by ID without hamsters")
     void testDeleteAdopterWithoutHamsters() {
         AdopterDtoWithoutHamsters adopter = webClient.post().uri("api/adopters")
-                .bodyValue(new CreateAdopterCommand("Kiss Ernő", "6000", "Kecskemét", "Fő tér", "7", "C épület"))
+                .bodyValue(new CreateAdopterCommand("Kiss Ernő", "6000", "Kecskemét", "Fő tér", "7", "C épület", "+36201112222", "egyik@gmail.com", "skype"))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(AdopterDtoWithoutHamsters.class).returnResult().getResponseBody();

@@ -4,10 +4,7 @@ import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.enums.HostStatus;
-import hungarian_hamster_resque.models.Address;
-import hungarian_hamster_resque.models.Adopter;
-import hungarian_hamster_resque.models.Hamster;
-import hungarian_hamster_resque.models.Host;
+import hungarian_hamster_resque.models.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -18,7 +15,7 @@ class AdopterTest {
 
     @Test
     void testCreate() {
-        Adopter adopter = new Adopter("Kiss Virág", new Address("1092", "Budapest", "Fő utca", "7.", ""));
+        Adopter adopter = new Adopter("Kiss Virág", new Address("1092", "Budapest", "Fő utca", "7.", ""), new Contacts("+36302221111", "virag@gmail.com", ""));
         String name = adopter.getName();
 
         assertThat(name).isEqualTo("Kiss Virág");

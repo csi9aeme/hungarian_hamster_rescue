@@ -48,6 +48,12 @@ public class UpdateHostCommand {
     @Schema(description = "The temporary host can accept hamster.", example = "aktv/inaktív")
     private HostStatus hostStatus;
 
+    private String phoneNumber;
+
+    private String email;
+
+    private String otherContactInfo;
+
 
     public UpdateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity) {
         this.name = name;
@@ -70,5 +76,19 @@ public class UpdateHostCommand {
         this.hostStatus = hostStatus;
     }
 
+    public UpdateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, String phoneNumber, String email, String otherContactInfo, int capacity, HostStatus hostStatus ) {
+        this.name = name;
+        this.zip = zip;
+        this.town = town;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.other = other;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.otherContactInfo = otherContactInfo;
+        this.capacity = capacity;
+        this.hostStatus = hostStatus;
 
+
+    }
 }

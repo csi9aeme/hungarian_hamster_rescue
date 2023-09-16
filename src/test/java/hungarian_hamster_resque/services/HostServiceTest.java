@@ -1,6 +1,7 @@
 package hungarian_hamster_resque.services;
 
 import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.ContactsDto;
 import hungarian_hamster_resque.dtos.hamster.HamsterDtoSimple;
 import hungarian_hamster_resque.dtos.host.*;
 import hungarian_hamster_resque.enums.Gender;
@@ -14,8 +15,10 @@ import hungarian_hamster_resque.exceptions.HostWithNamePartNotExistException;
 import hungarian_hamster_resque.mappers.AddressMapper;
 import hungarian_hamster_resque.mappers.HostMapper;
 import hungarian_hamster_resque.models.Address;
+import hungarian_hamster_resque.models.Contacts;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.models.Host;
+import hungarian_hamster_resque.repositories.ContactsMapper;
 import hungarian_hamster_resque.repositories.HostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +51,9 @@ class HostServiceTest {
     @Mock
     AddressMapper addressMapper;
 
+    @Mock
+    ContactsMapper contactsMapper;
+
     @InjectMocks
     HostService service;
 
@@ -61,6 +68,10 @@ class HostServiceTest {
     HostDtoWithoutHamsters hostDto1;
     HostDtoWithoutHamsters hostDto2;
     HostDtoWithoutHamsters hostDto3;
+    HostDtoWithoutHamsters hostDtoWithContacts;
+
+    ContactsDto contactsDto;
+    Contacts contacts;
 
     @BeforeEach
     void init(){
@@ -72,41 +83,63 @@ class HostServiceTest {
         address2 = new Address("1018", "Budapest", "Kiss Béla utca", "13.","B");
         address3 = new Address("6700", "Szeged", "Ősz utca" ,"7.","");
 
+        contacts = new Contacts("+360307775758", "valami@gmail.com", "");
+        contactsDto = new ContactsDto("+360307775758", "valami@gmail.com", "");
+
         hostDto1 = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE);
         hostDto2 = new HostDtoWithoutHamsters(2L, "Nagy Eszter", addressDto2, 2, HostStatus.ACTIVE);
         hostDto3 = new HostDtoWithoutHamsters(3L, "Megyek Elemér", addressDto3, 3, HostStatus.ACTIVE);
+        hostDtoWithContacts = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, contactsDto, 1, HostStatus.ACTIVE);
 
     }
 
     @Test
     void testCreateHostDtoWithoutHamWithValidData() {
 
-        CreateHostCommand createHost = new CreateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca" ,"7.","", 1, "active");
+        // Arrange
+        CreateHostCommand createHost = new CreateHostCommand("Kiss Klára", "6700", "Szeged",
+                "Ősz utca", "7.", "", "+360307775758", "valami@gmail.com", "",
+                1, "active");
 
-        when(mapper.toDtoWithoutHam((Host) any()))
-                .thenReturn(hostDto1);
+        // Mockolt objektumok létrehozása
+        Host host = new Host(1L, "Kiss Klára", new Address("6700", "Szeged",
+                "Ősz utca", "7.", ""),
+                new Contacts("+360307775758", "valami@gmail.com", ""),1, HostStatus.ACTIVE ); // Itt a Host objektum mockolásához használhatod a @Mock annotációt is
 
-        HostDtoWithoutHamsters host = service.createHost(createHost);
+        when(mapper.toDtoWithoutHam((Host) any())).thenReturn(hostDtoWithContacts);
 
-        assertThat(host.getId()).isNotNull();
-        assertThat(host.getName()).isEqualTo("Kiss Klára");
 
-        verify(mapper, times(1)).toDtoWithoutHam((Host) any());
+        // Act
+        HostDtoWithoutHamsters hostDto = service.createHost(createHost);
+
+        // Assert
+        assertThat(hostDto).isNotNull();
+        assertThat(hostDto.getId()).isNotNull();
+        assertThat(hostDto.getName()).isEqualTo("Kiss Klára");
+
+        // Ellenőrizzük, hogy a save metódus meghívódott-e pontosan egyszer
         verify(repository, times(1)).save(any());
+
+        // Ellenőrizzük, hogy a toDtoWithoutHam metódus meghívódott-e pontosan egyszer
+        verify(mapper, times(1)).toDtoWithoutHam((Host) any());
+
+
 
     }
 
     @Test
     void testUpdateHost() {
-        Host host = new Host(1L, "Kiss Klára", address1, HostStatus.ACTIVE, 1);
-        UpdateHostCommand updateHost = new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca" ,"7.","", 1, HostStatus.ACTIVE);
+        Host host = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>());
+
+        UpdateHostCommand updateHost = new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca" ,"7.","", "+36201113333", "valami@gmail.com", "spzx", 1, HostStatus.ACTIVE);
         AddressDto addressDto = new AddressDto("6700", "Szeged", "Ősz utca" ,"7.","");
 
         // Mockoljuk a hostRepository findById metódusát
         when(repository.findById(1L)).thenReturn(Optional.of(host));
 
         // Mockoljuk az addressMapper toAddressDto metódusát
-        when(addressMapper.toAddressDto((Address) any())).thenReturn(addressDto);
+        when(addressMapper.toAddressDto(any())).thenReturn(addressDto);
+        when(contactsMapper.toContactsDto(any())).thenReturn(contactsDto);
 
         // Teszteljük a metódust
         HostDtoWithoutHamsters result = service.updateHost(1L, updateHost);
@@ -149,7 +182,6 @@ class HostServiceTest {
         );
 
         when(repository.findAll()).thenReturn(hostEntities);
-        when(addressMapper.toAddressDto((Address) any())).thenReturn(addressDto1); // Bármely Address-re ugyanazt az AddressDTO-t használjuk
         when(service.getListOfHosts(Optional.empty())).thenReturn(hostDtos);
 
         List<HostDtoWithoutHamsters> result = service.getListOfHosts(Optional.empty());

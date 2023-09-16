@@ -34,4 +34,10 @@ public class UpdateAdopterCommand {
 
     @Schema(description = "Other info (level, etc)", example = "1. floor B door")
     private String other;
+
+    private String phoneNumber;
+
+    private String email;
+
+    private String otherContactInfo;
 }

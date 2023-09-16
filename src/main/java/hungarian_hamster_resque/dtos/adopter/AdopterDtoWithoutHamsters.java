@@ -1,6 +1,7 @@
 package hungarian_hamster_resque.dtos.adopter;
 
 import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.ContactsDto;
 import lombok.*;
 
 @Getter
@@ -16,8 +17,11 @@ public class AdopterDtoWithoutHamsters {
 
     private AddressDto address;
 
-    public AdopterDtoWithoutHamsters(String name, AddressDto address) {
+    private ContactsDto contacts;
+
+    public AdopterDtoWithoutHamsters(String name, AddressDto address, ContactsDto contacts) {
         this.name = name;
         this.address = address;
+        this.contacts = contacts;
     }
 }

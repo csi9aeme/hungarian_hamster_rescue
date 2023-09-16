@@ -8,10 +8,10 @@ import hungarian_hamster_resque.exceptions.AdopterCantDeleteBecauseHamstersListN
 import hungarian_hamster_resque.exceptions.AdopterWithCityNotExistException;
 import hungarian_hamster_resque.exceptions.AdopterWithIdNotExistException;
 import hungarian_hamster_resque.exceptions.AdopterWithNameNotExistException;
-import hungarian_hamster_resque.mappers.AddressMapper;
 import hungarian_hamster_resque.mappers.AdopterMapper;
 import hungarian_hamster_resque.models.Address;
 import hungarian_hamster_resque.models.Adopter;
+import hungarian_hamster_resque.models.Contacts;
 import hungarian_hamster_resque.repositories.AdopterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,6 @@ public class AdopterService {
 
     private final AdopterRepository adopterRepository;
 
-    private final AddressMapper addressMapper;
 
     public AdopterDtoWithoutHamsters createAdopter(CreateAdopterCommand command) {
         Address address = new Address(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther());
@@ -37,27 +36,23 @@ public class AdopterService {
                 .build();
 
         adopterRepository.save(adopter);
-        AdopterDtoWithoutHamsters adopterDto = adopterMapper.toDtoWithoutHamster(adopter);
-        adopterDto.setAddress(addressMapper.toAddressDto(address));
 
-        return adopterDto;
+        return adopterMapper.toDtoWithoutHamster(adopter);
 
     }
 
     public AdopterDtoWithoutHamsters updateAdopter(long id, UpdateAdopterCommand command) {
         Adopter adopter = findAdopterEntityById(id);
         Address address = new Address(command.getZip(), command.getTown(), command.getStreet(), command.getHouseNumber(), command.getOther());
+        Contacts contacts = new Contacts(command.getPhoneNumber(), command.getEmail(), command.getOtherContactInfo());
 
         adopter.setName(command.getName());
         adopter.setAddress(address);
+        adopter.setContacts(contacts);
+
         adopterRepository.save(adopter);
 
-        AdopterDtoWithoutHamsters adopterDto = AdopterDtoWithoutHamsters.builder()
-                .name(adopter.getName())
-                .address(addressMapper.toAddressDto(address))
-                .build();
-
-        return adopterDto;
+        return adopterMapper.toDtoWithoutHamster(adopter);
     }
 
     public List<AdopterDtoWithoutHamsters> getAdopter(Optional<String> namePart) {

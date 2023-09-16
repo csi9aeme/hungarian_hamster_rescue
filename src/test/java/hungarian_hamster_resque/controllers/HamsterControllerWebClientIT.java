@@ -47,11 +47,16 @@ public class HamsterControllerWebClientIT {
     CreateHamsterCommand createHamster2;
     CreateHamsterCommand createHamster3;
 
+    CreateAdopterCommand adopterCommand;
+
     @BeforeEach
     void initHostAndAdopter() {
 
-        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Kis Pál utca", "3.", "", 5, "active");
-        createHostCommand2 = new CreateHostCommand("Nagy Béla", "6700", "Szeged", "Kis Pál utca", "3.", "", 1, "active");
+         adopterCommand = new CreateAdopterCommand("Zsíros B. Ödön", "7054", "Tengelic", "Alkotmány u.", "32", "", "+36201112222", "valami@gmail.com", "skype");
+
+
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Kis Pál utca", "3.", "", "+36201113333", "valami@gmail.com", "spzx",5, "active");
+        createHostCommand2 = new CreateHostCommand("Nagy Béla", "6700", "Szeged", "Kis Pál utca", "3.", "", "+36201113333", "valami@gmail.com", "spzx",1, "active");
 
         host = webClient.post().uri("api/hosts")
                 .bodyValue(createHostCommand1)
@@ -445,7 +450,6 @@ public class HamsterControllerWebClientIT {
     @Test
     @Description("Adopt a hamster (change status and add an owner)")
     void testAdoptHamster() {
-        CreateAdopterCommand adopterCommand = new CreateAdopterCommand("Zsíros B. Ödön", "7054", "Tengelic", "Alkotmány u.", "32", "");
         AdopterDtoWithoutHamsters adopter = webClient.post()
                 .uri("/api/adopters")
                 .bodyValue(adopterCommand)

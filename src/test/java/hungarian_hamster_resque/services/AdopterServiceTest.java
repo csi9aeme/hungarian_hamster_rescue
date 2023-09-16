@@ -1,6 +1,7 @@
 package hungarian_hamster_resque.services;
 
 import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.ContactsDto;
 import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithHamsters;
 import hungarian_hamster_resque.dtos.adopter.AdopterDtoWithoutHamsters;
 import hungarian_hamster_resque.dtos.adopter.CreateAdopterCommand;
@@ -10,10 +11,10 @@ import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
 import hungarian_hamster_resque.exceptions.*;
-import hungarian_hamster_resque.mappers.AddressMapper;
 import hungarian_hamster_resque.mappers.AdopterMapper;
 import hungarian_hamster_resque.models.Address;
 import hungarian_hamster_resque.models.Adopter;
+import hungarian_hamster_resque.models.Contacts;
 import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.repositories.AdopterRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,17 +45,19 @@ class AdopterServiceTest {
     @Mock
     AdopterMapper adopterMapper;
 
-    @Mock
-    AddressMapper addressMapper;
+
 
     @InjectMocks
     AdopterService service;
 
     Adopter megyekElemerModel;
-    Adopter adopterErika;
+    Adopter erikaModel;
+    Adopter kissElemerModel;
+
 
     AdopterDtoWithoutHamsters megyekElemerDto;
     AdopterDtoWithoutHamsters erikaDto;
+    AdopterDtoWithoutHamsters kissElemerDto;
 
     AdopterDtoWithHamsters megyekElemerDtoWithHamsters;
 
@@ -62,18 +65,51 @@ class AdopterServiceTest {
 
     UpdateAdopterCommand updateMegyekElemer;
 
+    Address addressBudapest1;
+    Address addressBudapest2;
+    Address addressSzeged1;
+    Address addressSzeged2;
+
+    AddressDto addressDtoBudapest1;
+    AddressDto addressDtoBudapest2;
+    AddressDto addressDtoSzeged1;
+    AddressDto addressDtoSzeged2;
+
+    Contacts contacts1;
+    Contacts contacts2;
+
+    ContactsDto contactsDto1;
+    ContactsDto contactsDto2;
+
     @BeforeEach
     void init() {
-        megyekElemerModel = new Adopter(1L, "Megyek Elemér", new Address("1181", "Budapest", "Havanna utca", "7.", ""));
-        megyekElemerDto = new AdopterDtoWithoutHamsters( "Megyek Elemér", new AddressDto("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."));
-        megyekElemerDtoWithHamsters = new AdopterDtoWithHamsters( "Megyek Elemér", new AddressDto("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."), new ArrayList<>());
-        createMegyekElemer = new CreateAdopterCommand("Megyek Elemér", "1181", "Budapest", "Havanna utca", "7.", "");
-        updateMegyekElemer = new UpdateAdopterCommand("Megyek Elemér", "1181", "Budapest", "Havanna utca", "7.", "");
+        addressBudapest1 = new Address("1181", "Budapest", "Havanna utca", "7.", "");
+        addressBudapest2 = new Address("1021", "Budapest", "Palota sétány", "98.", "C/5");
+        addressSzeged1 = new Address("6700", "Szeged", "Rókus körút", "70.", "10/5");
+        addressSzeged2 = new Address("6700", "Szeged", "Állomás tér", "7.", "10/5");
 
-        adopterErika = new Adopter(1L, "Hiszt Erika", new Address("7400", "Szekszárd", "Fő utca", "87.",""));
-        erikaDto = new AdopterDtoWithoutHamsters( "Hiszt Erika", new AddressDto("7400", "Szekszárd", "Fő utca", "87.", ""));
+        addressDtoBudapest1 = new AddressDto("1181", "Budapest", "Havanna utca", "7.", "");
+        addressDtoBudapest2 = new AddressDto("1021", "Budapest", "Palota sétány", "98.", "C/5");
+        addressDtoSzeged1 = new AddressDto("6700", "Szeged", "Rókus körút", "70.", "10/5");
+        addressDtoSzeged2 = new AddressDto("6700", "Szeged", "Állomás tér", "7.", "10/5");
 
+        contacts1 = new Contacts("+36201112222", "egyik@gmail.com", "skype");
+        contacts2 = new Contacts("+36201113333", "masik@gmail.com", "skype");
 
+        contactsDto1 = new ContactsDto("+36201112222", "egyik@gmail.com", "skype");
+        contactsDto2 = new ContactsDto("+36201113333", "masik@gmail.com", "skype");
+
+        megyekElemerModel = new Adopter(1L, "Megyek Elemér", addressBudapest1, contacts1, new ArrayList<>());
+        megyekElemerDto = new AdopterDtoWithoutHamsters( "Megyek Elemér", addressDtoBudapest1, contactsDto1);
+        megyekElemerDtoWithHamsters = new AdopterDtoWithHamsters( "Megyek Elemér", addressDtoBudapest1, contactsDto1, new ArrayList<>());
+        createMegyekElemer = new CreateAdopterCommand("Megyek Elemér", "1181", "Budapest", "Havanna utca", "7.", "", "+36201112222", "egyik@gmail.com", "skype");
+        updateMegyekElemer = new UpdateAdopterCommand("Megyek Elemér", "1181", "Budapest", "Havanna utca", "7.", "", "+36201112222", "egyik@gmail.com", "skype");
+
+        erikaModel = new Adopter(2L, "Hiszt Erika", addressSzeged1, contacts2, new ArrayList<>());
+        erikaDto = new AdopterDtoWithoutHamsters( "Hiszt Erika", addressDtoSzeged1, contactsDto2);
+
+        kissElemerModel = new Adopter(3L, "Kiss Elemer", addressBudapest2, contacts2, new ArrayList<>());
+        kissElemerDto = new AdopterDtoWithoutHamsters( "Kiss Elemer", addressDtoBudapest2, contactsDto2);
 
     }
     @Test
@@ -85,34 +121,32 @@ class AdopterServiceTest {
 
         assertThat(adopter.getId()).isNotNull();
         assertThat(adopter.getName()).isEqualTo("Megyek Elemér");
+        assertThat(adopter.getAddress().getTown()).isEqualTo("Budapest");
+        assertThat(adopter.getContacts().getEmail()).isEqualTo("egyik@gmail.com");
 
         verify(repository).save(any());
     }
 
     @Test
     void testUpdateAdopter() {
-        // Mockoljuk a hostRepository findById metódusát
-        when(repository.findById(1L)).thenReturn(Optional.of(megyekElemerModel));
+        when(repository.findById(anyLong())).thenReturn(Optional.of(megyekElemerModel));
 
-        // Mockoljuk az addressMapper toAddressDto metódusát
-        when(addressMapper.toAddressDto((Address) any())).thenReturn(new AddressDto("1180", "Budapest", "Havanna utca", "8.", "Fsz.7."));
+        when(adopterMapper.toDtoWithoutHamster((Adopter) any())).thenReturn(megyekElemerDto);
 
-        // Teszteljük a metódust
         AdopterDtoWithoutHamsters result = service.updateAdopter(1L, updateMegyekElemer);
 
-        // Ellenőrizzük az eredményt és a műveleteket
         assertEquals("Megyek Elemér", result.getName());
         assertEquals(megyekElemerDto.getAddress().getTown(), result.getAddress().getTown());
 
-        // Ellenőrizzük, hogy a hostRepository save metódusa meghívódott
         verify(repository).save(megyekElemerModel);
+        verify(repository).findById(anyLong());
 
     }
 
     @Test
     void testGetAdopters() {
         when(repository.findAll())
-                .thenReturn(List.of(megyekElemerModel, adopterErika));
+                .thenReturn(List.of(megyekElemerModel, erikaModel));
         when(adopterMapper.toDtoWithoutHamster((List<Adopter>) any()))
                 .thenReturn(List.of(megyekElemerDto,erikaDto));
 
@@ -129,13 +163,11 @@ class AdopterServiceTest {
         Adopter adopter2 = new Adopter(1L, "Kiss Erika", new Address("1181", "Budapest", "Havanna utca", "67.", "10/57"));
 
         when(repository.findAdopterByNameContains(anyString()))
-                .thenReturn(List.of(adopter1, adopter2));
-        when(adopterMapper.toDtoWithoutHamster(List.of(adopter1, adopter2)))
-                .thenReturn(List.of(
-                        new AdopterDtoWithoutHamsters(1L, "Kiss Elemér", new AddressDto("1181", "Budapest", "Havanna utca", "7.", "")),
-                        new AdopterDtoWithoutHamsters(1L, "Kiss Erika", new AddressDto("1181", "Budapest", "Havanna utca", "67.", "10/57"))));
+                .thenReturn(List.of(megyekElemerModel, kissElemerModel));
+        when(adopterMapper.toDtoWithoutHamster(List.of(megyekElemerModel, kissElemerModel)))
+                .thenReturn(List.of(kissElemerDto, megyekElemerDto));
 
-        List<AdopterDtoWithoutHamsters> result = service.getAdopter(Optional.of("Kiss"));
+        List<AdopterDtoWithoutHamsters> result = service.getAdopter(Optional.of("Elemer"));
         assertThat(result).hasSize(2);
 
         verify(repository).findAdopterByNameContains(anyString());
@@ -155,13 +187,10 @@ class AdopterServiceTest {
 
     @Test
     void testGetAdopterByCity() {
-        Adopter adopter2 = new Adopter(1L, "Hiszt Erika", new Address("1181", "Budapest", "Havanna utca", "67.", "4/10"));
-        AdopterDtoWithoutHamsters adopterDto2 = new AdopterDtoWithoutHamsters( "Hiszt Erika", new AddressDto("1181", "Budapest", "Havanna utca", "67.", "4/10"));
-
         when(repository.findAdopterByCity(anyString()))
-                .thenReturn(List.of(megyekElemerModel, adopter2));
+                .thenReturn(List.of(megyekElemerModel, kissElemerModel));
         when(adopterMapper.toDtoWithoutHamster((List<Adopter>) any()))
-                .thenReturn(List.of(megyekElemerDto, adopterDto2));
+                .thenReturn(List.of(megyekElemerDto, kissElemerDto));
         List<AdopterDtoWithoutHamsters> result = service.getAdoptersByCity("Budapest");
 
         assertThat(result).hasSize(2);

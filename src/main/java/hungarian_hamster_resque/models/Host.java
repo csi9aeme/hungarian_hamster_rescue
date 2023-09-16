@@ -26,6 +26,9 @@ public class Host {
     @Embedded
     private Address address;
 
+    @Embedded
+    private Contacts contacts;
+
     @Column(name = "host_status")
     @Enumerated(EnumType.STRING)
     private HostStatus hostStatus;
@@ -83,6 +86,24 @@ public class Host {
         this.hamsters = hamsters;
     }
 
+    public Host(Long id, String name, Address address, Contacts contacts, HostStatus hostStatus, int capacity, List<Hamster> hamsters) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.contacts = contacts;
+        this.hostStatus = hostStatus;
+        this.capacity = capacity;
+        this.hamsters = hamsters;
+    }
+
+    public Host(Long id, String name, Address address, Contacts contacts, int capacity, HostStatus hostStatus ) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.contacts = contacts;
+        this.hostStatus = hostStatus;
+        this.capacity = capacity;
+    }
 
     public void addHamster(Hamster hamster) {
         hamsters.add(hamster);

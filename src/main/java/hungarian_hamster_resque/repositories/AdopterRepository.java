@@ -18,4 +18,5 @@ public interface AdopterRepository extends JpaRepository<Adopter, Long> {
 
     @Query("select adopter from Adopter adopter left join fetch adopter.hamsters where adopter.id = :id")
     Adopter findAdopterByIdWithHamsters(@Param("id") long id);
+
 }

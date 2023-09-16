@@ -36,11 +36,22 @@ public class Adopter {
         this.address = address;
         this.contacts = contacts;
     }
+    public Adopter(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
 
     public Adopter(Long id, String name, Address address) {
         this.id = id;
         this.name = name;
         this.address = address;
+    }
+
+    public Adopter(Long id, String name, Address address, List<Hamster> hamsters) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.hamsters = hamsters;
     }
 
     public void addHamster(Hamster hamster) {
