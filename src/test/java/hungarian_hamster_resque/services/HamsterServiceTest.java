@@ -169,7 +169,7 @@ class HamsterServiceTest {
 
     @Test
     void testUpdateHamsterAllAttributes() {
-        UpdateHamsterCommand updatedBolyhos = new UpdateHamsterCommand(
+        UpdateHamsterCommand updateCommandBolyhos = new UpdateHamsterCommand(
                 "Bolyhos",
                 "campbell's dwarf hamster",
                 "blue pearl",
@@ -179,14 +179,17 @@ class HamsterServiceTest {
                 1L,
                 "short desc");
 
+        HamsterDtoWithoutAdopter hamsterDtoBolyhos = new HamsterDtoWithoutAdopter(1L, "Bolyhos", HamsterSpecies.CAMPBELL,
+                "dawn", Gender.MALE, LocalDate.parse("2022-12-29"), HamsterStatus.UNDER_MEDICAL_TREATMENT, LocalDate.parse("2023-01-02"),
+                hostDtoWithoutHamsters, "Szeged", "short desc");
+
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
         when(hamsterRepository.findById(any())).thenReturn(Optional.of(hamsterBolyhos));
 
         when(mapper.toDtoWithoutAdopter((Hamster) any()))
-                .thenReturn(hamsterDtoWithoutAdopterBolyhos);
+                .thenReturn(hamsterDtoBolyhos);
 
-        HamsterDtoWithoutAdopter updated = service.updateHamsterAllAttributes(1L,
-                updatedBolyhos);
+        HamsterDtoWithoutAdopter updated = service.updateHamsterAllAttributes(1L, updateCommandBolyhos);
 
         assertThat(updated.getHamsterStatus()).isEqualTo(HamsterStatus.UNDER_MEDICAL_TREATMENT);
 
