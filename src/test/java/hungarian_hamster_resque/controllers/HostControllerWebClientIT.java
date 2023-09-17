@@ -373,7 +373,7 @@ public class HostControllerWebClientIT {
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
-        long id = hostDto.getId();
+        Long id = hostDto.getId();
 
         assertThat(id).isNotNull();
 
