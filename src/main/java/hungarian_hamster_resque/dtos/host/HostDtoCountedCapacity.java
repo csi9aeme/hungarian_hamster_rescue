@@ -1,6 +1,7 @@
 package hungarian_hamster_resque.dtos.host;
 
 import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.ContactsDto;
 import hungarian_hamster_resque.enums.HostStatus;
 
 import lombok.AllArgsConstructor;
@@ -20,18 +21,28 @@ public class HostDtoCountedCapacity {
 
     private AddressDto addressDto;
 
-    private int capacity;
+    private ContactsDto contactsDto;
+
+    private int capacityAll;
 
     private int freeCapacity;
 
     private HostStatus hostStatus;
 
-
-    public HostDtoCountedCapacity(String name, AddressDto addressDto, int capacity, int freeCapacity, HostStatus hostStatus) {
+    public HostDtoCountedCapacity(String name, AddressDto addressDto, ContactsDto contactsDto, int capacityAll, int freeCapacity, HostStatus hostStatus) {
         this.name = name;
         this.addressDto = addressDto;
-        this.capacity = capacity;
+        this.contactsDto = contactsDto;
+        this.capacityAll = capacityAll;
         this.freeCapacity = freeCapacity;
         this.hostStatus = hostStatus;
     }
+
+    //    public HostDtoCountedCapacity(String name, AddressDto addressDto, int capacityAll, int freeCapacity, HostStatus hostStatus) {
+//        this.name = name;
+//        this.addressDto = addressDto;
+//        this.capacityAll = capacityAll;
+//        this.freeCapacity = freeCapacity;
+//        this.hostStatus = hostStatus;
+//    }
 }

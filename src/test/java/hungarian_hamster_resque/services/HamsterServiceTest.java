@@ -24,6 +24,7 @@ import hungarian_hamster_resque.models.*;
 import hungarian_hamster_resque.repositories.AdopterRepository;
 import hungarian_hamster_resque.repositories.HamsterRepository;
 import hungarian_hamster_resque.repositories.HostRepository;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -109,7 +110,7 @@ class HamsterServiceTest {
 
         hamsterDtoWithoutAdopterBolyhos = new HamsterDtoWithoutAdopter(1L, "Bolyhos", HamsterSpecies.CAMPBELL,
                 "dawn", Gender.MALE, LocalDate.parse("2022-12-29"), HamsterStatus.ADOPTABLE, LocalDate.parse("2023-01-02"),
-                hostDtoWithoutHamsters, "Szeged", "short desc");
+                hostDtoWithoutHamsters, "Szeged", "short desc", new ArrayList<>(), new ArrayList<>());
 
         createBolyhos = new CreateHamsterCommand("Bolyhos", "campbell's dwarf hamster", "dawn",
                 "male", LocalDate.parse("2022-12-29"), "adoptable", host.getId(),
@@ -181,7 +182,7 @@ class HamsterServiceTest {
 
         HamsterDtoWithoutAdopter hamsterDtoBolyhos = new HamsterDtoWithoutAdopter(1L, "Bolyhos", HamsterSpecies.CAMPBELL,
                 "dawn", Gender.MALE, LocalDate.parse("2022-12-29"), HamsterStatus.UNDER_MEDICAL_TREATMENT, LocalDate.parse("2023-01-02"),
-                hostDtoWithoutHamsters, "Szeged", "short desc");
+                hostDtoWithoutHamsters, "Szeged", "short desc", new ArrayList<>(), new ArrayList<>());
 
         when(hostRepository.findById(any())).thenReturn(Optional.of(host));
         when(hamsterRepository.findById(any())).thenReturn(Optional.of(hamsterBolyhos));
@@ -196,6 +197,30 @@ class HamsterServiceTest {
         verify(hamsterRepository).save(any());
     }
 
+    @Test
+    void testFindHamsterById() {
+       HamsterDto dto =  new HamsterDto(
+               "Bolyhos",
+               HamsterSpecies.CAMPBELL,
+                "dawn",
+               Gender.MALE,
+               LocalDate.parse("2022-12-29"),
+               HamsterStatus.UNDER_MEDICAL_TREATMENT,
+               hostDtoWithoutHamsters,
+               LocalDate.parse("2023-01-02"),
+               "short desc", new ArrayList<>(), new ArrayList<>());
+
+        when(hamsterRepository.findById(anyLong())).thenReturn(Optional.of(hamsterBolyhos));
+        when(mapper.toDto((Hamster) any())).thenReturn(dto);
+
+        HamsterDto result = service.findHamsterById(1L);
+
+        assertThat(result.getName()).isEqualTo("Bolyhos");
+
+        verify(hamsterRepository).findById(any());
+
+
+    }
     @Test
     void testFindAdoptableHamster() {
         when(hamsterRepository.findById(any()))
@@ -222,7 +247,7 @@ class HamsterServiceTest {
                         HamsterStatus.UNDER_MEDICAL_TREATMENT,
                         LocalDate.parse("2023-01-02"),
                         hostDtoWithoutHamsters,
-                        "short desc"));
+                        "short desc", new ArrayList<>(), new ArrayList<>()));
 
         HamsterDtoWithoutAdopter hamster = service.findAdoptableHamsterById(1L);
 
@@ -256,7 +281,9 @@ class HamsterServiceTest {
                                 LocalDate.parse("2023-01-02"),
                                 adopterDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
-                                "short desc"),
+                                "short desc",
+                                new ArrayList<>(),
+                                new ArrayList<>()),
                         new HamsterDto(
                                 1L,
                                 "Füles",
@@ -269,7 +296,9 @@ class HamsterServiceTest {
                                 LocalDate.parse("2023-01-02"),
                                 null,
                                 null,
-                                "short desc")));
+                                "short desc",
+                                new ArrayList<>(),
+                                new ArrayList<>())));
 
         List<HamsterDto> hamsters = service.getListOfHamsters(Optional.empty());
         assertThat(hamsters).hasSize(2);
@@ -301,7 +330,8 @@ class HamsterServiceTest {
                                 hostDtoWithoutHamsters,
                                 LocalDate.parse("2023-01-02"),
                                 adopterDtoWithoutHamsters,
-                                LocalDate.parse("2023-01-02"), "short desc"),
+                                LocalDate.parse("2023-01-02"), "short desc",
+                                new ArrayList<>(), new ArrayList<>()),
                         new HamsterDto(
                                 1L,
                                 "Boholyka",
@@ -314,7 +344,7 @@ class HamsterServiceTest {
                                 LocalDate.parse("2023-01-02"),
                                 null,
                                 null,
-                                "short desc")));
+                                "short desc", new ArrayList<>(), new ArrayList<>())));
 
         List<HamsterDto> hamsters = service.getListOfHamsters(Optional.of("Bo"));
         assertThat(hamsters).hasSize(2);
@@ -361,7 +391,8 @@ class HamsterServiceTest {
                         LocalDate.parse("2023-01-02"),
                         adopterDtoWithoutHamsters,
                         LocalDate.parse("2023-01-02"),
-                        "short desc"));
+                        "short desc",
+                        new ArrayList<>(), new ArrayList<>()));
 
         HamsterDto hamster = service.adoptHamster(1L,
                 new AdoptHamsterCommand(
@@ -376,6 +407,52 @@ class HamsterServiceTest {
         verify(hamsterRepository).save(any());
     }
 
+    @Test
+    void testFindHamsterPlace() {
+        String wanted = "Szeged";
+
+        when(hamsterRepository.findById(anyLong()))
+                .thenReturn(Optional.of(new Hamster(2L, "Füles",
+                        HamsterSpecies.DWARF,
+                        "white",
+                        Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"),
+                        HamsterStatus.ADOPTABLE,
+                        LocalDate.parse("2023-01-25"),
+                        host,
+                        "short description",
+                        new ArrayList<>(),
+                        new ArrayList<>())));
+
+        String result = service.findHamsterPlace(2L);
+
+        assertThat(result).isEqualTo(wanted);
+
+    }
+
+    @Test
+    void testFindHamsterPlaceButHamsterIsAdopted() {
+        String error = "Already adopted, not in our care.";
+        when(hamsterRepository.findById(anyLong()))
+                .thenReturn(Optional.of(new Hamster(3L, "Füles",
+                        HamsterSpecies.DWARF,
+                        "white",
+                        Gender.FEMALE,
+                        LocalDate.parse("2022-11-01"),
+                        HamsterStatus.ADOPTED,
+                        LocalDate.parse("2023-01-25"),
+                        host,
+                        adopter,
+                        LocalDate.parse("2023-04-13"),
+                        "short description",
+                        new ArrayList<>(),
+                        new ArrayList<>())));
+
+        String result = service.findHamsterPlace(2L);
+
+        assertThat(result).isEqualTo(error);
+
+    }
 
 
 }

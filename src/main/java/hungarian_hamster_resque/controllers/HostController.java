@@ -1,9 +1,6 @@
 package hungarian_hamster_resque.controllers;
 
-import hungarian_hamster_resque.dtos.host.CreateHostCommand;
-import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
-import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
-import hungarian_hamster_resque.dtos.host.UpdateHostCommand;
+import hungarian_hamster_resque.dtos.host.*;
 import hungarian_hamster_resque.services.HostService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -71,6 +68,12 @@ public class HostController {
     @Operation(summary = "Set a host's status to inactive.")
     public HostDtoWithoutHamsters setHostInactive(@PathVariable("id") long id) {
         return hostService.setHostInactive(id);
+    }
+
+    @GetMapping("/hostWithFreeCapacity")
+    @Operation(summary = "Get list of hosts, who can take hamster")
+    public List<HostDtoCountedCapacity> getListOfHostsWithFreeCapacity() {
+        return hostService.getListOfHostWithFreeCapacity();
     }
 
 }

@@ -42,7 +42,7 @@ public class HostService {
         return getHostDtoWithoutHamstersWithSetAddressAndContacts(host);
     }
 
-
+    @Transactional
     public HostDtoWithoutHamsters updateHost(long id, UpdateHostCommand command) {
         Host host = findHostEntityById(id);
 

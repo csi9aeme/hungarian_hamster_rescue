@@ -126,12 +126,12 @@ public class HamsterService {
 
     }
 
+
     public String findHamsterPlace(long id){
         Hamster hamster = findHamsterEntityById(id);
         if (hamster.getAdopter() != null) {
             return "Already adopted, not in our care.";
         }
-
 
         return hamster.getHost().getAddress().getTown();
     }

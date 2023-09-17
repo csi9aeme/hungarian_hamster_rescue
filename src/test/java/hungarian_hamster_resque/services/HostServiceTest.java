@@ -272,7 +272,8 @@ class HostServiceTest {
                                 LocalDate.parse("2022-11-01"),
                                 HamsterStatus.ADOPTABLE,
                                 LocalDate.parse("2023-01-25"),
-                                "short desc"),
+                                "short desc",
+                                new ArrayList<>(), new ArrayList<>()),
                         new HamsterDtoSimple("Füles",
                                 HamsterSpecies.DWARF,
                                 "dawn",
@@ -280,7 +281,8 @@ class HostServiceTest {
                                 LocalDate.parse("2022-11-01"),
                                 HamsterStatus.ADOPTABLE,
                                 LocalDate.parse("2023-01-25"),
-                                "short desc")));
+                                "short desc",
+                                new ArrayList<>(), new ArrayList<>())));
 
         when(repository.findByIdWithAllHamster(anyLong())).thenReturn(host);
         when(mapper.toDtoWithHam((Host) any())).thenReturn(hostDto);
@@ -336,7 +338,8 @@ class HostServiceTest {
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
                         LocalDate.parse("2023-01-25"),
-                        "short desc")));
+                        "short desc",
+                        new ArrayList<>(), new ArrayList<>())));
         HostDtoWithHamsters hostDto2 = new HostDtoWithHamsters(2L, "Kiss Eszter", addressDto2, 2, HostStatus.ACTIVE,
                 List.of(new HamsterDtoSimple("Füles",
                         HamsterSpecies.DWARF,
@@ -345,7 +348,8 @@ class HostServiceTest {
                         LocalDate.parse("2022-11-01"),
                         HamsterStatus.ADOPTABLE,
                         LocalDate.parse("2023-01-25"),
-                        "short desc")));
+                        "short desc",
+                        new ArrayList<>(), new ArrayList<>())));
         when(repository.findByCityWithHamster("Budapest")).thenReturn(List.of(host1, host2));
         when(mapper.toDtoWithHam(List.of(host1, host2))).thenReturn(List.of(hostDto1, hostDto2));
 
@@ -374,8 +378,8 @@ class HostServiceTest {
     void testCountFreeCapacity() {
         when(mapper.toDtoFreeCapacity((List<Host>) any()))
                 .thenReturn(List.of(
-                        new HostDtoCountedCapacity(1L, "Kiss Klára", addressDto1, 4, 2, HostStatus.ACTIVE),
-                        new HostDtoCountedCapacity(2L, "Nagy Klára", addressDto2, 6, 4, HostStatus.ACTIVE)
+                        new HostDtoCountedCapacity( "Kiss Klára", addressDto1, contactsDto, 4, 2, HostStatus.ACTIVE),
+                        new HostDtoCountedCapacity( "Nagy Klára", addressDto2, contactsDto,6, 4, HostStatus.ACTIVE)
                 ));
         List<HostDtoCountedCapacity> hostFreeCap = service.getListOfHostWithCapacity();
 
@@ -403,8 +407,8 @@ class HostServiceTest {
 
         List<Host> hosts = Arrays.asList(host1, host2);
 
-        HostDtoCountedCapacity hostDto1 = new HostDtoCountedCapacity("Kiss Klára", addressDto1, 2, 1, HostStatus.ACTIVE);
-        HostDtoCountedCapacity hostDto2 = new HostDtoCountedCapacity("Nagy Klára", addressDto2, 6, 4, HostStatus.ACTIVE);
+        HostDtoCountedCapacity hostDto1 = new HostDtoCountedCapacity("Kiss Klára", addressDto1, contactsDto,2 , 1, HostStatus.ACTIVE);
+        HostDtoCountedCapacity hostDto2 = new HostDtoCountedCapacity("Nagy Klára", addressDto2, contactsDto, 6, 4, HostStatus.ACTIVE);
 
         List<HostDtoCountedCapacity> expectedHostDtoList = Arrays.asList(hostDto1, hostDto2);
 

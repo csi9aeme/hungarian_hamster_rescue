@@ -54,7 +54,4 @@ public class CreateHamsterCommand {
     @Schema(description = "Description of the hamster.")
     private String description;
 
-
-
-
 }

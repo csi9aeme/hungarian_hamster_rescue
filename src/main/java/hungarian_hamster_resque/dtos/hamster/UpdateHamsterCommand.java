@@ -41,8 +41,6 @@ public class UpdateHamsterCommand {
 
     private String shortDesc;
 
-
-
     public UpdateHamsterCommand(String name, String hamsterSpecies, String color, String gender, LocalDate dateOfBirth, String hamsterStatus, Long hostId, String shortDesc) {
         this.name = name;
         this.hamsterSpecies = hamsterSpecies;

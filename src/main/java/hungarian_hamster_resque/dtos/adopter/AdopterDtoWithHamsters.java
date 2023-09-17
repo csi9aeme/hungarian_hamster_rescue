@@ -14,7 +14,6 @@ import java.util.List;
 @Builder
 public class AdopterDtoWithHamsters {
 
-
     private long id;
 
     private String name;
@@ -32,16 +31,4 @@ public class AdopterDtoWithHamsters {
         this.hamsters = hamsters;
     }
 
-    public AdopterDtoWithHamsters(String name, AddressDto addressDto, List<HamsterDto> hamsters) {
-        this.name = name;
-        this.addressDto = addressDto;
-        this.hamsters = hamsters;
-    }
-
-    public AdopterDtoWithHamsters(long id, String name, AddressDto addressDto, List<HamsterDto> hamsters) {
-        this.id = id;
-        this.name = name;
-        this.addressDto = addressDto;
-        this.hamsters = hamsters;
-    }
 }

@@ -3,10 +3,8 @@ package hungarian_hamster_resque.controllers;
 import hungarian_hamster_resque.dtos.AddressDto;
 import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
 import hungarian_hamster_resque.dtos.hamster.HamsterDtoSimple;
-import hungarian_hamster_resque.dtos.host.CreateHostCommand;
-import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
-import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
-import hungarian_hamster_resque.dtos.host.UpdateHostCommand;
+import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
+import hungarian_hamster_resque.dtos.host.*;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.repositories.HostRepository;
 import jdk.jfr.Description;
@@ -20,6 +18,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +45,7 @@ public class HostControllerWebClientIT {
     @BeforeEach
     void init() {
         klara = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Ősz utca", "7.", "", "+36201113333", "valami@gmail.com", "spzx", 5, "active");
-        klaudia = new CreateHostCommand("Bogdán Klaudia", "1018", "Budapest", "Kiss Béla utca", "13.", "B", "+36201113333", "valami@gmail.com", "spzx", 2, "active");
+        klaudia = new CreateHostCommand("Bogdán Klaudia", "1018", "Budapest", "Kiss Béla utca", "13.", "B","+36201113333", "valami@gmail.com", "spzx", 2, "active");
         erno = new CreateHostCommand("Nagy Ernő", "1191", "Budapest", "Újhegyi út", "70.", "2/7", "+36201113333", "valami@gmail.com", "spzx", 4, "active");
     }
 
@@ -73,7 +72,8 @@ public class HostControllerWebClientIT {
     void testCreateHostWithNoName() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hosts")
-                .bodyValue(new CreateHostCommand("", "1191", "Budapest", "Újegyi út", "70.", "2/7", 3))
+                .bodyValue(new CreateHostCommand("", "1191", "Budapest", "Újegyi út", "70.", "2/7",
+                        "+36201113333", "valami@gmail.com", "spzx", 3, "active"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -87,7 +87,8 @@ public class HostControllerWebClientIT {
     void testCreateHostWithoutCapacity() {
         ProblemDetail detail = webClient.post()
                 .uri("/api/hosts")
-                .bodyValue(new CreateHostCommand("Kis Boglárka", "1191", "Budapest", "Újegyi út", "70.", "2/7", 0))
+                .bodyValue(new CreateHostCommand("Kis Boglárka", "1191", "Budapest", "Újegyi út", "70.", "2/7",
+                        "+36201113333", "valami@gmail.com", "spzx", 0, "active"))
                 .exchange()
                 .expectStatus().isEqualTo(406)
                 .expectBody(ProblemDetail.class).returnResult().getResponseBody();
@@ -352,6 +353,59 @@ public class HostControllerWebClientIT {
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         assertThat(host.getHostStatus()).isEqualTo(HostStatus.INACTIVE);
+
+    }
+
+    @Test
+    void testGetListOfHostsWithFreeCapacity(){
+        webClient.post().uri("api/hosts")
+                .bodyValue(klara)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+        webClient.post().uri("api/hosts")
+                .bodyValue(klaudia)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+        HostDtoWithoutHamsters hostDto = webClient.post().uri("api/hosts")
+                .bodyValue(new CreateHostCommand("Nagy Ernő", "1191", "Budapest", "Újhegyi út", "70.", "2/7",
+                        "+36201113333", "valami@gmail.com", "spzx", 1, "active"))
+                .exchange()
+                .expectStatus().isEqualTo(201)
+                .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
+
+        long id = hostDto.getId();
+
+        assertThat(id).isNotNull();
+
+        webClient.post().uri("/api/hamsters")
+                .bodyValue(new CreateHamsterCommand(
+                        "Bolyhos",
+                        "djungarian dwarf hamster",
+                        "dawn",
+                        "female",
+                        LocalDate.parse("2022-11-01"),
+                        "adoptable",
+                        id,
+                        LocalDate.parse("2023-01-25"),
+                        "short desc"))
+                .exchange()
+                .expectStatus().isEqualTo(201);
+
+        List<HostDtoWithoutHamsters> resultAll = webClient.get().uri("/api/hosts")
+                .exchange()
+                .expectBodyList(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
+
+
+        List<HostDtoCountedCapacity> result = webClient.get().uri("/api/hosts/hostWithFreeCapacity")
+                .exchange()
+                .expectBodyList(HostDtoCountedCapacity.class).returnResult().getResponseBody();
+
+        assertThat(resultAll).hasSize(3);
+        assertThat(result).hasSize(2)
+                .extracting(HostDtoCountedCapacity::getName)
+                .doesNotContain("Nagy Ernő");
+
+
 
     }
 

@@ -244,7 +244,7 @@ class AdopterServiceTest {
 
         when(adopterMapper.toDtoWithHamster((Adopter) any()))
                 .thenReturn(new AdopterDtoWithHamsters(
-                       "Megyek Elemér", new AddressDto("1181", "Budapest", "Havanna utca", "7.", ""),
+                       "Megyek Elemér", addressDtoBudapest1, contactsDto1,
                         List.of(new HamsterDto(1L, "Bolyhos",
                                         HamsterSpecies.DWARF,
                                         Gender.FEMALE,

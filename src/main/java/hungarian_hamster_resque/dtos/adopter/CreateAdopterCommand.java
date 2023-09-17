@@ -37,10 +37,14 @@ public class CreateAdopterCommand {
     @Schema(description = "Other info (level, etc)", example = "1. floor B door")
     private String other;
 
+    @Schema(description = "Phone number", example = "+36201111111")
     private String phoneNumber;
 
+    @NotEmpty
+    @Schema(description = "Email address", example = "etc@gmail.com")
     private String email;
 
+    @Schema(description = "Other contact info, like Skype, Messenger ID, etc")
     private String otherContactInfo;
 
 }

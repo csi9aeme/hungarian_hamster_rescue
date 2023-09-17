@@ -56,7 +56,7 @@ public class AdopterControllerWebClientIT {
 
     @BeforeEach
     void init() {
-        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", 5, "active", new ArrayList<>());
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.","", "+36201112222", "egyik@gmail.com", "skype", 5, "active");
 
         odonCreate = new CreateAdopterCommand("Zsíros B. Ödön", "7054", "Tengelic", "Alkotmány u.", "32","", "+36201112222", "egyik@gmail.com", "skype");
         klaraCreate = new CreateAdopterCommand("Békési Klára", "7000", "Szeged", "Ősz utca" ,"7.","", "+36201112222", "egyik@gmail.com", "skype");

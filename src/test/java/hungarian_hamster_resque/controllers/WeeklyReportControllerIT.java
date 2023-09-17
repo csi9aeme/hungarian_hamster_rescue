@@ -41,7 +41,8 @@ public class WeeklyReportControllerIT {
 
     @BeforeEach
     void init() {
-        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.", "", 5, "active", new ArrayList<>());
+        createHostCommand1 = new CreateHostCommand("Békési Klára", "6700", "Szeged", "Fő utca", "7.", "",
+                "+36201112222", "valami@gmail.com", "", 5, "active");
         host = webClient.post().uri("api/hosts")
                 .bodyValue(createHostCommand1)
                 .exchange()

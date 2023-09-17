@@ -5,12 +5,15 @@ import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
+import hungarian_hamster_resque.models.Picture;
+import hungarian_hamster_resque.models.WeeklyReport;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,7 +46,9 @@ public class HamsterDto {
 
     private String description;
 
+    private List<Picture> pictures;
 
+    private List<WeeklyReport> reports;
 
     public HamsterDto(Long id, String name, HamsterSpecies hamsterSpecies, Gender gender, LocalDate dateOfBirth, HostDtoWithoutHamsters host, LocalDate startOfFostering, LocalDate dateOfAdoption) {
         this.id = id;
@@ -56,5 +61,17 @@ public class HamsterDto {
         this.dateOfAdoption = dateOfAdoption;
     }
 
-
+    public HamsterDto(String name, HamsterSpecies hamsterSpecies, String color, Gender gender, LocalDate dateOfBirth, HamsterStatus hamsterStatus, HostDtoWithoutHamsters host, LocalDate startOfFostering, String description, List<Picture> pictures, List<WeeklyReport> reports) {
+        this.name = name;
+        this.hamsterSpecies = hamsterSpecies;
+        this.color = color;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.hamsterStatus = hamsterStatus;
+        this.host = host;
+        this.startOfFostering = startOfFostering;
+        this.description = description;
+        this.pictures = pictures;
+        this.reports = reports;
+    }
 }

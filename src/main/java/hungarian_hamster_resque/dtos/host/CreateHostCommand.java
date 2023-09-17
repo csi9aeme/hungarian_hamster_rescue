@@ -40,7 +40,6 @@ public class CreateHostCommand {
     @Schema(description = "Number of the house", example = "Fő utca 28.")
     private String houseNumber;
 
-
     @Schema(description = "Other info (level, etc)", example = "1. floor B door")
     private String other;
 
@@ -54,16 +53,20 @@ public class CreateHostCommand {
     @Schema(description = "List of hamsters in care (all time).")
     private List<HamsterDto> hamsters;
 
+    @Schema(description = "List of the reports about hamsters.")
     private List<WeeklyReport> weeklyReports;
 
+    @Schema(description = "Phone number", example = "+36201111111")
     private String phoneNumber;
 
+    @NotEmpty
+    @Schema(description = "Email address", example = "etc@gmail.com")
     private String email;
 
+    @Schema(description = "Other contact info, like Skype, Messenger ID, etc")
     private String otherContactInfo;
 
-
-    public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, String phoneNumber, String email, String otherContactInfo, int capacity, String hostStatus) {
+    public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other , String phoneNumber, String email, String otherContactInfo, int capacity, String hostStatus) {
         this.name = name;
         this.zip = zip;
         this.town = town;
@@ -77,38 +80,4 @@ public class CreateHostCommand {
         this.otherContactInfo = otherContactInfo;
     }
 
-    public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity, String hostStatus) {
-        this.name = name;
-        this.zip = zip;
-        this.town = town;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.other = other;
-        this.capacity = capacity;
-        this.hostStatus = hostStatus;
-    }
-
-
-    public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity) {
-        this.name = name;
-        this.zip = zip;
-        this.town = town;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.other = other;
-        this.capacity = capacity;
-    }
-
-
-    public CreateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity, String hostStatus, List<WeeklyReport> weeklyReports) {
-        this.name = name;
-        this.zip = zip;
-        this.town = town;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.other = other;
-        this.capacity = capacity;
-        this.hostStatus = hostStatus;
-        this.weeklyReports = weeklyReports;
-    }
 }
