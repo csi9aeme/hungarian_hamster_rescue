@@ -1,110 +1,136 @@
-# Vizsgaremek
+# Documentation of my study project 
 
-## Leírás
+## About
 
-Néhány éve önkéntesként részt veszek az Együtt A Kisállatokért Alapítvány, azon belül is a 
-Hörcsögmentés tevékenységében. Intézzük az alapítványhoz kerülő hörcsögök adatlapjainak elkészítését, 
-ideiglenes befogadóhoz adását, majd az örökbe adást. A projektemben az alapítvány működésének egy szeletét szeretném szimulálni.
-
----
-
-## Felépítés
-
-### Hörcsög entitás (Hamster)
-
-A `Hamster` entitás a következő attribútumokkal rendelkezik:
-
-* `id` - a hörcsög egyedi azonosítója, a program osztja ki.
-* `name` - tetszőlegesen választott String típusú név, nem muszáj egyedinek lennie,de nem lehet üres.
-* `hamsterSpecies` - enum a háziállatként tartható fajokkal.
-* `gender` - a hörcsög neme.
-* `dateOfBirth` - születési dátum.
-* `hamsterStatus` - enum az örökbeadhatóság jelzésére.
-* `host` - az ideiglenes befogadóhoz tartozó entitás, nem hozható létre új hörcsög nélküle. 
-* `startOfFostering` - hozzánk kerülés dátuma.
-* `adopter` - az örökbefogadó entitása, később kerül megadásra.
-* `dateOfAdoption` - az örökbefogadás dátuma. 
-
-
-Végpontok:
-
-| HTTP metódus | Végpont                             | Leírás                                                               |
-|--------------|-------------------------------------|----------------------------------------------------------------------|
-| GET          | `"/api/hamsters"`                   | lekérdezi az összes Hamster entitást                                 |
-| GET          | `"/api/hamsters/fostering"`         | lekérdezi az örökbefogadható Hamster entitásokat                     |
-| GET          | `"/api/hamsters/{id}"`              | lekérdez egy entitást `id` alapján                                   |
-| POST         | `"/api/hamsters"`                   | létrehoz új Hamster-t és hozzárendeli meglévő ideiglenes befogadóhoz |
-| PUT          | `"/api/hamsters/{id}"`              | frissíti a Hamster entitás tetszőleges adatait                       |
-| PUT          | `"/api/hamsters/{id}/adopted"`      | átállítja a Hamster entitást örökbeadott státuszra                   |
+For some years I'm a volunteer of the "Együtt a Kisállatokért Alapítvány" (Together For The Small Pets Foundation). We 
+rescuee and rehome the pets, whom the owners don't want to take anymore. 
+This project is build about the Hamster Resque.
 
 ---
 
-### Ideiglenes befogadó entitás (Host)
+## Structure
 
-A `Host` entitás a következő attribútumokkal rendelkezik:
+### `Hamster` entity
 
-* `id` - az ideiglenes befogadó egyedi azonosítója, a program osztja ki. 
-* `name` - az ideiglenes befogadó neve. Nem lehet üres. 
-* `address` - az ideiglenes befogadó lakcíme. 
-* `capacity` - helyek száma, ahol hörcsögöt tud befogadni. A `hamsters` lista nem lehet nagyobb, mint az itt megadott szám.
-* `hamsters` - lista az aktuálisan gondozott hörcsögökről.
-* `hostStatus` - az örökbefogadó tud-e hörcsögöt fogadni
-* 
-A `Hamster` és a `Host` entitások között kétirányú, 1-n kapcsolat van.
+The `Hamster`entity has the following attributes: 
 
-Végpontok:
+* `id` - the hamster's unique identifier (Long)
+* `name` - arbitrarily name of the hamster (String)
+* `hamsterSpecies` - species of the hamster (Enum)
+* `color` - color of the hamster (String)
+* `gender` - gender of the hamster (Enum)
+* `dateOfBirth` - date of birth (can be estimated) (LocalDate)
+* `hamsterStatus` - status of the adoptability (Enum)
+* `host` - entity of the temporary host, who is taking care of the hamster (Host)
+* `startOfFostering` - date of the hamster's arrive (LocalDate)
+* `adopter` - entity of the new owner (Adopter)
+* `dateOfAdoption` - date of the adoption (LocalDate)
+* `pictures` - list of the pictures of the hamster (List<Pictures>)
+* `weeklyReports` - reports of the hamster from the hosts (List<WeeklyReport>)
 
-| HTTP metódus | Végpont                      | Leírás                                                                       |
-|--------------|------------------------------|------------------------------------------------------------------------------|
-| GET          | `"/api/hosts"`               | lekérdezi az összes ideiglenes befogadót, vagy név szerint szűrhető          |
-| GET          | `"/api/hosts/{id}"`          | lekérdez egy ideiglenes befogadót `id` alapján                               |
-| GET          | `"/api/hosts/{id}/bycity"`   | szűri az ideiglenes befogadókat megadott település alapján                   |
-| GET          | `"/api/hosts/{id}/hamsters"` | lekérdezi egy ideiglenes befogadó aktuális hörcsögeit                        |
-| POST         | `"/api/hosts"`               | létrehoz egy új ideiglenes befogadót                                         |
-| PUT          | `"/api/hosts/{id}"`          | frissíti az adott ideiglenes befogadó entitás tetszőleges adatait            |
-| PUT          | `"/api/hosts/{id}/inactive"` | átállítja az adott `id`-jú ideiglenes befogadó állapotát. Törölni nem lehet. |
+##### Endpoints in API:
 
+| HTTP method | Endpoint                       | Description                                      |
+|-------------|--------------------------------|--------------------------------------------------|
+| GET         | `"/api/hamsters"`              | list of ALL hamster in the database              |
+| GET         | `"/api/hamsters/fostering"`    | list of current, adoptable hamster               |
+| GET         | `"/api/hamsters/{id}"`         | display a hamster by `id`                        |
+| POST        | `"/api/hamsters"`              | create a new hamster and add to an existing host |
+| PUT         | `"/api/hamsters/{id}"`         | update a hamster attributes                      |
+| PUT         | `"/api/hamsters/{id}/adopted"` | set the hamster's status to adopted              |
+
+
+##### Endpoints in Thymeleaf:
+
+| HTTP method   | Endpoint                        | Description                                      |
+|---------------|---------------------------------|--------------------------------------------------|
+| GET           | `"/hamsters/current_hamsters"`  | list of current, adoptable hamster               |
+| GET           | `"/hamsters/create_hamster"`    | create a new hamster and add to an existing host |
+| GET           | `"/hamsters/hamster_page/{id}"` | display a hamster by `id`                        |
 
 
 ---
 
-### Örökbefogadó entitás (Adoptive) 
+### Temporary `Host` entity
 
-Az `Adoptive` entitás a következő attribútumokkal rendelkezik:
+The `Host` entity has the following attributes:
 
-* `id` - az örökbefogadó egyedi azonosítója, a program osztja ki.
-* `name` - az örökbefogadó neve. Nem lehet üres.
-* `address` - az örökbefogadó lakcíme.
+* `id` - the temporary host's unique identifier (Long) 
+* `name` - name of the temporary host (String)
+* `address` - address of the temporary host (Address) 
+* `contacts` - contact information of the temporary host (Contacts)
+* `capacity` - numbers of the places where the temporary host can place a hamster (int)
+* `hamsters` - list of the temporary host hamsters (List<Hamster>)
+* `weeklyReports` - list of the reports about the hamsters (List<WeeklyReport>)
+* `hostStatus` - status of that the temporary host can or can't take care a hamster (Enum)
 
-A `Hamster` és az `Adoptive` entitások között kétirányú, 1-n kapcsolat van.
+The `Hamster` and the `Host` are in a two-way 1-n relationship.
 
-Végpontok:
+##### Endpoints in API:
 
-| HTTP metódus | Végpont                            | Leírás                                                         |
-|--------------|------------------------------------|----------------------------------------------------------------|
-| GET          | `"/api/adopters"`                 | lekérdezi az összes örökbebefogadót, vagy név szerint szűrhető |
-| GET          | `"/api/adopters/adoptivesbycity"` | lekérdezi örökbebefogadókat város alapján                      |
-| GET          | `"/api/adopters/{id}"`            | lekérdez egy örökbebefogadót `id` alapján                      |
-| GET          | `"/api/adopters/{id}/hamsters"`   | lekérdezi egy örökbebefogadó hörcsögeit `id` alapján           |
-| POST         | `"/api/adopters"`                 | létrehoz egy új örökbebefogadót                                |
-| PUT          | `"/api/adopters/{id}"`            | frissíti az adott entitás tetszőleges adatait                  |
-| DELETE       | `"/api/adopters/{id}"`            | törli az örökbebefogadót a rendszerből                         |
+| HTTP method  | Endpoint                     | Description                                                        |
+|--------------|------------------------------|--------------------------------------------------------------------|
+| GET          | `"/api/hosts"`               | list of the hosts, filterable by name                              |
+| GET          | `"/api/hosts/{id}"`          | display a host by `id`                                             |
+| GET          | `"/api/hosts/{id}/bycity"`   | list of hosts filtered by location                                 |
+| GET          | `"/api/hosts/{id}/hamsters"` | list of the host currently fostered hamsters                       |
+| POST         | `"/api/hosts"`               | create a new temporary host and add to the database                |
+| PUT          | `"/api/hosts/{id}"`          | update a temporary host's attributes                               |
+| PUT          | `"/api/hosts/{id}/inactive"` | set the temporary host status to inactive                          |
 
-A törlést csak akkor engedélyezi a rendszer, ha a jelentkező végül mégsem fogadott örökbe, így nincs hörcsög a listájában.
+
+##### Endpoints in Thymeleaf:
+
+| HTTP method | Endpoint                                     | Description                                         |
+|-------------|----------------------------------------------|-----------------------------------------------------|
+| GET         | `"/hosts/add_new_host"`                      | create a new temporary host and add to the database |
+| GET         | `"/hosts/host_current_hamsters/{id}"`        | list of the host's currently fostered hamsters      |
+| GET         | `"/hosts/current_hosts"`                     | list of the hosts, filterable by name               |
+| GET         | `"/hosts/current_hosts_free_capacity"`       | list of the hosts with free capacity                |
+| POST        | `"/hosts/current_hosts_by_city/{city}"`      | list of hosts filtered by location                  |
+| PUT         | `"/hosts/hosts_by_name_and_hamsters/{name}"` | list of hosts with hamsters, filtered by name       |
+
 
 ---
 
-## Technológiai részletek
+### `Adopter` entity 
 
-Egy háromrétegű alkalmazást készítettem, ami Docker-ből indítható MariaDB adatbázist használ az adatok tárolására. A teszt
-osztályok külön adatbázist használnak. 
-Minden entitásnak (Hamster, Host, Adoptive) külön Controller, Service, Repository rétege van a könnyebb elkülöníthetőség
-érdekében. Az adatbázis-séma létrehozására Liquibase-t használja, minden entitás külön sql migrációs fájlt kapott. 
-A bemenő adatok ellenőrzését a beépített validációk végzik el, a keletkezett kivételeket pedig saját kivételek 
-létrehozásával oldottam meg. Ezek hibaüzenet kiírása után nem engedélyezik a műveletek elvégzését a hibák javításáig.
-Az alkalmazás rendelkezik kitöltött SwaggerUI felülettel, ahol az alapvető funkciók kipróbálhatók. 
+The `Adopter` entity has a following attributes:
 
-Készítettem néhány HTTP request fájlt a különböző controllerek különböző metódusaihoz, illetve az éles adatbázis 
-feltölthető előre megadott adatokkal.
+* `id` - the adopters host's unique identifier (Long)
+* `name` - name of the adopter (String)
+* `address` - address of the adopter (Address)
+* `contacts` - contact information of the adopter (Contacts)
+* `hamsters` - list of the adopter's adopted hamsters (List<Hamster>)
+
+The `Hamster` and the `Adoptive` are in a two-way 1-n relationship.
+
+##### Endpoints in API:
+
+| HTTP method | Endpoint                          | Description                              |
+|-------------|-----------------------------------|------------------------------------------|
+| GET         | `"/api/adopters"`                 | list of all adopters, filterable by name |
+| GET         | `"/api/adopters/adoptivesbycity"` | list of adopters filtered by location    |
+| GET         | `"/api/adopters/{id}"`            | display an adopter by `id`               |
+| GET         | `"/api/adopters/{id}/hamsters"`   | list of the adopter's hamsters           |
+| POST        | `"/api/adopters"`                 | create a new adopter                     |
+| PUT         | `"/api/adopters/{id}"`            | update the adopter's attributes          |
+| DELETE      | `"/api/adopters/{id}"`            | delete the adopter*                      |
+
+
+The delete of the adopter can be executed only if the adopter's hamster list is empty. 
 
 ---
+
+## Technical details 
+
+I created a three layer application with a MariaDb database, that can be start from a Docker container. The application and a test classes uses different database.
+
+All of the entities have an own Controller, Service, Repository layers. The database schema is created by Liquibase with sql files. The inserted datas are validate with a built-in validation processes. Most of the exceptions are handled by the built-in handlers and personal exception classes.
+The application has a Swagger UI, where simple functions can be try.
+
+---
+
+## Availability via the Internet 
+
+I create HTML pages with CSS and JS and a Thymeleaf template. It's not ready yet.  
