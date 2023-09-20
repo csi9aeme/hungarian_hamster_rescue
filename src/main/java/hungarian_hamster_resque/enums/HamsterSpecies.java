@@ -19,6 +19,7 @@ public enum HamsterSpecies {
     private String nameOfSpecies;
 
     public String getNameOfSpecies() {
+
         return nameOfSpecies;
     }
 }

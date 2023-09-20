@@ -6,8 +6,12 @@ import hungarian_hamster_resque.dtos.hamster.HamsterDtoWithoutAdopter;
 import hungarian_hamster_resque.enums.Gender;
 import hungarian_hamster_resque.enums.HamsterSpecies;
 import hungarian_hamster_resque.enums.HamsterStatus;
+import hungarian_hamster_resque.models.Hamster;
 import hungarian_hamster_resque.services.HamsterService;
+import hungarian_hamster_resque.services.HostService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +23,11 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/hamsters")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HamsterThymeController {
 
-    private HamsterService hamsterService;
+    private final HamsterService hamsterService;
+    private final HostService hostService;
 
     @GetMapping("/current_hamsters")
     public ModelAndView findCurrentHamsters() {
@@ -65,9 +70,11 @@ public class HamsterThymeController {
     }
 
     @PostMapping("/create_hamster")
-    public String submitForm(@ModelAttribute("hamster") CreateHamsterCommand hamster) {
-        System.out.println(hamster);
+    public String submitForm(@ModelAttribute("hamster") @Valid CreateHamsterCommand hamster, Model model) {
+       //System.out.println(hamster);
+        String hostName = hostService.findHostById(hamster.getHostId()).getName();
         hamsterService.createHamster(hamster);
+        model.addAttribute("hostName", hostName);
         return "/hamsters/create_hamster_succeeded";
     }
 

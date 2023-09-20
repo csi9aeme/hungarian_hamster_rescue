@@ -12,7 +12,6 @@ import hungarian_hamster_resque.exceptions.HostHasNotHamsterYetException;
 import hungarian_hamster_resque.exceptions.HostWithCityNotFoundException;
 import hungarian_hamster_resque.exceptions.HostWithIdNotExistException;
 import hungarian_hamster_resque.exceptions.HostWithNamePartNotExistException;
-import hungarian_hamster_resque.mappers.AddressMapper;
 import hungarian_hamster_resque.mappers.HostMapper;
 import hungarian_hamster_resque.models.Address;
 import hungarian_hamster_resque.models.Contacts;
@@ -47,12 +46,6 @@ class HostServiceTest {
 
     @Mock
     HostMapper mapper;
-
-    @Mock
-    AddressMapper addressMapper;
-
-    @Mock
-    ContactsMapper contactsMapper;
 
     @InjectMocks
     HostService service;
@@ -378,8 +371,8 @@ class HostServiceTest {
     void testCountFreeCapacity() {
         when(mapper.toDtoFreeCapacity((List<Host>) any()))
                 .thenReturn(List.of(
-                        new HostDtoCountedCapacity( "Kiss Klára", addressDto1, contactsDto, 4, 2, HostStatus.ACTIVE),
-                        new HostDtoCountedCapacity( "Nagy Klára", addressDto2, contactsDto,6, 4, HostStatus.ACTIVE)
+                        new HostDtoCountedCapacity( "Kiss Klára", "Szeged", contactsDto, 4, 2, HostStatus.ACTIVE),
+                        new HostDtoCountedCapacity( "Nagy Klára", "Budapest", contactsDto,6, 4, HostStatus.ACTIVE)
                 ));
         List<HostDtoCountedCapacity> hostFreeCap = service.getListOfHostWithCapacity();
 
@@ -407,8 +400,8 @@ class HostServiceTest {
 
         List<Host> hosts = Arrays.asList(host1, host2);
 
-        HostDtoCountedCapacity hostDto1 = new HostDtoCountedCapacity("Kiss Klára", addressDto1, contactsDto,2 , 1, HostStatus.ACTIVE);
-        HostDtoCountedCapacity hostDto2 = new HostDtoCountedCapacity("Nagy Klára", addressDto2, contactsDto, 6, 4, HostStatus.ACTIVE);
+        HostDtoCountedCapacity hostDto1 = new HostDtoCountedCapacity("Kiss Klára", "Szeged", contactsDto,2 , 1, HostStatus.ACTIVE);
+        HostDtoCountedCapacity hostDto2 = new HostDtoCountedCapacity("Nagy Klára", "Budapest", contactsDto, 6, 4, HostStatus.ACTIVE);
 
         List<HostDtoCountedCapacity> expectedHostDtoList = Arrays.asList(hostDto1, hostDto2);
 

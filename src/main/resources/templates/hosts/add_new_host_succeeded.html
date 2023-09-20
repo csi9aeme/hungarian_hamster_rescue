@@ -1,26 +1,65 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Adding hamster succeeded! - Hamster Resque</title>
-    <style type="text/css">
-        span {
-            display: inline-block;
-            width: 200px;
-            text-align: left;
-        }
-    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 </head>
+
 <body>
-<div >
-    <h2>Adding host succeeded!</h2>
-    <span>Name:</span><span th:text="${host.name}"></span><br/>
-    <span>Address:</span><span th:text="${host.address}"></span><br/>
-    <span>Status:</span><span th:text="${host.getHostStatus()}"></span><br/>
-    <span>Holding capacity:</span><span th:text="${host.capacity}"></span><br/>
-</div>
+    <div class="container-fluid">
+        <div class="col-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="text-center">Adding host is succeeded!</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Name: </td>
+                        <td th:text="${host.name}"></td>
+                    </tr>
+                    <tr>
+                        <td>Address: </td>
+                        <td th:text="${fullAddress}"></td>
+                    </tr>
+                    <tr>
+                        <td>Email: </td>
+                        <td th:text="${host.email}"></td>
+                    </tr>
+                    <tr>
+                        <td>Phone: </td>
+                        <td th:text="${host.phoneNumber}"></td>
+                    </tr>
+                    <tr>
+                        <td>Other contact info: </td>
+                        <td th:text="${host.otherContactInfo}"></td>
+                    </tr>
+                    <tr>
+                        <td>Holding capacity: </td>
+                        <td th:text="${host.capacity}"></td>
+                    </tr>
+                    <td>Status: </td>
+                    <td th:text="${host.getHostStatus()}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn btn-secondary" th:href="@{/home}">back to index</a> <br>
+    </div>
 </body>
+
 </html>
 </body>
+
 </html>

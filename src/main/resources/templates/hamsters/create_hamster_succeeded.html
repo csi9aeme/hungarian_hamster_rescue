@@ -1,32 +1,73 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="ISO-8859-1">
-    <title>Registration Success</title>
-    <style type="text/css">
-        span {
-            display: inline-block;
-            width: 200px;
-            text-align: left;
-        }
-    </style>
-</head>
-<body>
-<div align="center">
-    <h2>Adding hamster succeeded!</h2>
-    <span>Name:</span><span th:text="${hamster.name}"></span><br/>
-    <span>Species:</span><span th:text="${hamster.hamsterSpecies.nameOfSpecies}"></span><br/>
-    <span>Gender:</span><span th:text="${hamster.gender.gender}"></span><br/>
-    <span>Date of birth:</span><span th:text="${hamster.dateOfBirth}"></span><br/>
-    <span>Host name:</span><span th:text="${hamster.hostId}"></span><br/>
-    <span>Date of admission:</span><span th:text="${hamster.startOfFoster}"></span><br/>
-    <span>Hamster's status</span><span th:text="${hamster.hamsterStatus.status}"></span><br/>
-    <span>Description:</span><span th:text="${hamster.description}"></span><br/>
-</div>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<div id="back-button">
-    <a href="index.html">Vissza</a>
-  </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add new hamster succeeded - Hamster Resque</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <div>
+        <a class="btn btn-secondary" th:href="@{/home}">back to index</a> <br>
+    </div>
+
+    
+    <div class="container-fluid">
+        <div class="col-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="text-center">Adding hamster is succeeded!</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Name: </td>
+                        <td th:text="${hamster.name}"></td>
+                    </tr>
+                    <tr>
+                        <td>Species: </td>
+                        <td th:text="${hamster.getHamsterSpecies()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Color: </td>
+                        <td th:text="${hamster.color}"></td>
+                    </tr>
+                    <tr>
+                        <td>Gender: </td>
+                        <td th:text="${hamster.getGender()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Date of birth: </td>
+                        <td th:text="${hamster.dateOfBirth}"></td>
+                    </tr>
+                    <tr>
+                        <td>Status: </td>
+                        <td th:text="${hamster.getHamsterStatus()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Start of fostering: </td>
+                        <td th:text="${hamster.startOfFoster}"></td>
+                    </tr>
+                    <tr>
+                        <td>Temporary host:</td>
+                        <td th:text="${hostName}"></td>
+                    </tr>
+                    <tr>
+                        <td>Description: </td>
+                        <td th:text="${hamster.description}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+  
 </body>
+
 </html>

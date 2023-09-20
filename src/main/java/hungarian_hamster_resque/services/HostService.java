@@ -114,9 +114,25 @@ public class HostService {
     }
 
     public List<HostDtoCountedCapacity> getListOfHostWithFreeCapacity() {
+//        List<Host> hosts = hostRepository.getListOfHostWithFreeCapacity();
+//        List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
+//        setAllCapacity(hosts, hostDto);
+//        setFreeCapacity(hosts, hostDto);
+       //fentebb a működőképes kód
         List<Host> hosts = hostRepository.getListOfHostWithFreeCapacity();
-        List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
-        setFreeCapacity(hosts, hostDto);
+
+        List<HostDtoCountedCapacity> hostDto = new ArrayList<>();
+        for(int i = 0; i < hosts.size(); i++) {
+            //address
+            Host host = hosts.get(i);
+            HostDtoCountedCapacity hostDtoCap = hostMapper.toDtoFreeCapacity(host);
+            hostDtoCap.setLocation(host.getAddress().getTown());
+            hostDtoCap.setContactsDto(new ContactsDto(host.getContacts().getPhoneNumber(), host.getContacts().getEmail(), host.getContacts().getOtherContact()));
+            hostDtoCap.setFreeCapacity(countFreeCapacityOfAHost(host.getId()));
+            hostDtoCap.setCapacityAll(host.getCapacity());
+
+            hostDto.add(hostDtoCap);
+        }
 
         return hostDto;
     }
@@ -198,6 +214,11 @@ public class HostService {
             hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));
         }
     }
+    private void setAllCapacity(List<Host> hosts, List<HostDtoCountedCapacity> hostDto) {
+        for (int i = 0; i < hosts.size(); i++) {
+            hostDto.get(i).setCapacityAll(hosts.get(i).getCapacity());
+        }
+    }
 
     private Address getAddressFromOther(String... address) {
         return new Address(address[0], address[1], address[2], address[3], address[4]);
@@ -210,6 +231,18 @@ public class HostService {
     private void setContactsDto(HostDtoWithoutHamsters hostDto, Host host) {
         hostDto.setContactsDto(new ContactsDto(host.getContacts().getPhoneNumber(), host.getContacts().getEmail(), host.getContacts().getOtherContact()));
     }
+
+    //próba
+    private ContactsDto setContactsDtoTRY(Host host) {
+        return new ContactsDto(host.getContacts().getPhoneNumber(), host.getContacts().getEmail(), host.getContacts().getOtherContact());
+    }
+    private AddressDto setAddressDtoTRY( Host host) {
+       return new AddressDto(host.getAddress().getZip(), host.getAddress().getTown(), host.getAddress().getStreet(), host.getAddress().getHouseNumber(), host.getAddress().getOther());
+    }
+
+
+
+    //////
 
     private void setAddressDto(HostDtoWithoutHamsters hostDto, Host host) {
         hostDto.setAddressDto(new AddressDto(host.getAddress().getZip(), host.getAddress().getTown(), host.getAddress().getStreet(), host.getAddress().getHouseNumber(), host.getAddress().getOther()));

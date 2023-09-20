@@ -45,7 +45,7 @@ public class UpdateHostCommand {
     @Schema(description = "Number of hamsters that can be place.", example = "2")
     private int capacity;
 
-    @Schema(description = "The temporary host can accept hamster.", example = "aktv/inaktív")
+    @Schema(description = "The temporary host can accept hamster.", example = "active/inactive")
     private HostStatus hostStatus;
 
     private String phoneNumber;

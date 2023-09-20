@@ -19,7 +19,7 @@ public class HostDtoCountedCapacity {
 
     private String name;
 
-    private AddressDto addressDto;
+    private String location;
 
     private ContactsDto contactsDto;
 
@@ -29,20 +29,14 @@ public class HostDtoCountedCapacity {
 
     private HostStatus hostStatus;
 
-    public HostDtoCountedCapacity(String name, AddressDto addressDto, ContactsDto contactsDto, int capacityAll, int freeCapacity, HostStatus hostStatus) {
+    public HostDtoCountedCapacity(String name, String location, ContactsDto contactsDto, int capacityAll, int freeCapacity, HostStatus hostStatus) {
         this.name = name;
-        this.addressDto = addressDto;
+        this.location = location;
         this.contactsDto = contactsDto;
         this.capacityAll = capacityAll;
         this.freeCapacity = freeCapacity;
         this.hostStatus = hostStatus;
     }
 
-    //    public HostDtoCountedCapacity(String name, AddressDto addressDto, int capacityAll, int freeCapacity, HostStatus hostStatus) {
-//        this.name = name;
-//        this.addressDto = addressDto;
-//        this.capacityAll = capacityAll;
-//        this.freeCapacity = freeCapacity;
-//        this.hostStatus = hostStatus;
-//    }
+
 }

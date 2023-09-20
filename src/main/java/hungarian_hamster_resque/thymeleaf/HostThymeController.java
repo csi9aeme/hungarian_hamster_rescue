@@ -5,6 +5,7 @@ import hungarian_hamster_resque.dtos.host.HostDtoCountedCapacity;
 import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.services.HostService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,6 @@ public class HostThymeController {
 
     private HostService hostService;
 
-
     @GetMapping("/add_new_host")
     public String showForm(Model model) {
         CreateHostCommand host = new CreateHostCommand();
@@ -38,10 +38,13 @@ public class HostThymeController {
     }
 
     @PostMapping("/add_new_host")
-    public String submitForm(@ModelAttribute("host") CreateHostCommand host) {
-        System.out.println(host);
+    public String submitForm(@ModelAttribute("host") CreateHostCommand host, Model model) {
+        String fullAddress = host.getZip() + " " + host.getTown() + ", " + host.getStreet() + " " + host.getHouseNumber() +
+                host.getOther();
+
+        model.addAttribute("fullAddress", fullAddress);
         hostService.createHost(host);
-        return "/hosts/add_new_host_succeeded";
+        return "hosts/add_new_host_succeeded";
     }
 
 
@@ -52,20 +55,21 @@ public class HostThymeController {
                 "host", host.getName(),
                 "hamsters", host.getHamsters()
         );
-        return new ModelAndView("/hosts/host_current_hamsters", model);
+        return new ModelAndView("hosts/host_current_hamsters", model);
     }
 
     @GetMapping("/current_hosts")
     public ModelAndView findCurrentHosts() {
-        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithCapacity();
-        Map<String, Object> model = Map.of();
+        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacity();
+        Map<String, Object> model = Map.of(
+                "hosts", hosts);
 
-        for (HostDtoCountedCapacity h : hosts) {
-            model = Map.of(
-                    "hosts", hosts
-            );
-        }
-        return new ModelAndView("/hosts/current_hosts", model);
+//        for (HostDtoCountedCapacity h : hosts) {
+//            model = Map.of(
+//                    "hosts", hosts
+//            );
+//        }
+        return new ModelAndView("hosts/current_hosts", model);
 
     }
 
@@ -79,7 +83,7 @@ public class HostThymeController {
                     "hosts", hosts
             );
         }
-        return new ModelAndView("/hosts/current_hosts_free_capacity", model);
+        return new ModelAndView("hosts/current_hosts_free_capacity", model);
 
     }
 
@@ -92,7 +96,7 @@ public class HostThymeController {
                     "hosts", hosts
             );
         }
-        return new ModelAndView("/hosts/current_hosts_by_city", model);
+        return new ModelAndView("hosts/current_hosts_by_city", model);
 
     }
 

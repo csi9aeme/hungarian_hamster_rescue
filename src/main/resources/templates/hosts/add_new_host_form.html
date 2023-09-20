@@ -1,32 +1,111 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Add new host - Hamster Resque</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
 </head>
 
 <body>
+    <div>
+        <a class="btn btn-secondary" th:href="@{/home}">back to index</a> <br>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="row m-4">
+            <header class="display-6 text-info text-center">Add new temporary host</header>
+            <div class="col-4">
 
-    <form action="#" th:action="@{/hosts/add_new_host}" method="post" th:object="${host}">
-        <label>Name:</label>
-        <input type="text" th:field="*{name}" /><br />
+                <form action="#" th:action="@{/hosts/add_new_host}" method="post" th:object="${host}">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input class="form-control" id="exampleInputEmail1" type="text" th:field="*{name}">
+                        <div id="emailHelp" class="form-text">Full name is required.</div>
+                    </div>
 
-        <label>Address:</label>
-        <input type="text" th:field="*{address}" /><br />
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" th:field="*{email}">
+                    </div>
 
-        <label>Holding capacity:</label>
-        <input type="text" th:field="*{capacity}" /><br />
-        <br />
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{phoneNumber}">
 
-        <label>Status:</label>
-        <select th:field="*{hostStatus}">
-            <option th:each="hs : ${listStatus}" th:value="${hs}" th:text="${hs}" />
-        </select>
-        <br />
+                    </div>
 
-        <button type="submit">Add</button>
-    </form>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Other contact information</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{otherContactInfo}">
+                        <div id="emailHelp" class="form-text">Skype, Messenger, Facebook, etc.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">ZIP code</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{zip}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">City</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{town}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Street</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{street}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Housenumber</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{houseNumber}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Other information about the address</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{other}">
+                        <div id="emailHelp" class="form-text">Floor, building, etc.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Holding capacity</label>
+                        <input class="form-control" type="text" th:field="*{capacity}" />
+                        <span th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}">
+                            <div id="emailHelp" class="form-text">How many hamster can take?</div>
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Temporary host current status</label>
+                        <select class="form-control" lass="form-select" aria-label="Default select example"
+                            th:field="*{hostStatus}">
+                            <option th:each="hs : ${listStatus}" th:value="${hs}" th:text="${hs}">
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-info">Add new host</button>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

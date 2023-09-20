@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -404,6 +405,7 @@ public class HostControllerWebClientIT {
         assertThat(result).hasSize(2)
                 .extracting(HostDtoCountedCapacity::getName)
                 .doesNotContain("Nagy Ernő");
+
 
 
 
