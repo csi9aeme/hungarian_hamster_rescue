@@ -16,8 +16,6 @@ import lombok.Setter;
 public class UpdateHostCommand {
 
 
-    private long id;
-
     @Schema(description = "Name.", example = "Kovács Angéla")
     private String name;
 
@@ -48,33 +46,15 @@ public class UpdateHostCommand {
     @Schema(description = "The temporary host can accept hamster.", example = "active/inactive")
     private HostStatus hostStatus;
 
+    @Schema(description = "Phone number", example = "+36201111111")
     private String phoneNumber;
 
+    @Schema(description = "Email address", example = "etc@gmail.com")
     private String email;
 
+    @Schema(description = "Other contact info, like Skype, Messenger ID, etc")
     private String otherContactInfo;
 
-
-    public UpdateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity) {
-        this.name = name;
-        this.zip = zip;
-        this.town = town;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.other = other;
-        this.capacity = capacity;
-    }
-
-    public UpdateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, int capacity, HostStatus hostStatus) {
-        this.name = name;
-        this.zip = zip;
-        this.town = town;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.other = other;
-        this.capacity = capacity;
-        this.hostStatus = hostStatus;
-    }
 
     public UpdateHostCommand(String name, String zip, String town, String street, String houseNumber, String other, String phoneNumber, String email, String otherContactInfo, int capacity, HostStatus hostStatus ) {
         this.name = name;
@@ -88,7 +68,6 @@ public class UpdateHostCommand {
         this.otherContactInfo = otherContactInfo;
         this.capacity = capacity;
         this.hostStatus = hostStatus;
-
 
     }
 }

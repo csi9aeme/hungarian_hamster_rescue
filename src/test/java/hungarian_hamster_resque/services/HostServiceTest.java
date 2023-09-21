@@ -139,7 +139,7 @@ class HostServiceTest {
     @Test
     void testUpdateButWrongId() {
         assertThatThrownBy(() ->
-                service.updateHost(101L, new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca", "7.", "", 1, HostStatus.ACTIVE)))
+                service.updateHost(101L, new UpdateHostCommand("Kiss Klára", "6700", "Szeged", "Ősz utca", "7.", "", "+36201112222", "valami@gmail.com", "", 1, HostStatus.ACTIVE)))
                 .isInstanceOf(HostWithIdNotExistException.class)
                 .hasMessage("The temporary host with the given ID (101) is not exist.");
         verify(repository).findById(any());
@@ -312,13 +312,13 @@ class HostServiceTest {
                 .thenReturn(Optional.of(new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 1, new ArrayList<>(), new ArrayList<>())));
 
         when(mapper.toDtoWithoutHam((Host) any()))
-                .thenReturn(new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.INACTIVE));
+                .thenReturn(new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, contactsDto,1, HostStatus.INACTIVE));
 
 
         HostDtoWithoutHamsters inactive = service.setHostInactive(1L);
         assertThat(inactive.getHostStatus()).isEqualTo(HostStatus.INACTIVE);
 
-        verify(repository, times(2)).findById(anyLong());
+        verify(repository, times(1)).findById(anyLong());
 
     }
 

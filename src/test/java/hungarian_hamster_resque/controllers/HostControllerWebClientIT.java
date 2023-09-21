@@ -272,12 +272,14 @@ public class HostControllerWebClientIT {
         long id = host.getId();
 
         HostDtoWithoutHamsters updated = webClient.put().uri("api/hosts/{id}", id)
-                .bodyValue(new UpdateHostCommand("Békési Klára", "1191", "Budapest", "Újhegyi út", "70.", "2/7", 4))
+                .bodyValue(new UpdateHostCommand("Békési Klára", "1191", "Budapest", "Újhegyi út", "70.",
+                        "2/7",  "+36201112222", "egyik@gmail.com", "skype", 4, HostStatus.ACTIVE))
                 .exchange()
                 .expectStatus().isEqualTo(201)
                 .expectBody(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
         assertThat(updated.getAddressDto().getTown()).isEqualTo("Budapest");
+        assertThat(updated.getContactsDto().getPhoneNumber()).isEqualTo("+36201112222");
     }
 
     @Test

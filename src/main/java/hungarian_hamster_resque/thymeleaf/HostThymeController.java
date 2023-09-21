@@ -50,7 +50,7 @@ public class HostThymeController {
     }
 
     @GetMapping("/hosts_all_time")
-    @Description("List all current hosts who is active")
+    @Description("List of all hosts all time")
     public ModelAndView findHostsAllTime(@RequestParam Optional<String> namePart) {
         List<HostDtoWithoutHamsters> hosts = hostService.getListOfHosts(namePart);
         Map<String, Object> model = Map.of(

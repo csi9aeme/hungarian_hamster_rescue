@@ -122,21 +122,11 @@ public class HostService {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamster();
 
         List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
-//        List<HostDtoCountedCapacity> hostDto = new ArrayList<>();
-//        for(int i = 0; i < hosts.size(); i++) {
-//            //address
-//            Host host = hosts.get(i);
-//            HostDtoCountedCapacity hostDtoCap = hostMapper.toDtoFreeCapacity(host);
-//            hostDtoCap.setLocation(host.getAddress().getTown());
-//            hostDtoCap.setContactsDto(new ContactsDto(host.getContacts().getPhoneNumber(), host.getContacts().getEmail(), host.getContacts().getOtherContact()));
-//            hostDtoCap.setFreeCapacity(countFreeCapacityOfAHost(host.getId()));
-//            hostDtoCap.setCapacityAll(host.getCapacity());
-//
-//            hostDto.add(hostDtoCap);
-//        }
+        setFreeCapacity(hosts, hostDto);
 
         return hostDto;
     }
+
 
     public List<HostDtoCountedCapacity> getListOfHostWithFreeCapacityByCity(String city) {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamsterByCity(city);
