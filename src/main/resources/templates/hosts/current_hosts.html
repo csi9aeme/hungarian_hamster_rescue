@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -17,28 +17,28 @@
         <table class="table" aria-describedby="hostList">
             <thead>
                 <tr>
-                    <th class="text-center" colspan="8">List of current hosts</th>
+                    <th class="text-center" colspan="8" scope="col">List of current hosts</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th scope="col">Name of host</th>
                     <th scope="col">Location</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Free capacity</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Other contact info</th>
-                    <th scope="col">Capacity</th>
-                    <th scope="col">Free capacity</th>
                     <th scope="col">Active/Inactive</th>
                 </tr>
                 <tr th:each="host : ${hosts}">
                     <td th:text="${host.name}"></td>
                     <td th:text="${host.location}"></td>
+                    <td th:text="${host.capacityAll}"></td>
+                    <td th:text="${host.freeCapacity}"></td>
                     <td th:text="${host.contactsDto.email}"></td>
                     <td th:text="${host.contactsDto.phoneNumber}"></td>
                     <td th:text="${host.contactsDto.otherContact}"></td>
-                    <td th:text="${host.capacityAll}"></td>
-                    <td th:text="${host.freeCapacity}"></td>
                     <td th:text="${host.getHostStatus()}"></td>
                 </tr>
             </tbody>
