@@ -1,7 +1,6 @@
 package hungarian_hamster_resque.dtos.host;
 
 import hungarian_hamster_resque.dtos.hamster.HamsterDto;
-import hungarian_hamster_resque.models.Contacts;
 import hungarian_hamster_resque.models.WeeklyReport;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -44,9 +43,9 @@ public class CreateHostCommand {
     @Schema(description = "Other info (level, etc)", example = "1. floor B door")
     private String other;
 
-    @Positive(message = "Must be higher than 0.")
+    @Positive(message = "Must be 1 or higher than 1.")
     @Schema(description = "Number of hamsters that can be place.", example = "2")
-    @Min(value = 1)
+    @Min(value = 1, message = "Must be 1 or higher than 1.")
     private int capacity;
 
     @Schema(description = "The temporary host can accept hamster.", example = "active/inactive")

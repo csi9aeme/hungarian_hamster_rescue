@@ -26,13 +26,6 @@ public class HostDtoWithoutHamsters {
 
     private HostStatus hostStatus;
 
-    public HostDtoWithoutHamsters(String name, AddressDto addressDto, int capacity, HostStatus hostStatus) {
-        this.name = name;
-        this.addressDto = addressDto;
-        this.capacity = capacity;
-        this.hostStatus = hostStatus;
-    }
-
     public HostDtoWithoutHamsters(String name, AddressDto addressDto, ContactsDto contactsDto, int capacity, HostStatus hostStatus) {
         this.name = name;
         this.addressDto = addressDto;

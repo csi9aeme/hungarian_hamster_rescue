@@ -98,7 +98,7 @@ class HamsterServiceTest {
 
         host = new Host(1L, "Kiss Klára", address, contacts1, HostStatus.ACTIVE, 3, new ArrayList<>(), new ArrayList<>());
         hostDtoWithoutHamsters = new HostDtoWithoutHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE);
-        hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, 1, HostStatus.ACTIVE, new ArrayList<>());
+        hostDtoWithHamsters = new HostDtoWithHamsters(1L, "Kiss Klára", addressDto1, contactsDto1, 1, HostStatus.ACTIVE, new ArrayList<>());
 
         adopter = new Adopter(1L, "Megyek Elemér", adopterAddress, adopterContact, new ArrayList<>());
         adopterDtoWithoutHamsters = new AdopterDtoWithoutHamsters(1L, "Megyek Elemér", addressDto2, contactsDto1);

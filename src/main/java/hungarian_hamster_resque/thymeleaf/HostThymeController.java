@@ -3,9 +3,10 @@ package hungarian_hamster_resque.thymeleaf;
 import hungarian_hamster_resque.dtos.host.CreateHostCommand;
 import hungarian_hamster_resque.dtos.host.HostDtoCountedCapacity;
 import hungarian_hamster_resque.dtos.host.HostDtoWithHamsters;
+import hungarian_hamster_resque.dtos.host.HostDtoWithoutHamsters;
 import hungarian_hamster_resque.enums.HostStatus;
 import hungarian_hamster_resque.services.HostService;
-import jakarta.validation.Valid;
+import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/hosts")
@@ -47,34 +49,30 @@ public class HostThymeController {
         return "hosts/add_new_host_succeeded";
     }
 
-
-    @GetMapping("/host_current_hamsters/{id}")
-    public ModelAndView listOfHostOfHamsters(@PathVariable("id") long hostId) {
-        HostDtoWithHamsters host = hostService.getListOfHostsHamsters(hostId);
+    @GetMapping("/hosts_all_time")
+    @Description("List all current hosts who is active")
+    public ModelAndView findHostsAllTime(@RequestParam Optional<String> namePart) {
+        List<HostDtoWithoutHamsters> hosts = hostService.getListOfHosts(namePart);
         Map<String, Object> model = Map.of(
-                "host", host.getName(),
-                "hamsters", host.getHamsters()
-        );
-        return new ModelAndView("hosts/host_current_hamsters", model);
+                "hosts", hosts);
+        return new ModelAndView("hosts/hosts_all_time", model);
     }
 
     @GetMapping("/current_hosts")
+    @Description("List all current hosts who is active")
     public ModelAndView findCurrentHosts() {
-        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacity();
+        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostAndDisplayFreeCapacity();
         Map<String, Object> model = Map.of(
                 "hosts", hosts);
         return new ModelAndView("hosts/current_hosts", model);
     }
 
     @GetMapping("/current_hosts_free_capacity")
+    @Description("List current hosts with free capacity")
     public ModelAndView findCurrentHostsWithFreeCapacity() {
-        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacity();
-        Map<String, Object> model = Map.of();
-        for (HostDtoCountedCapacity h : hosts) {
-            model = Map.of(
-                    "hosts", hosts
-            );
-        }
+        List<HostDtoCountedCapacity> hosts = hostService.getListOfHostOnlyWithFreeCapacity();
+        Map<String, Object> model = Map.of("hosts", hosts);
+
         return new ModelAndView("hosts/current_hosts_free_capacity", model);
 
     }
@@ -82,12 +80,8 @@ public class HostThymeController {
     @GetMapping("/current_hosts_by_city/{city}")
     public ModelAndView findCurrentHostsByCity(@PathVariable("city") String city) {
         List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacityByCity(city);
-        Map<String, Object> model = Map.of();
-        for (HostDtoCountedCapacity h : hosts) {
-            model = Map.of(
-                    "hosts", hosts
-            );
-        }
+        Map<String, Object> model = Map.of("hosts", hosts);
+
         return new ModelAndView("hosts/current_hosts_by_city", model);
 
     }
@@ -97,14 +91,17 @@ public class HostThymeController {
     public ModelAndView findHostsByName(@PathVariable("name") String name) {
         List<HostDtoWithHamsters> hosts = hostService.findHostsByName(name);
 
-        Map<String, Object> model = Map.of();
-        for (HostDtoWithHamsters h : hosts) {
-            model = Map.of(
-                    "hosts", hosts
-            );
-        }
+        Map<String, Object> model = Map.of("hosts", hosts);
 
         return new ModelAndView("hosts/hosts_by_name_and_hamsters", model);
     }
-
+    @GetMapping("/host_current_hamsters/{id}")
+    public ModelAndView listOfHostOfHamsters(@PathVariable("id") long hostId) {
+        HostDtoWithHamsters host = hostService.getListOfHostsHamsters(hostId);
+        Map<String, Object> model = Map.of(
+                "host", host.getName(),
+                "hamsters", host.getHamsters()
+        );
+        return new ModelAndView("hosts/host_current_hamsters", model);
+    }
 }

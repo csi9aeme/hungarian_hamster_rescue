@@ -72,8 +72,14 @@ public class HostController {
 
     @GetMapping("/hostWithFreeCapacity")
     @Operation(summary = "Get list of hosts, who can take hamster")
-    public List<HostDtoCountedCapacity> getListOfHostsWithFreeCapacity() {
-        return hostService.getListOfHostWithFreeCapacity();
+    public List<HostDtoCountedCapacity> getListOfHostAndDisplayFreeCapacity() {
+        return hostService.getListOfHostAndDisplayFreeCapacity();
+    }
+
+    @GetMapping("/hostsOnlyWithFreeCapacity")
+    @Operation(summary = "Get list of hosts, who can take hamster")
+    public List<HostDtoCountedCapacity> getListOfHostsOnlyWithFreeCapacity() {
+        return hostService.getListOfHostOnlyWithFreeCapacity();
     }
 
 }
