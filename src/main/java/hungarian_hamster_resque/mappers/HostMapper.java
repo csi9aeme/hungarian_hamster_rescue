@@ -28,6 +28,7 @@ public interface HostMapper {
     List<HostDtoWithHamsters> toDtoWithHam(List<Host> hosts);
 
     @Mapping(source = "contacts", target = "contactsDto")
+    @Mapping(source = "capacity", target = "capacityAll")
     HostDtoCountedCapacity toDtoFreeCapacity(Host host);
 
     @IterableMapping(elementTargetType = HostDtoCountedCapacity.class)

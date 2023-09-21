@@ -100,20 +100,11 @@ public class HostService {
     }
 
     public List<HostDtoCountedCapacity> getListOfHostOnlyWithFreeCapacity() {
-        List<Host> hosts = hostRepository.findOnlyActiveWithAllHamster();
+        List<Host> hosts = hostRepository.getListOfHostWithFreeCapacity();
 
-        List<HostDtoCountedCapacity> hostDto = new ArrayList<>();
-        for(int i = 0; i < hosts.size(); i++) {
-            //address
-            Host host = hosts.get(i);
-            HostDtoCountedCapacity hostDtoCap = hostMapper.toDtoFreeCapacity(host);
-            hostDtoCap.setLocation(host.getAddress().getTown());
-            hostDtoCap.setContactsDto(new ContactsDto(host.getContacts().getPhoneNumber(), host.getContacts().getEmail(), host.getContacts().getOtherContact()));
-            hostDtoCap.setFreeCapacity(countFreeCapacityOfAHost(host.getId()));
-            hostDtoCap.setCapacityAll(host.getCapacity());
-
-            hostDto.add(hostDtoCap);
-        }
+        List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
+        setFreeCapacity(hosts, hostDto);
+        setLocation(hosts, hostDto);
 
         return hostDto;
     }
@@ -123,6 +114,7 @@ public class HostService {
 
         List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
         setFreeCapacity(hosts, hostDto);
+        setLocation(hosts, hostDto);
 
         return hostDto;
     }
@@ -132,6 +124,7 @@ public class HostService {
         List<Host> hosts = hostRepository.findOnlyActiveWithAllHamsterByCity(city);
         List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
         setFreeCapacity(hosts, hostDto);
+        setLocation(hosts, hostDto);
 
         return hostDto;
     }
@@ -198,6 +191,11 @@ public class HostService {
     private void setFreeCapacity(List<Host> hosts, List<HostDtoCountedCapacity> hostDto) {
         for (int i = 0; i < hosts.size(); i++) {
             hostDto.get(i).setFreeCapacity(countFreeCapacityOfAHost(hosts.get(i).getId()));
+        }
+    }
+    private void setLocation(List<Host> hosts, List<HostDtoCountedCapacity> hostDto) {
+        for (int i = 0; i < hosts.size(); i++) {
+            hostDto.get(i).setLocation(hosts.get(i).getAddress().getTown());
         }
     }
     private void setAllCapacity(List<Host> hosts, List<HostDtoCountedCapacity> hostDto) {

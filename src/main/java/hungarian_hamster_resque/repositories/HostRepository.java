@@ -27,7 +27,7 @@ public interface HostRepository extends JpaRepository<Host, Long> {
     @Query("select host from Host host left join fetch host.hamsters where host.id = :id")
     Host findByIdWithAllHamster(@Param("id") long id);
 
-    @Query("select host from Host host where host.hostStatus = 'ACTIVE'" +
+    @Query("select host from Host host left join fetch host.address left join fetch host.contacts where host.hostStatus = 'ACTIVE'" +
             "AND  SIZE(host.hamsters) < host.capacity ")
     List<Host> getListOfHostWithFreeCapacity();
 

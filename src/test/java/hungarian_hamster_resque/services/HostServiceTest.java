@@ -370,7 +370,6 @@ class HostServiceTest {
 
     }
 
-    @Disabled(value = "Method not working")
     @Test
     void testCountFreeCapacity() {
         when(mapper.toDtoFreeCapacity((List<Host>) any()))
@@ -378,6 +377,7 @@ class HostServiceTest {
                         new HostDtoCountedCapacity( "Kiss Klára", "Szeged", contactsDto, 4, 2, HostStatus.ACTIVE),
                         new HostDtoCountedCapacity( "Nagy Klára", "Budapest", contactsDto,6, 4, HostStatus.ACTIVE)
                 ));
+
         List<HostDtoCountedCapacity> hostFreeCap = service.getListOfHostAndDisplayFreeCapacity();
 
         int free = hostFreeCap.get(0).getFreeCapacity();
@@ -386,7 +386,6 @@ class HostServiceTest {
         assertThat(4).isEqualTo(free2);
 
     }
-    @Disabled(value = "Method not working")
     @Test
     void testFreeCapacityCounter() {
         Host host1 = new Host(1L, "Kiss Klára", address1, contacts, HostStatus.ACTIVE, 2, new ArrayList<>(), new ArrayList<>());
@@ -409,19 +408,15 @@ class HostServiceTest {
 
         List<HostDtoCountedCapacity> expectedHostDtoList = Arrays.asList(hostDto1, hostDto2);
 
-        when(repository.getListOfHostWithFreeCapacity()).thenReturn(hosts);
-        when(mapper.toDtoFreeCapacity(hosts)).thenReturn(expectedHostDtoList);
-        when(repository.findByIdWithAllHamster(1L)).thenReturn(host1);
-        when(repository.findByIdWithAllHamster(2L)).thenReturn(host2);
+        when(mapper.toDtoFreeCapacity(anyList())).thenReturn(expectedHostDtoList);
 
         List<HostDtoCountedCapacity> actualHostDtoList = service.getListOfHostAndDisplayFreeCapacity();
 
         assertThat(actualHostDtoList).isEqualTo(expectedHostDtoList);
 
-        verify(repository, times(1)).getListOfHostWithFreeCapacity();
-        verify(mapper, times(1)).toDtoFreeCapacity(hosts);
-        verify(repository, times(1)).findByIdWithAllHamster(1L);
-        verify(repository, times(1)).findByIdWithAllHamster(2L);
+        verify(repository, times(1)).findOnlyActiveWithAllHamster();
+        verify(mapper, times(1)).toDtoFreeCapacity(anyList());
+
 
     }
 

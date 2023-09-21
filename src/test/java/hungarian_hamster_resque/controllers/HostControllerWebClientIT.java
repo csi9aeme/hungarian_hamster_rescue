@@ -1,6 +1,7 @@
 package hungarian_hamster_resque.controllers;
 
 import hungarian_hamster_resque.dtos.AddressDto;
+import hungarian_hamster_resque.dtos.ContactsDto;
 import hungarian_hamster_resque.dtos.hamster.CreateHamsterCommand;
 import hungarian_hamster_resque.dtos.hamster.HamsterDtoSimple;
 import hungarian_hamster_resque.dtos.host.*;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.filter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -124,6 +126,13 @@ public class HostControllerWebClientIT {
                 .extracting(HostDtoWithoutHamsters::getAddressDto)
                 .extracting(AddressDto::getTown)
                 .contains("Szeged");
+
+        assertThat(result)
+                .extracting(HostDtoWithoutHamsters::getContactsDto)
+                .extracting(ContactsDto::getEmail)
+                .contains("valami@gmail.com");
+
+
     }
 
     @Test
@@ -360,7 +369,7 @@ public class HostControllerWebClientIT {
         assertThat(host.getHostStatus()).isEqualTo(HostStatus.INACTIVE);
 
     }
-    @Disabled(value = "Method not working yet")
+
     @Test
     void testGetListOfHostsOnlyWithFreeCapacity(){
         webClient.post().uri("api/hosts")
@@ -401,19 +410,17 @@ public class HostControllerWebClientIT {
                 .expectBodyList(HostDtoWithoutHamsters.class).returnResult().getResponseBody();
 
 
-        List<HostDtoCountedCapacity> result = webClient.get().uri("/api/hosts/hostOnlyWithFreeCapacity")
+        List<HostDtoCountedCapacity> result = webClient.get().uri("/api/hosts/hostsOnlyWithFreeCapacity")
                 .exchange()
                 .expectBodyList(HostDtoCountedCapacity.class).returnResult().getResponseBody();
-        System.out.println(resultAll.get(0).getAddressDto().getTown());
-
-        System.out.println(result.get(0).getLocation());
-
-        System.out.println(result.get(0).getContactsDto().getPhoneNumber());
 
         assertThat(resultAll).hasSize(3);
         assertThat(result).hasSize(2)
                 .extracting(HostDtoCountedCapacity::getName)
                 .doesNotContain("Nagy Ernő");
+        assertThat(result).extracting(HostDtoCountedCapacity::getContactsDto)
+                .extracting(ContactsDto::getEmail)
+                .contains("valami@gmail.com");
     }
 
 }
