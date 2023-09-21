@@ -114,11 +114,6 @@ public class HostService {
     }
 
     public List<HostDtoCountedCapacity> getListOfHostWithFreeCapacity() {
-//        List<Host> hosts = hostRepository.getListOfHostWithFreeCapacity();
-//        List<HostDtoCountedCapacity> hostDto = hostMapper.toDtoFreeCapacity(hosts);
-//        setAllCapacity(hosts, hostDto);
-//        setFreeCapacity(hosts, hostDto);
-       //fentebb a működőképes kód
         List<Host> hosts = hostRepository.getListOfHostWithFreeCapacity();
 
         List<HostDtoCountedCapacity> hostDto = new ArrayList<>();

@@ -63,16 +63,8 @@ public class HostThymeController {
         List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacity();
         Map<String, Object> model = Map.of(
                 "hosts", hosts);
-
-//        for (HostDtoCountedCapacity h : hosts) {
-//            model = Map.of(
-//                    "hosts", hosts
-//            );
-//        }
         return new ModelAndView("hosts/current_hosts", model);
-
     }
-
 
     @GetMapping("/current_hosts_free_capacity")
     public ModelAndView findCurrentHostsWithFreeCapacity() {
