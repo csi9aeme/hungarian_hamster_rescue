@@ -1,61 +1,76 @@
 <!DOCTYPE html>
-<html lang= "en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Current hamster(s) of ${host.name}</title>
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+    <title>Host page - Hamster Resque</title>
 
-        thead, td, th {
-            border: 1px solid #000000;
-            text-align: left;
-            padding: 8px;
-        }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        #host-header, #table-header, #hamster-header{
-            background-color: #169db2;
-            text-align: center;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #169db2;
-        }
-        tr:nth-child(odd) {
-            background-color: #ffffff;
-        }
 
-    </style>
+
 
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th id="host-header" colspan="4">List of <span th:text="${host}"></span>'s current hamsters in care</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr id="table-header">
-                <th>Hamster's name</th>
-                <th>hamsterSpecies</th>
-                <th>Hamster's status</th>
-                <th>Beginning of the fostering</th>
-            </tr>
-            <tr th:each="hamster : ${hamsters}">
-                <td th:text="${hamster.name}"></td>
-                <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
-                <td th:text="${hamster.hamsterStatus.status}"></td>
-                <td th:text="${hamster.startOfFostering}"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <a class="btn btn-secondary" th:href="@{/home}">back to index</a> <br>
+    </div>
 
-    <div id="back-button">
-        <a href="index.html">Vissza</a>
-      </div>
+    <div class="container-fluid">
+        <div>
+            <table class="table" aria-describedby="hostByName">
+                <thead>
+                    <tr>
+                        <th colspan="3" class="text-center"><span th:text="${host.name}"></span>'s page</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Name: <span th:text="${host.name}"></span></td>
+                        <td colspan="2">Address: <span th:text="${fullAddress}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Email: <span th:text="${host.contactsDto.email}"></span></td>
+                        <td>Phone: <span th:text="${host.contactsDto.phoneNumber}"></span></td>
+                        <td>Other contact info: <span th:text="${host.contactsDto.otherContact}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Holding capacity: <span th:text="${host.capacity}"></span></td>
+                        <td colspan="2">Status: <span th:text="${host.getHostStatus()}"></span></td>
+                    </tr>
+                    <tr>
+                        <table class="table">
+                            <thead>Hamsters: </thead>
+                            <tbody>
+                                <tr id="table-header">
+                                    <th>Name</th>
+                                    <th>Species</th>
+                                    <th>Gender</th>
+                                    <th>Status</th>
+
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(host.hamsters)}">
+                                    <td colspan="2">no hamster yet</td>
+                                </tr>
+                                <tr th:each="hamster : ${host.hamsters}" th:if="${not #lists.isEmpty(host.hamsters)}">
+                                    <td th:text="${hamster.name}"></td>
+                                    <td th:text="${hamster.hamsterSpecies.nameOfSpecies}"></td>
+                                    <td th:text="${hamster.gender.gender}"></td>
+                                    <td th:text="${hamster.hamsterStatus.status}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
 </body>
 </html>

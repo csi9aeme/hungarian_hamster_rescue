@@ -21,25 +21,20 @@
   <a class="btn btn-secondary mb-3" th:href="@{/hosts/hosts_all_time}">list of all hosts</a> 
   <a class="btn btn-secondary mb-3" th:href="@{/hosts/current_hosts}">list of current hosts</a> 
   <a class="btn btn-secondary mb-3" th:href="@{/hosts/current_hosts_free_capacity}">list of hosts only with free capacity</a>
+  <a class="btn btn-secondary mb-3" onclick="findHostByCity()">list of hosts in city</a>
+  <a class="btn btn-secondary mb-3" onclick="findHostsByNameAndHamsters()">list of hosts by name</a>
+  <a class="btn btn-secondary mb-3" onclick="findHostByName()">find host by name</a>
 
-  
+
+
   <br>
   <a class="btn btn-secondary mb-3" th:href="@{/adopters/add_new_adopter}">add new adopter</a> 
   
   <br>
 
-  Not working yet: 
-   - hosts by city
-   - hosts by name
-   - host and its hamsters
-
-   - hamster unique page
-   - hamsters by name 
-
-   - validation display
-  
 
 </div>
+<div id="display-function-in-menu"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -47,7 +42,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
       integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
       crossorigin="anonymous"></script>
+  <script>
+    function findHostByCity() {
+            let text;
+            let city = prompt("Please enter the city:");
+            if (city == null || city == "") {
+                window.alert("Field cannot be empty!");
+            } else {
+                window.open("/hosts/current_hosts_by_city/" + city);
+            }
+
+        }
+
+        function findHostsByNameAndHamsters() {
+            let text;
+            let name = prompt("Please enter the name:");
+            if (name == null || name == "") {
+                window.alert("Field cannot be empty!");
+            } else {
+                window.open("/hosts/hosts_by_name_and_hamsters/" + name);
+            }
+      }
+        function findHostByName() {
+            let text;
+            let name = prompt("Please enter the name:");
+            if (name == null || name == "") {
+                window.alert("Field cannot be empty!");
+            } else {
+              window.open("/hosts/host_current_hamsters/" + name);
+            }
+        }
   
+
+  </script>
 
 </body>
 

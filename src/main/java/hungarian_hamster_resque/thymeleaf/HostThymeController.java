@@ -80,7 +80,8 @@ public class HostThymeController {
     @GetMapping("/current_hosts_by_city/{city}")
     public ModelAndView findCurrentHostsByCity(@PathVariable("city") String city) {
         List<HostDtoCountedCapacity> hosts = hostService.getListOfHostWithFreeCapacityByCity(city);
-        Map<String, Object> model = Map.of("hosts", hosts);
+        Map<String, Object> model = Map.of("hosts", hosts, "city", city);
+
 
         return new ModelAndView("hosts/current_hosts_by_city", model);
 
@@ -95,13 +96,19 @@ public class HostThymeController {
 
         return new ModelAndView("hosts/hosts_by_name_and_hamsters", model);
     }
-    @GetMapping("/host_current_hamsters/{id}")
-    public ModelAndView listOfHostOfHamsters(@PathVariable("id") long hostId) {
-        HostDtoWithHamsters host = hostService.getListOfHostsHamsters(hostId);
+    @GetMapping("/host_current_hamsters/{name}")
+    public ModelAndView listHamstersOfAHost(@PathVariable("name") String name) {
+        HostDtoWithHamsters host = hostService.findHostByNameWithAllHamsters(name);
         Map<String, Object> model = Map.of(
-                "host", host.getName(),
-                "hamsters", host.getHamsters()
+                "host", host,
+                "hamsters", host.getHamsters(),
+                "fullAddress", host.getAddressDto().getZip() + " " + host.getAddressDto().getTown() + ", " +
+                        host.getAddressDto().getStreet() + " " + host.getAddressDto().getHouseNumber() +
+                        host.getAddressDto().getOther()
+
         );
         return new ModelAndView("hosts/host_current_hamsters", model);
     }
+
+
 }

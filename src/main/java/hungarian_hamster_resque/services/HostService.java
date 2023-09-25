@@ -151,6 +151,14 @@ public class HostService {
         return hostMapper.toDtoWithHam(result);
     }
 
+    public HostDtoWithHamsters findHostByNameWithAllHamsters(String name) {
+        Host host = hostRepository.findByNameWithAllHamsters(name);
+        if(host == null) {
+            throw new HostWithNamePartNotExistException(name);
+        }
+        return hostMapper.toDtoWithHam(host);
+    }
+
     private Host findHostEntityById(long id) {
         return hostRepository.findById(id)
                 .orElseThrow(() -> new HostWithIdNotExistException(id));

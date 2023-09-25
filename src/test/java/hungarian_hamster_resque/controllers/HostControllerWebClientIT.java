@@ -423,4 +423,33 @@ public class HostControllerWebClientIT {
                 .contains("valami@gmail.com");
     }
 
+    @Test
+    @Description("Get hosts' list by city")
+    void testGetHostsByCityOnlyWithFreeCapacity() {
+        webClient.post().uri("api/hosts")
+                .bodyValue(klara)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+        webClient.post().uri("api/hosts")
+                .bodyValue(klaudia)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+        webClient.post().uri("api/hosts")
+                .bodyValue(erno)
+                .exchange()
+                .expectStatus().isEqualTo(201);
+
+        List<HostDtoWithHamsters> result = webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/api/hosts/bycity").queryParam("city", "Budapest").build())
+                .exchange()
+                .expectBodyList(HostDtoWithHamsters.class).returnResult().getResponseBody();
+
+        assertThat(result)
+                .hasSize(2)
+                .extracting(HostDtoWithHamsters::getName)
+                .contains("Nagy Ernő");
+    }
+
+
+
 }
