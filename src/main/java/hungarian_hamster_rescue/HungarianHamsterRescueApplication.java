@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class HungarianHamsterResqueApplication {
+public class HungarianHamsterRescueApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HungarianHamsterResqueApplication.class, args);
+		SpringApplication.run(HungarianHamsterRescueApplication.class, args);
 	}
 
 	@Bean
