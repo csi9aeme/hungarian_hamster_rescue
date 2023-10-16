@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.training360</groupId>
-    <artifactId>hungarian_hamster_resque</artifactId>
+    <artifactId>hungarian_hamster_rescue</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>hungarian-hamster-resque</name>
-    <description>hungarian-hamster-resque</description>
+    <name>hungarian-hamster-rescue</name>
+    <description>hungarian-hamster-rescue</description>
 
     <properties>
         <java.version>17</java.version>
@@ -85,12 +85,9 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>4.0.0-2</version>
+            <version>4.1.2</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+
 
     </dependencies>
 
