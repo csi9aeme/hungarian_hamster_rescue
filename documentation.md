@@ -4,7 +4,7 @@
 
 For some years I'm a volunteer of the "Együtt a Kisállatokért Alapítvány" (Together For The Small Pets Foundation). We 
 rescuee and rehome the pets, whom the owners don't want to take anymore. 
-This project is build about the Hamster Resque.
+This project is build about the Hamster Rescue.
 
 ---
 
